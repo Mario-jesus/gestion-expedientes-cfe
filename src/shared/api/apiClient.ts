@@ -3,6 +3,8 @@ import { env, logger } from '@shared/config';
 interface ApiClient {
   get<T>(url: string, options?: RequestInit): Promise<T>;
   post<T>(url: string, body?: unknown, options?: RequestInit): Promise<T>;
+  put<T>(url: string, body?: unknown, options?: RequestInit): Promise<T>;
+  delete<T>(url: string, options?: RequestInit): Promise<T>;
 }
 
 const defaultHeaders = {
@@ -49,15 +51,46 @@ async function request<T>(
   });
 
   if (!response.ok) {
-    const message = await response.text();
-    logger.error(`API Error: status: ${response.status} statusText: ${response.statusText} message: ${message}`);
+    let errorMessage = 'Error en la petición';
+    let errorData: unknown = null;
+
+    // Obtener el texto de la respuesta una sola vez
+    const text = await response.text();
+
+    try {
+      // Intentar parsear como JSON
+      errorData = JSON.parse(text);
+      
+      // Extraer el mensaje de error del formato estándar
+      if (errorData && typeof errorData === 'object') {
+        const data = errorData as Record<string, unknown>;
+        errorMessage = (data.message as string) || (data.error as string) || text;
+      }
+    } catch {
+      // Si no es JSON válido, usar el texto como mensaje
+      errorMessage = text || 'Error en la petición';
+    }
+
+    logger.error(`API Error: status: ${response.status} statusText: ${response.statusText} message: ${errorMessage}`);
 
     // Si es 401, el token expiró - limpiar localStorage
     if (response.status === 401) {
       localStorage.removeItem('token');
     }
 
-    throw new Error(message || 'Error en la petición');
+    // Crear error con información estructurada
+    interface ApiError extends Error {
+      status?: number;
+      statusText?: string;
+      response?: { data: unknown };
+    }
+    
+    const error = new Error(errorMessage) as ApiError;
+    error.status = response.status;
+    error.statusText = response.statusText;
+    error.response = { data: errorData };
+
+    throw error;
   }
 
   const data = await response.json();
@@ -72,5 +105,11 @@ export const apiClient: ApiClient = {
   },
   post<T>(url: string, body?: unknown, options?: RequestInit) {
     return request<T>(url, { ...options, method: 'POST', body } as RequestInit & { body?: unknown });
+  },
+  put<T>(url: string, body?: unknown, options?: RequestInit) {
+    return request<T>(url, { ...options, method: 'PUT', body } as RequestInit & { body?: unknown });
+  },
+  delete<T>(url: string, options?: RequestInit) {
+    return request<T>(url, { ...options, method: 'DELETE' });
   },
 };

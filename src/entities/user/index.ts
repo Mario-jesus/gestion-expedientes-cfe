@@ -1,3 +1,5 @@
-export { userReducer, setUser, clearUser } from './model/userSlice';
-export { validateToken } from './model/userThunks';
-export type { User, UserRole } from './model/userSlice';
+// Re-export todo desde model
+export * from './model';
+
+// Re-export todo desde api
+export * from './api';

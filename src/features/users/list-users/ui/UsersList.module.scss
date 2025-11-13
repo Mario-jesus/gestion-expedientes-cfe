@@ -1,0 +1,186 @@
+// Tarjeta de usuario
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Icono de usuario
+.cardIcon {
+  flex-shrink: 0;
+}
+
+.userIconCircle {
+  width: 80px;
+  height: 80px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userIcon {
+  font-size: 3rem;
+}
+
+// Contenido de la tarjeta
+.cardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #333;
+
+  strong {
+    color: #000;
+  }
+}
+
+// Roles
+.roleAdmin {
+  color: #2d7f3e;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  background-color: #e6f4ea;
+  border-radius: 4px;
+}
+
+.roleOperator {
+  color: #1976d2;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  background-color: #e3f2fd;
+  border-radius: 4px;
+}
+
+// Estados
+.statusActive {
+  color: #2d7f3e;
+  font-weight: 600;
+}
+
+.statusInactive {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+// Acciones
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+
+  &:hover {
+    transform: translateX(2px);
+  }
+}
+
+.actionIcon {
+  font-size: 1.1rem;
+}
+
+.actionLabel {
+  flex: 1;
+  text-align: left;
+}
+
+.viewButton {
+  background-color: #f0f0f0;
+  color: #333;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.editButton {
+  background-color: #fff3e0;
+  color: #e65100;
+
+  &:hover {
+    background-color: #ffe0b2;
+  }
+}
+
+.deleteButton {
+  background-color: #ffebee;
+  color: #c62828;
+
+  &:hover {
+    background-color: #ffcdd2;
+  }
+}
+
+// Lista vacía
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+// Estados de carga
+.loadingState {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+
+  &::after {
+    content: '...';
+    animation: dots 1.5s steps(4, end) infinite;
+  }
+}
+
+@keyframes dots {
+  0%, 20% {
+    content: '.';
+  }
+  40% {
+    content: '..';
+  }
+  60%, 100% {
+    content: '...';
+  }
+}
+
+// Error
+.errorState {
+  padding: 1rem;
+  background-color: #ffebee;
+  border-left: 4px solid #c62828;
+  color: #c62828;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}

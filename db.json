@@ -1,0 +1,277 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "name": "Administrador Principal",
+      "email": "admin@cfe.com",
+      "role": "admin",
+      "isActive": true,
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "username": "operador1",
+      "name": "José García Martínez",
+      "email": "operador1@cfe.com",
+      "role": "operator",
+      "isActive": true,
+      "createdAt": "2024-02-20T14:30:00.000Z",
+      "updatedAt": "2024-02-20T14:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "username": "operador2",
+      "name": "Patricia López Ruiz",
+      "email": "operador2@cfe.com",
+      "role": "operator",
+      "isActive": false,
+      "createdAt": "2024-03-10T09:15:00.000Z",
+      "updatedAt": "2024-03-10T09:15:00.000Z"
+    },
+    {
+      "id": "4",
+      "username": "supervisor",
+      "name": "Roberto Hernández Silva",
+      "email": "supervisor@cfe.com",
+      "role": "admin",
+      "isActive": false,
+      "createdAt": "2024-04-05T11:20:00.000Z",
+      "updatedAt": "2024-04-05T11:20:00.000Z"
+    },
+    {
+      "id": "5",
+      "username": "operador3",
+      "name": "Carmen Díaz Torres",
+      "email": "operador3@cfe.com",
+      "role": "operator",
+      "isActive": true,
+      "createdAt": "2024-05-12T16:45:00.000Z",
+      "updatedAt": "2024-05-12T16:45:00.000Z"
+    }
+  ],
+  "employees": [
+    {
+      "id": "1",
+      "firstName": "Juan",
+      "lastName": "Pérez García",
+      "employeeNumber": "EMP001",
+      "department": "Recursos Humanos",
+      "position": "Analista de RRHH",
+      "email": "juan.perez@empresa.com",
+      "phone": "555-0101",
+      "hireDate": "2020-03-15",
+      "status": "active",
+      "createdAt": "2024-01-10T08:00:00.000Z",
+      "updatedAt": "2024-01-10T08:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "firstName": "María",
+      "lastName": "González López",
+      "employeeNumber": "EMP002",
+      "department": "Finanzas",
+      "position": "Contador Senior",
+      "email": "maria.gonzalez@empresa.com",
+      "phone": "555-0102",
+      "hireDate": "2019-06-20",
+      "status": "active",
+      "createdAt": "2024-01-12T10:30:00.000Z",
+      "updatedAt": "2024-01-12T10:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "firstName": "Carlos",
+      "lastName": "Ramírez Torres",
+      "employeeNumber": "EMP003",
+      "department": "Tecnología",
+      "position": "Desarrollador Full Stack",
+      "email": "carlos.ramirez@empresa.com",
+      "phone": "555-0103",
+      "hireDate": "2021-01-10",
+      "status": "active",
+      "createdAt": "2024-02-05T09:15:00.000Z",
+      "updatedAt": "2024-02-05T09:15:00.000Z"
+    },
+    {
+      "id": "4",
+      "firstName": "Ana",
+      "lastName": "Martínez Silva",
+      "employeeNumber": "EMP004",
+      "department": "Operaciones",
+      "position": "Coordinadora de Proyectos",
+      "email": "ana.martinez@empresa.com",
+      "phone": "555-0104",
+      "hireDate": "2018-09-01",
+      "status": "active",
+      "createdAt": "2024-02-10T14:20:00.000Z",
+      "updatedAt": "2024-02-10T14:20:00.000Z"
+    },
+    {
+      "id": "5",
+      "firstName": "Roberto",
+      "lastName": "Hernández Ruiz",
+      "employeeNumber": "EMP005",
+      "department": "Recursos Humanos",
+      "position": "Gerente de RRHH",
+      "email": "roberto.hernandez@empresa.com",
+      "phone": "555-0105",
+      "hireDate": "2017-04-12",
+      "status": "active",
+      "createdAt": "2024-03-01T10:00:00.000Z",
+      "updatedAt": "2024-03-01T10:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "firstName": "Laura",
+      "lastName": "Sánchez Díaz",
+      "employeeNumber": "EMP006",
+      "department": "Legal",
+      "position": "Abogada",
+      "email": "laura.sanchez@empresa.com",
+      "phone": "555-0106",
+      "hireDate": "2022-02-15",
+      "status": "inactive",
+      "createdAt": "2024-03-15T11:30:00.000Z",
+      "updatedAt": "2024-03-15T11:30:00.000Z"
+    }
+  ],
+  "files": [
+    {
+      "id": "1",
+      "employeeId": "1",
+      "fileName": "contrato_trabajo_juan_perez.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 256000,
+      "category": "contratos",
+      "description": "Contrato laboral inicial",
+      "uploadedAt": "2024-02-01T12:00:00.000Z",
+      "uploadedBy": "1"
+    },
+    {
+      "id": "2",
+      "employeeId": "1",
+      "fileName": "identificacion_juan_perez.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 180000,
+      "category": "documentos_personales",
+      "description": "Copia de identificación oficial",
+      "uploadedAt": "2024-02-01T12:15:00.000Z",
+      "uploadedBy": "1"
+    },
+    {
+      "id": "3",
+      "employeeId": "2",
+      "fileName": "contrato_trabajo_maria_gonzalez.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 268000,
+      "category": "contratos",
+      "description": "Contrato laboral inicial",
+      "uploadedAt": "2024-02-05T10:30:00.000Z",
+      "uploadedBy": "1"
+    },
+    {
+      "id": "4",
+      "employeeId": "2",
+      "fileName": "titulo_profesional_contabilidad.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 450000,
+      "category": "educacion",
+      "description": "Título de Contador Público",
+      "uploadedAt": "2024-02-05T10:45:00.000Z",
+      "uploadedBy": "1"
+    },
+    {
+      "id": "5",
+      "employeeId": "3",
+      "fileName": "contrato_trabajo_carlos_ramirez.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 245000,
+      "category": "contratos",
+      "description": "Contrato laboral inicial",
+      "uploadedAt": "2024-02-15T09:00:00.000Z",
+      "uploadedBy": "4"
+    },
+    {
+      "id": "6",
+      "employeeId": "3",
+      "fileName": "certificacion_scrum_master.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 320000,
+      "category": "certificaciones",
+      "description": "Certificación Scrum Master",
+      "uploadedAt": "2024-02-15T09:15:00.000Z",
+      "uploadedBy": "4"
+    },
+    {
+      "id": "7",
+      "employeeId": "4",
+      "fileName": "evaluacion_desempeno_2024.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 195000,
+      "category": "evaluaciones",
+      "description": "Evaluación anual de desempeño",
+      "uploadedAt": "2024-03-10T14:20:00.000Z",
+      "uploadedBy": "5"
+    },
+    {
+      "id": "8",
+      "employeeId": "5",
+      "fileName": "maestria_recursos_humanos.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 520000,
+      "category": "educacion",
+      "description": "Maestría en Gestión de RRHH",
+      "uploadedAt": "2024-03-12T11:00:00.000Z",
+      "uploadedBy": "1"
+    }
+  ],
+  "reports": [
+    {
+      "id": "1",
+      "title": "Reporte Mensual - Enero 2024",
+      "type": "monthly",
+      "description": "Reporte de actividades del mes de enero",
+      "status": "completed",
+      "generatedAt": "2024-02-01T00:00:00.000Z",
+      "generatedBy": "1"
+    },
+    {
+      "id": "2",
+      "title": "Reporte Mensual - Febrero 2024",
+      "type": "monthly",
+      "description": "Reporte de actividades del mes de febrero",
+      "status": "completed",
+      "generatedAt": "2024-03-01T00:00:00.000Z",
+      "generatedBy": "1"
+    },
+    {
+      "id": "3",
+      "title": "Reporte de Contrataciones Q1 2024",
+      "type": "quarterly",
+      "description": "Análisis de nuevas contrataciones primer trimestre",
+      "status": "completed",
+      "generatedAt": "2024-04-05T10:00:00.000Z",
+      "generatedBy": "4"
+    },
+    {
+      "id": "4",
+      "title": "Auditoría de Expedientes - Marzo 2024",
+      "type": "audit",
+      "description": "Auditoría de completitud de expedientes",
+      "status": "in_progress",
+      "generatedAt": "2024-03-25T15:30:00.000Z",
+      "generatedBy": "2"
+    },
+    {
+      "id": "5",
+      "title": "Reporte Anual 2023",
+      "type": "annual",
+      "description": "Reporte consolidado del año 2023",
+      "status": "completed",
+      "generatedAt": "2024-01-15T09:00:00.000Z",
+      "generatedBy": "1"
+    }
+  ]
+}

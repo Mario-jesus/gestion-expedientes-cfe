@@ -2,15 +2,10 @@ import { type AppDispatch } from '@app/providers/store';
 import { logger } from '@shared/config';
 import { apiClient, API_ENDPOINTS } from '@shared/api';
 import { setUser, clearUser } from './userSlice';
+import type { User } from './types';
 
 interface ValidateTokenResponse {
-  user: {
-    id: string;
-    username: string;
-    name: string;
-    role: 'admin' | 'operator';
-    isActive: boolean;
-  };
+  user: User;
 }
 
 /**

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { LoginPage, DashboardPage, NotFoundPage } from '@pages/index';
+import { LoginPage, DashboardPage, NotFoundPage, UsersPage } from '@pages/index';
 import { ROUTES } from '@shared/lib/routes';
 import { ProtectedRoute } from './ProtectedRoute';
 import { PublicRoute } from './PublicRoute';
@@ -79,7 +79,7 @@ export function AppRouter() {
             path={ROUTES.USERS}
             element={
               <ProtectedRoute requiredRoles={['admin']}>
-                <ComingSoonPage title="Gestión de Usuarios" />
+                <UsersPage />
               </ProtectedRoute>
             }
           />

@@ -18,6 +18,7 @@ export const API_ENDPOINTS = {
     UPDATE: (id: string) => `/users/${id}`,
     DELETE: (id: string) => `/users/${id}`,
     TOGGLE_STATUS: (id: string) => `/users/${id}/toggle-status`,
+    CHANGE_PASSWORD: (id: string) => `/users/${id}/change-password`,
   },
 
   // Expedientes/Colaboradores

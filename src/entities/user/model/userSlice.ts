@@ -1,15 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { User } from './types';
 
-export type UserRole = 'admin' | 'operator';
-
-export interface User {
-  id: string;
-  username: string;
-  name: string;
-  role: UserRole;
-  isActive: boolean;
-}
-
+/**
+ * State para manejar la SESIÓN del usuario actual
+ * (quien está logueado en este momento)
+ */
 interface UserState {
   currentUser: User | null;
   isAuthenticated: boolean;

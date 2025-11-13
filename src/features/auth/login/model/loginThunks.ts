@@ -13,6 +13,7 @@ interface LoginResponse {
   user: {
     id: string;
     username: string;
+    email: string;
     name: string;
     role: 'admin' | 'operator';
     isActive: boolean;
@@ -48,6 +49,7 @@ export const loginUser = (username: string, password: string) => async (dispatch
     // El router se encargará de la redirección automáticamente
     // cuando isAuthenticated cambie a true
   } catch (error) {
+    // El apiClient ya maneja el parseo del error
     const message = error instanceof Error ? error.message : 'No fue posible iniciar sesión';
     dispatch(setSubmitError(message));
   } finally {

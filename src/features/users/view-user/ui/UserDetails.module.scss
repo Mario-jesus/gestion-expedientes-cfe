@@ -1,0 +1,160 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// Avatar section
+.avatarSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarIcon {
+  font-size: 4rem;
+}
+
+.mainInfo {
+  flex: 1;
+}
+
+.userName {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.userUsername {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #666;
+  font-family: 'Courier New', monospace;
+}
+
+// Secciones
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2d7f3e;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+// Grid de información
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infoLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.infoValue {
+  font-size: 1rem;
+  color: #333;
+  word-break: break-word;
+}
+
+// Badges
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  width: fit-content;
+}
+
+.badgeAdmin {
+  background-color: #e6f4ea;
+  color: #2d7f3e;
+}
+
+.badgeOperator {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.badgeActive {
+  background-color: #e6f4ea;
+  color: #2d7f3e;
+}
+
+.badgeInactive {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+// Acciones
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.closeButton {
+  padding: 0.75rem 2rem;
+  background-color: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .avatarSection {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .userName {
+    font-size: 1.5rem;
+  }
+}

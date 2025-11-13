@@ -1,0 +1,12 @@
+// Reutilizar estilos del formulario de creación
+// Agregamos solo los estilos específicos para edición
+
+@import '../../create-user/ui/CreateUser.module.scss';
+
+// Campo de solo lectura
+.readOnly {
+  background-color: #f5f5f5 !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
+  border-color: #e0e0e0 !important;
+}
