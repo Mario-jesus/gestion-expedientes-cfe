@@ -1,7 +1,7 @@
 // Reutilizar estilos del formulario de creación
 // Agregamos solo los estilos específicos para edición
 
-@import '../../create-user/ui/CreateUser.module.scss';
+@use '../../create-user/ui/CreateUser.module.scss' as *;
 
 // Campo de solo lectura
 .readOnly {

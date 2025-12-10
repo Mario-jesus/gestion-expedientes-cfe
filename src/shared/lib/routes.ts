@@ -8,9 +8,9 @@ export const ROUTES = {
   // Rutas protegidas (requieren autenticación)
   HOME: '/',
   DASHBOARD: '/dashboard',
-  EMPLOYEES: '/expedientes',
-  EMPLOYEE_DETAIL: '/expedientes/:id',
-  EMPLOYEE_NEW: '/expedientes/nuevo',
+  COLLABORATORS: '/colaboradores',
+  COLLABORATOR_DETAIL: '/colaboradores/:id',
+  COLLABORATOR_NEW: '/colaboradores/nuevo',
   FILES: '/archivos',
   PROFILE: '/perfil',
 
@@ -23,6 +23,5 @@ export const ROUTES = {
  * Helper para construir rutas con parámetros
  */
 export const buildRoute = {
-  employeeDetail: (id: string) => `/expedientes/${id}`,
+  collaboratorDetail: (id: string) => `/colaboradores/${id}`,
 } as const;
-

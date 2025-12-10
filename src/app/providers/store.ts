@@ -1,11 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { userReducer, usersManagementReducer } from '@entities/user';
+import {
+  collaboratorsManagementReducer,
+  documentsManagementReducer,
+} from '@entities/collaborator';
 import { loginReducer } from '@features/auth/login';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     usersManagement: usersManagementReducer,
+    collaboratorsManagement: collaboratorsManagementReducer,
+    documentsManagement: documentsManagementReducer,
     login: loginReducer,
   },
 });

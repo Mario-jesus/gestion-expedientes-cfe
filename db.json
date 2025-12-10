@@ -51,227 +51,433 @@
       "updatedAt": "2024-05-12T16:45:00.000Z"
     }
   ],
-  "employees": [
+  "collaborators": [
     {
       "id": "1",
-      "firstName": "Juan",
-      "lastName": "Pérez García",
-      "employeeNumber": "EMP001",
-      "department": "Recursos Humanos",
-      "position": "Analista de RRHH",
-      "email": "juan.perez@empresa.com",
-      "phone": "555-0101",
-      "hireDate": "2020-03-15",
-      "status": "active",
+      "nombre": "Juan Carlos",
+      "apellidos": "Pérez García",
+      "rpe": "RPE001234",
+      "rtt": null,
+      "areaId": "1",
+      "adscripcionId": "1",
+      "puestoId": "1",
+      "tipoContrato": "base",
+      "rfc": "PEGJ850101ABC",
+      "curp": "PEGJ850101HDFRRN01",
+      "imss": "12345678901",
+      "isActive": true,
       "createdAt": "2024-01-10T08:00:00.000Z",
-      "updatedAt": "2024-01-10T08:00:00.000Z"
+      "updatedAt": "2024-01-10T08:00:00.000Z",
+      "createdBy": "1"
     },
     {
       "id": "2",
-      "firstName": "María",
-      "lastName": "González López",
-      "employeeNumber": "EMP002",
-      "department": "Finanzas",
-      "position": "Contador Senior",
-      "email": "maria.gonzalez@empresa.com",
-      "phone": "555-0102",
-      "hireDate": "2019-06-20",
-      "status": "active",
+      "nombre": "María Elena",
+      "apellidos": "González López",
+      "rpe": "RPE002345",
+      "rtt": null,
+      "areaId": "2",
+      "adscripcionId": "3",
+      "puestoId": "2",
+      "tipoContrato": "confianza",
+      "rfc": "GOLM900215XYZ",
+      "curp": "GOLM900215MDFRRN02",
+      "imss": "23456789012",
+      "isActive": true,
       "createdAt": "2024-01-12T10:30:00.000Z",
-      "updatedAt": "2024-01-12T10:30:00.000Z"
+      "updatedAt": "2024-01-12T10:30:00.000Z",
+      "createdBy": "1"
     },
     {
       "id": "3",
-      "firstName": "Carlos",
-      "lastName": "Ramírez Torres",
-      "employeeNumber": "EMP003",
-      "department": "Tecnología",
-      "position": "Desarrollador Full Stack",
-      "email": "carlos.ramirez@empresa.com",
-      "phone": "555-0103",
-      "hireDate": "2021-01-10",
-      "status": "active",
+      "nombre": "Carlos Alberto",
+      "apellidos": "Ramírez Torres",
+      "rpe": "RPE003456",
+      "rtt": "RTT001",
+      "areaId": "3",
+      "adscripcionId": "5",
+      "puestoId": "3",
+      "tipoContrato": "eventual",
+      "rfc": "RATC880520DEF",
+      "curp": "RATC880520HDFRRN03",
+      "imss": "34567890123",
+      "isActive": true,
       "createdAt": "2024-02-05T09:15:00.000Z",
-      "updatedAt": "2024-02-05T09:15:00.000Z"
+      "updatedAt": "2024-02-05T09:15:00.000Z",
+      "createdBy": "2"
     },
     {
       "id": "4",
-      "firstName": "Ana",
-      "lastName": "Martínez Silva",
-      "employeeNumber": "EMP004",
-      "department": "Operaciones",
-      "position": "Coordinadora de Proyectos",
-      "email": "ana.martinez@empresa.com",
-      "phone": "555-0104",
-      "hireDate": "2018-09-01",
-      "status": "active",
+      "nombre": "Ana Patricia",
+      "apellidos": "Martínez Silva",
+      "rpe": "RPE004567",
+      "rtt": null,
+      "areaId": "1",
+      "adscripcionId": "2",
+      "puestoId": "4",
+      "tipoContrato": "base",
+      "rfc": "MASA920310GHI",
+      "curp": "MASA920310MDFRRN04",
+      "imss": "45678901234",
+      "isActive": true,
       "createdAt": "2024-02-10T14:20:00.000Z",
-      "updatedAt": "2024-02-10T14:20:00.000Z"
+      "updatedAt": "2024-02-10T14:20:00.000Z",
+      "createdBy": "2"
     },
     {
       "id": "5",
-      "firstName": "Roberto",
-      "lastName": "Hernández Ruiz",
-      "employeeNumber": "EMP005",
-      "department": "Recursos Humanos",
-      "position": "Gerente de RRHH",
-      "email": "roberto.hernandez@empresa.com",
-      "phone": "555-0105",
-      "hireDate": "2017-04-12",
-      "status": "active",
+      "nombre": "Roberto",
+      "apellidos": "Hernández Ruiz",
+      "rpe": "RPE005678",
+      "rtt": null,
+      "areaId": "2",
+      "adscripcionId": "4",
+      "puestoId": "5",
+      "tipoContrato": "confianza",
+      "rfc": "HERR750625JKL",
+      "curp": "HERR750625HDFRRN05",
+      "imss": "56789012345",
+      "isActive": true,
       "createdAt": "2024-03-01T10:00:00.000Z",
-      "updatedAt": "2024-03-01T10:00:00.000Z"
-    },
-    {
-      "id": "6",
-      "firstName": "Laura",
-      "lastName": "Sánchez Díaz",
-      "employeeNumber": "EMP006",
-      "department": "Legal",
-      "position": "Abogada",
-      "email": "laura.sanchez@empresa.com",
-      "phone": "555-0106",
-      "hireDate": "2022-02-15",
-      "status": "inactive",
-      "createdAt": "2024-03-15T11:30:00.000Z",
-      "updatedAt": "2024-03-15T11:30:00.000Z"
+      "updatedAt": "2024-03-01T10:00:00.000Z",
+      "createdBy": "1"
     }
   ],
-  "files": [
+  "documents": [
     {
       "id": "1",
-      "employeeId": "1",
-      "fileName": "contrato_trabajo_juan_perez.pdf",
-      "fileType": "application/pdf",
+      "collaboratorId": "1",
+      "kind": "bateria",
+      "periodo": null,
+      "descripcion": "Batería de capacitación inicial",
+      "fileName": "bateria_capacitacion_RPE001234.pdf",
+      "fileUrl": "/uploads/documents/bateria_capacitacion_RPE001234.pdf",
       "fileSize": 256000,
-      "category": "contratos",
-      "description": "Contrato laboral inicial",
-      "uploadedAt": "2024-02-01T12:00:00.000Z",
-      "uploadedBy": "1"
+      "fileType": "application/pdf",
+      "uploadedBy": "1",
+      "uploadedAt": "2024-01-15T12:00:00.000Z",
+      "isActive": true,
+      "createdAt": "2024-01-15T12:00:00.000Z",
+      "updatedAt": "2024-01-15T12:00:00.000Z"
     },
     {
       "id": "2",
-      "employeeId": "1",
-      "fileName": "identificacion_juan_perez.pdf",
-      "fileType": "application/pdf",
+      "collaboratorId": "1",
+      "kind": "historial",
+      "periodo": "2024-Q1",
+      "descripcion": "Historial de capacitación Q1 2024",
+      "fileName": "historial_2024_Q1_RPE001234.pdf",
+      "fileUrl": "/uploads/documents/historial_2024_Q1_RPE001234.pdf",
       "fileSize": 180000,
-      "category": "documentos_personales",
-      "description": "Copia de identificación oficial",
-      "uploadedAt": "2024-02-01T12:15:00.000Z",
-      "uploadedBy": "1"
+      "fileType": "application/pdf",
+      "uploadedBy": "1",
+      "uploadedAt": "2024-01-20T10:15:00.000Z",
+      "isActive": true,
+      "createdAt": "2024-01-20T10:15:00.000Z",
+      "updatedAt": "2024-01-20T10:15:00.000Z"
     },
     {
       "id": "3",
-      "employeeId": "2",
-      "fileName": "contrato_trabajo_maria_gonzalez.pdf",
+      "collaboratorId": "1",
+      "kind": "perfil",
+      "periodo": null,
+      "descripcion": "Perfil de puesto actualizado",
+      "fileName": "perfil_puesto_RPE001234.pdf",
+      "fileUrl": "/uploads/documents/perfil_puesto_RPE001234.pdf",
+      "fileSize": 145000,
       "fileType": "application/pdf",
-      "fileSize": 268000,
-      "category": "contratos",
-      "description": "Contrato laboral inicial",
-      "uploadedAt": "2024-02-05T10:30:00.000Z",
-      "uploadedBy": "1"
+      "uploadedBy": "1",
+      "uploadedAt": "2024-01-25T14:30:00.000Z",
+      "isActive": true,
+      "createdAt": "2024-01-25T14:30:00.000Z",
+      "updatedAt": "2024-01-25T14:30:00.000Z"
     },
     {
       "id": "4",
-      "employeeId": "2",
-      "fileName": "titulo_profesional_contabilidad.pdf",
+      "collaboratorId": "1",
+      "kind": "constancia",
+      "periodo": "2024",
+      "descripcion": "Constancia de capacitación en seguridad industrial",
+      "fileName": "constancia_seguridad_2024_RPE001234.pdf",
+      "fileUrl": "/uploads/documents/constancia_seguridad_2024_RPE001234.pdf",
+      "fileSize": 95000,
       "fileType": "application/pdf",
-      "fileSize": 450000,
-      "category": "educacion",
-      "description": "Título de Contador Público",
-      "uploadedAt": "2024-02-05T10:45:00.000Z",
-      "uploadedBy": "1"
+      "uploadedBy": "1",
+      "uploadedAt": "2024-02-01T09:00:00.000Z",
+      "isActive": true,
+      "createdAt": "2024-02-01T09:00:00.000Z",
+      "updatedAt": "2024-02-01T09:00:00.000Z"
     },
     {
       "id": "5",
-      "employeeId": "3",
-      "fileName": "contrato_trabajo_carlos_ramirez.pdf",
+      "collaboratorId": "2",
+      "kind": "bateria",
+      "periodo": null,
+      "descripcion": "Batería de capacitación",
+      "fileName": "bateria_capacitacion_RPE002345.pdf",
+      "fileUrl": "/uploads/documents/bateria_capacitacion_RPE002345.pdf",
+      "fileSize": 268000,
       "fileType": "application/pdf",
-      "fileSize": 245000,
-      "category": "contratos",
-      "description": "Contrato laboral inicial",
-      "uploadedAt": "2024-02-15T09:00:00.000Z",
-      "uploadedBy": "4"
+      "uploadedBy": "2",
+      "uploadedAt": "2024-01-18T11:30:00.000Z",
+      "isActive": true,
+      "createdAt": "2024-01-18T11:30:00.000Z",
+      "updatedAt": "2024-01-18T11:30:00.000Z"
     },
     {
       "id": "6",
-      "employeeId": "3",
-      "fileName": "certificacion_scrum_master.pdf",
+      "collaboratorId": "2",
+      "kind": "historial",
+      "periodo": "2024-Q1",
+      "descripcion": "Kárdex de capacitación Q1 2024",
+      "fileName": "historial_2024_Q1_RPE002345.pdf",
+      "fileUrl": "/uploads/documents/historial_2024_Q1_RPE002345.pdf",
+      "fileSize": 195000,
       "fileType": "application/pdf",
-      "fileSize": 320000,
-      "category": "certificaciones",
-      "description": "Certificación Scrum Master",
-      "uploadedAt": "2024-02-15T09:15:00.000Z",
-      "uploadedBy": "4"
+      "uploadedBy": "2",
+      "uploadedAt": "2024-01-22T15:45:00.000Z",
+      "isActive": true,
+      "createdAt": "2024-01-22T15:45:00.000Z",
+      "updatedAt": "2024-01-22T15:45:00.000Z"
     },
     {
       "id": "7",
-      "employeeId": "4",
-      "fileName": "evaluacion_desempeno_2024.pdf",
+      "collaboratorId": "3",
+      "kind": "bateria",
+      "periodo": null,
+      "descripcion": "Batería de capacitación",
+      "fileName": "bateria_capacitacion_RPE003456.pdf",
+      "fileUrl": "/uploads/documents/bateria_capacitacion_RPE003456.pdf",
+      "fileSize": 245000,
       "fileType": "application/pdf",
-      "fileSize": 195000,
-      "category": "evaluaciones",
-      "description": "Evaluación anual de desempeño",
-      "uploadedAt": "2024-03-10T14:20:00.000Z",
-      "uploadedBy": "5"
+      "uploadedBy": "2",
+      "uploadedAt": "2024-02-08T10:00:00.000Z",
+      "isActive": true,
+      "createdAt": "2024-02-08T10:00:00.000Z",
+      "updatedAt": "2024-02-08T10:00:00.000Z"
     },
     {
       "id": "8",
-      "employeeId": "5",
-      "fileName": "maestria_recursos_humanos.pdf",
+      "collaboratorId": "4",
+      "kind": "otro",
+      "periodo": null,
+      "descripcion": "Copia de identificación oficial",
+      "fileName": "identificacion_RPE004567.pdf",
+      "fileUrl": "/uploads/documents/identificacion_RPE004567.pdf",
+      "fileSize": 125000,
       "fileType": "application/pdf",
-      "fileSize": 520000,
-      "category": "educacion",
-      "description": "Maestría en Gestión de RRHH",
-      "uploadedAt": "2024-03-12T11:00:00.000Z",
-      "uploadedBy": "1"
+      "uploadedBy": "2",
+      "uploadedAt": "2024-02-12T13:20:00.000Z",
+      "isActive": true,
+      "createdAt": "2024-02-12T13:20:00.000Z",
+      "updatedAt": "2024-02-12T13:20:00.000Z"
     }
   ],
-  "reports": [
+  "areas": [
     {
       "id": "1",
-      "title": "Reporte Mensual - Enero 2024",
-      "type": "monthly",
-      "description": "Reporte de actividades del mes de enero",
-      "status": "completed",
-      "generatedAt": "2024-02-01T00:00:00.000Z",
-      "generatedBy": "1"
+      "nombre": "Generación",
+      "descripcion": "Área responsable de la generación de energía eléctrica",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
     },
     {
       "id": "2",
-      "title": "Reporte Mensual - Febrero 2024",
-      "type": "monthly",
-      "description": "Reporte de actividades del mes de febrero",
-      "status": "completed",
-      "generatedAt": "2024-03-01T00:00:00.000Z",
-      "generatedBy": "1"
+      "nombre": "Transmisión",
+      "descripcion": "Área responsable de la transmisión de energía eléctrica",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
     },
     {
       "id": "3",
-      "title": "Reporte de Contrataciones Q1 2024",
-      "type": "quarterly",
-      "description": "Análisis de nuevas contrataciones primer trimestre",
-      "status": "completed",
-      "generatedAt": "2024-04-05T10:00:00.000Z",
-      "generatedBy": "4"
+      "nombre": "Distribución",
+      "descripcion": "Área responsable de la distribución de energía eléctrica",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
     },
     {
       "id": "4",
-      "title": "Auditoría de Expedientes - Marzo 2024",
-      "type": "audit",
-      "description": "Auditoría de completitud de expedientes",
-      "status": "in_progress",
-      "generatedAt": "2024-03-25T15:30:00.000Z",
-      "generatedBy": "2"
+      "nombre": "Comercialización",
+      "descripcion": "Área responsable de la comercialización de energía",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
     },
     {
       "id": "5",
-      "title": "Reporte Anual 2023",
-      "type": "annual",
-      "description": "Reporte consolidado del año 2023",
-      "status": "completed",
-      "generatedAt": "2024-01-15T09:00:00.000Z",
-      "generatedBy": "1"
+      "nombre": "Administración",
+      "descripcion": "Área administrativa y de servicios",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "adscripciones": [
+    {
+      "id": "1",
+      "nombre": "Central Hidroeléctrica Manuel Moreno Torres",
+      "areaId": "1",
+      "descripcion": "Central hidroeléctrica principal",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "nombre": "Subdirección de Recursos Humanos",
+      "areaId": "5",
+      "descripcion": "Subdirección de RRHH",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "nombre": "Gerencia Regional Centro",
+      "areaId": "2",
+      "descripcion": "Gerencia regional de transmisión",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "nombre": "Dirección de Operación Comercial",
+      "areaId": "4",
+      "descripcion": "Dirección de operación comercial",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "nombre": "Zona de Distribución Norte",
+      "areaId": "3",
+      "descripcion": "Zona de distribución norte",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "puestos": [
+    {
+      "id": "1",
+      "nombre": "Técnico en Mantenimiento",
+      "descripcion": "Técnico especializado en mantenimiento de equipos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "nombre": "Analista Financiero",
+      "descripcion": "Analista en área financiera",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "nombre": "Ingeniero de Sistemas",
+      "descripcion": "Ingeniero en sistemas eléctricos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "nombre": "Coordinador de Proyectos",
+      "descripcion": "Coordinador de proyectos operativos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "nombre": "Gerente de Área",
+      "descripcion": "Gerente de área operativa",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "documentTypes": [
+    {
+      "id": "1",
+      "nombre": "Identificación Oficial",
+      "kind": "otro",
+      "descripcion": "INE, Pasaporte u otra identificación oficial",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "nombre": "Comprobante de Domicilio",
+      "kind": "otro",
+      "descripcion": "Comprobante de domicilio reciente",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "nombre": "Título Profesional",
+      "kind": "otro",
+      "descripcion": "Título profesional o cédula",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "nombre": "Carta de Antecedentes No Penales",
+      "kind": "otro",
+      "descripcion": "Carta de antecedentes no penales",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "logs": [
+    {
+      "id": "1",
+      "userId": "1",
+      "action": "create",
+      "entity": "collaborator",
+      "entityId": "1",
+      "metadata": {
+        "nombre": "Juan Carlos Pérez García",
+        "rpe": "RPE001234"
+      },
+      "createdAt": "2024-01-10T08:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "action": "upload",
+      "entity": "document",
+      "entityId": "1",
+      "metadata": {
+        "fileName": "bateria_capacitacion_RPE001234.pdf",
+        "kind": "bateria"
+      },
+      "createdAt": "2024-01-15T12:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "userId": "2",
+      "action": "create",
+      "entity": "collaborator",
+      "entityId": "2",
+      "metadata": {
+        "nombre": "María Elena González López",
+        "rpe": "RPE002345"
+      },
+      "createdAt": "2024-01-12T10:30:00.000Z"
     }
   ]
 }

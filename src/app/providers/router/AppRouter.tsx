@@ -1,5 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { LoginPage, DashboardPage, NotFoundPage, UsersPage } from '@pages/index';
+import {
+  LoginPage,
+  DashboardPage,
+  NotFoundPage,
+  UsersPage,
+  CollaboratorsPage,
+  CollaboratorDetailPage,
+} from '@pages/index';
 import { ROUTES } from '@shared/lib/routes';
 import { ProtectedRoute } from './ProtectedRoute';
 import { PublicRoute } from './PublicRoute';
@@ -48,18 +55,15 @@ export function AppRouter() {
           {/* Dashboard */}
           <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
 
-          {/* Expedientes */}
+          {/* Colaboradores */}
+          <Route path={ROUTES.COLLABORATORS} element={<CollaboratorsPage />} />
           <Route
-            path={ROUTES.EMPLOYEES}
-            element={<ComingSoonPage title="Expedientes" />}
+            path={ROUTES.COLLABORATOR_NEW}
+            element={<ComingSoonPage title="Nuevo Colaborador" />}
           />
           <Route
-            path={ROUTES.EMPLOYEE_NEW}
-            element={<ComingSoonPage title="Nuevo Expediente" />}
-          />
-          <Route
-            path={ROUTES.EMPLOYEE_DETAIL}
-            element={<ComingSoonPage title="Detalle de Expediente" />}
+            path={ROUTES.COLLABORATOR_DETAIL}
+            element={<CollaboratorDetailPage />}
           />
 
           {/* Archivos */}

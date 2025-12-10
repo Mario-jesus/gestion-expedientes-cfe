@@ -214,6 +214,425 @@ server.post('/users/:id/change-password', (req, res) => {
 });
 
 // ============================================
+// FUNCIONES HELPER PARA COLABORADORES
+// ============================================
+
+/**
+ * Calcula el estado del expediente basado en los documentos
+ */
+function calculateExpedienteStatus(documents) {
+  const activeDocuments = documents.filter((doc) => doc.isActive);
+
+  const hasBateria = activeDocuments.some((doc) => doc.kind === 'bateria');
+  const hasHistorial = activeDocuments.some((doc) => doc.kind === 'historial');
+  const hasPerfil = activeDocuments.some((doc) => doc.kind === 'perfil');
+  const hasConstancias = activeDocuments.some((doc) => doc.kind === 'constancia');
+  const hasOtros = activeDocuments.some((doc) => doc.kind === 'otro');
+
+  const documentosRequeridos = ['bateria', 'historial', 'perfil'];
+  const documentosCompletos = documentosRequeridos.filter((kind) => {
+    return activeDocuments.some((doc) => doc.kind === kind);
+  }).length;
+
+  let status;
+  if (activeDocuments.length === 0) {
+    status = 'sin_documentos';
+  } else if (documentosCompletos === documentosRequeridos.length) {
+    status = 'completo';
+  } else {
+    status = 'incompleto';
+  }
+
+  return status;
+}
+
+// ============================================
+// ENDPOINTS PERSONALIZADOS DE COLABORADORES
+// ============================================
+
+/**
+ * GET /collaborators
+ * Lista colaboradores con filtros avanzados
+ */
+server.get('/collaborators', (req, res) => {
+  const db = router.db;
+  let collaborators = db.get('collaborators').value();
+
+  // Aplicar filtros
+  const { q, areaId, adscripcionId, puestoId, tipoContrato, isActive, estadoExpediente } = req.query;
+
+  // Filtro de búsqueda (nombre, apellidos, RPE)
+  if (q) {
+    const searchLower = q.toLowerCase();
+    collaborators = collaborators.filter((c) => {
+      return (
+        c.nombre.toLowerCase().includes(searchLower) ||
+        c.apellidos.toLowerCase().includes(searchLower) ||
+        c.rpe.toLowerCase().includes(searchLower)
+      );
+    });
+  }
+
+  // Filtro por área
+  if (areaId) {
+    collaborators = collaborators.filter((c) => c.areaId === areaId);
+  }
+
+  // Filtro por adscripción
+  if (adscripcionId) {
+    collaborators = collaborators.filter((c) => c.adscripcionId === adscripcionId);
+  }
+
+  // Filtro por puesto
+  if (puestoId) {
+    collaborators = collaborators.filter((c) => c.puestoId === puestoId);
+  }
+
+  // Filtro por tipo de contrato
+  if (tipoContrato) {
+    collaborators = collaborators.filter((c) => c.tipoContrato === tipoContrato);
+  }
+
+  // Filtro por estado activo
+  if (isActive !== undefined) {
+    const isActiveBool = isActive === 'true';
+    collaborators = collaborators.filter((c) => c.isActive === isActiveBool);
+  }
+
+  // Filtro por estado del expediente (requiere calcular estado para cada colaborador)
+  if (estadoExpediente) {
+    const documents = db.get('documents').value();
+    collaborators = collaborators.filter((c) => {
+      const collaboratorDocuments = documents.filter(
+        (d) => d.collaboratorId === c.id
+      );
+      const status = calculateExpedienteStatus(collaboratorDocuments);
+      return status === estadoExpediente;
+    });
+  }
+
+  res.status(200).json(collaborators);
+});
+
+/**
+ * POST /collaborators/:id/toggle-status
+ * Alterna el estado activo/inactivo del colaborador
+ */
+server.post('/collaborators/:id/toggle-status', (req, res) => {
+  const { id } = req.params;
+  const db = router.db;
+  const collaborator = db.get('collaborators').find({ id }).value();
+
+  if (!collaborator) {
+    return res.status(404).json({
+      error: 'Colaborador no encontrado',
+    });
+  }
+
+  // Alternar el estado
+  const updatedCollaborator = {
+    ...collaborator,
+    isActive: !collaborator.isActive,
+    updatedAt: new Date().toISOString(),
+  };
+
+  db.get('collaborators').find({ id }).assign(updatedCollaborator).write();
+
+  res.status(200).json(updatedCollaborator);
+});
+
+/**
+ * GET /collaborators/:id/documents
+ * Obtiene todos los documentos de un colaborador
+ */
+server.get('/collaborators/:id/documents', (req, res) => {
+  const { id } = req.params;
+  const db = router.db;
+
+  // Verificar que el colaborador existe
+  const collaborator = db.get('collaborators').find({ id }).value();
+  if (!collaborator) {
+    return res.status(404).json({
+      error: 'Colaborador no encontrado',
+    });
+  }
+
+  // Obtener documentos del colaborador
+  const documents = db
+    .get('documents')
+    .filter({ collaboratorId: id })
+    .value();
+
+  res.status(200).json(documents);
+});
+
+// ============================================
+// ENDPOINTS DE DOCUMENTOS
+// ============================================
+
+/**
+ * POST /collaborators
+ * Crear colaborador con validaciones
+ */
+server.post('/collaborators', (req, res) => {
+  const db = router.db;
+  const { rpe, rfc, curp, imss } = req.body;
+
+  // Validar campos requeridos
+  if (!rpe || !rfc || !curp || !imss) {
+    return res.status(400).json({
+      error: 'RPE, RFC, CURP e IMSS son campos requeridos',
+    });
+  }
+
+  // Validar que el RPE sea único
+  const existingCollaborator = db.get('collaborators').find({ rpe }).value();
+  if (existingCollaborator) {
+    return res.status(400).json({
+      error: 'Ya existe un colaborador con este RPE',
+    });
+  }
+
+  // Agregar campos de auditoría
+  const now = new Date().toISOString();
+  const authHeader = req.headers.authorization;
+  let userId = null;
+  if (authHeader) {
+    const tokenMatch = authHeader.match(/mock-jwt-token-(\d+)-/);
+    if (tokenMatch) {
+      userId = tokenMatch[1];
+    }
+  }
+
+  const newCollaborator = {
+    ...req.body,
+    isActive: req.body.isActive !== undefined ? req.body.isActive : true,
+    createdAt: now,
+    updatedAt: now,
+    createdBy: userId || 'system',
+  };
+
+  // Guardar colaborador
+  const collaborator = db.get('collaborators').insert(newCollaborator).write();
+
+  // Crear log de auditoría
+  if (userId) {
+    db.get('logs').insert({
+      userId,
+      action: 'create',
+      entity: 'collaborator',
+      entityId: collaborator.id,
+      metadata: {
+        nombre: collaborator.nombre,
+        apellidos: collaborator.apellidos,
+        rpe: collaborator.rpe,
+      },
+      createdAt: now,
+    }).write();
+  }
+
+  res.status(201).json(collaborator);
+});
+
+/**
+ * POST /documents
+ * Crear documento con auditoría automática y validaciones
+ */
+server.post('/documents', (req, res) => {
+  const db = router.db;
+  const { collaboratorId, kind, fileName } = req.body;
+
+  // Validar campos requeridos
+  if (!collaboratorId || !kind || !fileName) {
+    return res.status(400).json({
+      error: 'collaboratorId, kind y fileName son campos requeridos',
+    });
+  }
+
+  // Validar que el colaborador existe
+  const collaborator = db.get('collaborators').find({ id: collaboratorId }).value();
+  if (!collaborator) {
+    return res.status(404).json({
+      error: 'Colaborador no encontrado',
+    });
+  }
+
+  // Validar que el kind sea válido
+  const validKinds = ['bateria', 'historial', 'perfil', 'constancia', 'otro'];
+  if (!validKinds.includes(kind)) {
+    return res.status(400).json({
+      error: `kind debe ser uno de: ${validKinds.join(', ')}`,
+    });
+  }
+
+  const authHeader = req.headers.authorization;
+  let userId = null;
+  if (authHeader) {
+    const tokenMatch = authHeader.match(/mock-jwt-token-(\d+)-/);
+    if (tokenMatch) {
+      userId = tokenMatch[1];
+    }
+  }
+
+  // Agregar campos de auditoría
+  const now = new Date().toISOString();
+  const newDocument = {
+    ...req.body,
+    uploadedBy: userId || 'system',
+    uploadedAt: now,
+    isActive: req.body.isActive !== undefined ? req.body.isActive : true,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  // Guardar documento
+  const document = db.get('documents').insert(newDocument).write();
+
+  // Crear log de auditoría
+  if (userId) {
+    db.get('logs').insert({
+      userId,
+      action: 'upload',
+      entity: 'document',
+      entityId: document.id,
+      metadata: {
+        fileName: document.fileName,
+        kind: document.kind,
+        collaboratorId: document.collaboratorId,
+      },
+      createdAt: now,
+    }).write();
+  }
+
+  res.status(201).json(document);
+});
+
+// ============================================
+// ENDPOINTS DE CATÁLOGOS
+// ============================================
+
+/**
+ * GET /areas/:id/adscripciones
+ * Obtiene adscripciones de un área específica
+ */
+server.get('/areas/:id/adscripciones', (req, res) => {
+  const { id } = req.params;
+  const db = router.db;
+
+  // Verificar que el área existe
+  const area = db.get('areas').find({ id }).value();
+  if (!area) {
+    return res.status(404).json({
+      error: 'Área no encontrada',
+    });
+  }
+
+  // Obtener adscripciones del área
+  const adscripciones = db
+    .get('adscripciones')
+    .filter({ areaId: id })
+    .value();
+
+  res.status(200).json(adscripciones);
+});
+
+/**
+ * GET /documentTypes
+ * Obtiene tipos de documento, opcionalmente filtrados por kind
+ */
+server.get('/documentTypes', (req, res) => {
+  const db = router.db;
+  let documentTypes = db.get('documentTypes').value();
+
+  // Filtro por kind si se proporciona
+  const { kind } = req.query;
+  if (kind) {
+    documentTypes = documentTypes.filter((dt) => dt.kind === kind);
+  }
+
+  res.status(200).json(documentTypes);
+});
+
+// ============================================
+// ENDPOINTS DE REPORTES
+// ============================================
+
+/**
+ * GET /reports/summary
+ * Obtiene resumen de expedientes (estadísticas)
+ */
+server.get('/reports/summary', (req, res) => {
+  const db = router.db;
+  const { areaId } = req.query;
+
+  const collaborators = db.get('collaborators').value();
+  const documents = db.get('documents').value();
+  const areas = db.get('areas').value();
+
+  // Filtrar colaboradores por área si se especifica
+  let filteredCollaborators = collaborators;
+  if (areaId) {
+    filteredCollaborators = collaborators.filter((c) => c.areaId === areaId);
+  }
+
+  // Calcular estadísticas
+  let completos = 0;
+  let incompletos = 0;
+  let sinDocumentos = 0;
+
+  const porArea = {};
+
+  filteredCollaborators.forEach((collaborator) => {
+    const collaboratorDocuments = documents.filter(
+      (d) => d.collaboratorId === collaborator.id
+    );
+    const status = calculateExpedienteStatus(collaboratorDocuments);
+
+    if (status === 'completo') {
+      completos++;
+    } else if (status === 'incompleto') {
+      incompletos++;
+    } else {
+      sinDocumentos++;
+    }
+
+    // Estadísticas por área
+    if (!porArea[collaborator.areaId]) {
+      porArea[collaborator.areaId] = {
+        total: 0,
+        completos: 0,
+        incompletos: 0,
+      };
+    }
+
+    porArea[collaborator.areaId].total++;
+    if (status === 'completo') {
+      porArea[collaborator.areaId].completos++;
+    } else if (status === 'incompleto') {
+      porArea[collaborator.areaId].incompletos++;
+    }
+  });
+
+  // Agregar nombres de áreas al resultado
+  const porAreaConNombres = {};
+  Object.keys(porArea).forEach((areaId) => {
+    const area = areas.find((a) => a.id === areaId);
+    porAreaConNombres[areaId] = {
+      ...porArea[areaId],
+      areaNombre: area ? area.nombre : 'Desconocida',
+    };
+  });
+
+  res.status(200).json({
+    totalColaboradores: filteredCollaborators.length,
+    completos,
+    incompletos,
+    sinDocumentos,
+    porArea: porAreaConNombres,
+  });
+});
+
+// ============================================
 // MIDDLEWARE PARA LOGGING
 // ============================================
 
@@ -254,7 +673,27 @@ server.listen(PORT, () => {
   console.log('   DELETE /users/:id');
   console.log('   POST   /users/:id/toggle-status');
   console.log('   POST   /users/:id/change-password');
-  console.log('\n   Empleados, Archivos, Reportes:');
-  console.log('   Endpoints CRUD estándar disponibles');
+  console.log('\n   Colaboradores:');
+  console.log('   GET    /collaborators (con filtros: q, areaId, adscripcionId, puestoId, tipoContrato, isActive, estadoExpediente)');
+  console.log('   GET    /collaborators/:id');
+  console.log('   POST   /collaborators');
+  console.log('   PUT    /collaborators/:id');
+  console.log('   DELETE /collaborators/:id');
+  console.log('   POST   /collaborators/:id/toggle-status');
+  console.log('   GET    /collaborators/:id/documents');
+  console.log('\n   Documentos:');
+  console.log('   GET    /documents');
+  console.log('   GET    /documents/:id');
+  console.log('   POST   /documents');
+  console.log('   PUT    /documents/:id');
+  console.log('   DELETE /documents/:id');
+  console.log('\n   Catálogos:');
+  console.log('   GET    /areas');
+  console.log('   GET    /areas/:id/adscripciones');
+  console.log('   GET    /adscripciones');
+  console.log('   GET    /puestos');
+  console.log('   GET    /documentTypes (con filtro opcional: ?kind=otro)');
+  console.log('\n   Reportes:');
+  console.log('   GET    /reports/summary (con filtro opcional: ?areaId=1)');
   console.log('\n✨ Listo para recibir peticiones!\n');
 });
