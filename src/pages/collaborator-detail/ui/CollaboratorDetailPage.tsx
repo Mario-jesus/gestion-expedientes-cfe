@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '@app/providers/store';
 import {
@@ -9,7 +9,9 @@ import {
   selectDocumentsByCollaborator,
   selectExpedienteStatus,
 } from '@entities/collaborator';
-import { Tabs } from '@shared/ui';
+import { Tabs, Modal } from '@shared/ui';
+import { EditCollaboratorForm } from '@features/collaborators/edit-collaborator';
+import { DeleteCollaboratorDialog } from '@features/collaborators/delete-collaborator';
 import { ROUTES } from '@shared/lib/routes';
 import { getContractTypeLabel } from '@entities/collaborator';
 import type { CollaboratorDocument } from '@entities/collaborator';
@@ -20,7 +22,10 @@ import styles from './CollaboratorDetailPage.module.scss';
  */
 export function CollaboratorDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const collaborator = useSelector((state: RootState) =>
     id ? selectCollaboratorById(id)(state) : null
@@ -39,6 +44,20 @@ export function CollaboratorDetailPage() {
       dispatch(fetchDocumentsByCollaborator(id));
     }
   }, [id, dispatch]);
+
+  const handleEditSuccess = () => {
+    setIsEditModalOpen(false);
+    // Recargar datos del colaborador
+    if (id) {
+      dispatch(fetchCollaboratorById(id));
+    }
+  };
+
+  const handleDeleteSuccess = () => {
+    setIsDeleteDialogOpen(false);
+    // Redirigir a la lista de colaboradores después de eliminar
+    navigate(ROUTES.COLLABORATORS);
+  };
 
   if (!id) {
     return <div>ID de colaborador no válido</div>;
@@ -194,10 +213,28 @@ export function CollaboratorDetailPage() {
           <Link to={ROUTES.COLLABORATORS} className={styles.backButton}>
             ← Volver a Colaboradores
           </Link>
-          <h1 className={styles.title}>
-            {collaborator.nombre} {collaborator.apellidos}
-          </h1>
-          <p className={styles.subtitle}>RPE: {collaborator.rpe}</p>
+          <div className={styles.titleRow}>
+            <div>
+              <h1 className={styles.title}>
+                {collaborator.nombre} {collaborator.apellidos}
+              </h1>
+              <p className={styles.subtitle}>RPE: {collaborator.rpe}</p>
+            </div>
+            <div className={styles.actionButtons}>
+              <button
+                className={styles.editButton}
+                onClick={() => setIsEditModalOpen(true)}
+              >
+                ✏️ Editar
+              </button>
+              <button
+                className={styles.deleteButton}
+                onClick={() => setIsDeleteDialogOpen(true)}
+              >
+                🗑️ Eliminar
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Estado del expediente */}
@@ -267,6 +304,30 @@ export function CollaboratorDetailPage() {
       <div className={styles.content}>
         <Tabs tabs={tabs} defaultTabId="datos" />
       </div>
+
+      {/* Modal de edición */}
+      {collaborator && (
+        <Modal
+          isOpen={isEditModalOpen}
+          onClose={() => setIsEditModalOpen(false)}
+          title="Editar Colaborador"
+          size="large"
+        >
+          <EditCollaboratorForm
+            collaborator={collaborator}
+            onSuccess={handleEditSuccess}
+            onCancel={() => setIsEditModalOpen(false)}
+          />
+        </Modal>
+      )}
+
+      {/* Diálogo de eliminación */}
+      <DeleteCollaboratorDialog
+        collaborator={collaborator}
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+        onSuccess={handleDeleteSuccess}
+      />
     </div>
   );
 }

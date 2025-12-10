@@ -6,6 +6,7 @@ import {
   UsersPage,
   CollaboratorsPage,
   CollaboratorDetailPage,
+  CollaboratorNewPage,
 } from '@pages/index';
 import { ROUTES } from '@shared/lib/routes';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -59,7 +60,7 @@ export function AppRouter() {
           <Route path={ROUTES.COLLABORATORS} element={<CollaboratorsPage />} />
           <Route
             path={ROUTES.COLLABORATOR_NEW}
-            element={<ComingSoonPage title="Nuevo Colaborador" />}
+            element={<CollaboratorNewPage />}
           />
           <Route
             path={ROUTES.COLLABORATOR_DETAIL}

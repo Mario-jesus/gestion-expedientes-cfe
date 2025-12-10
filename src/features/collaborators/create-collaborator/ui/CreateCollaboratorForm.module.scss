@@ -1,0 +1,192 @@
+// Formulario
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0.5rem 0;
+}
+
+// Sección
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.sectionTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+// Fila de campos (dos columnas)
+.formRow {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Grupo de campo
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  input,
+  select {
+    padding: 0.75rem;
+    border: 2px solid #d9d9d9;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #2d7f3e;
+    }
+
+    &:disabled {
+      background-color: #f5f5f5;
+      cursor: not-allowed;
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+
+  select {
+    cursor: pointer;
+  }
+}
+
+// Grupo de checkbox
+.checkboxGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #2d7f3e;
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+}
+
+.checkboxLabel {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+// Campo obligatorio
+.required {
+  color: #d32f2f;
+}
+
+// Input con error
+.inputError {
+  border-color: #d32f2f !important;
+  background-color: #ffebee;
+}
+
+// Mensaje de error
+.error {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-top: -0.25rem;
+}
+
+// Hint/ayuda
+.hint {
+  color: #666;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: -0.25rem;
+}
+
+// Error general de submit
+.submitError {
+  padding: 1rem;
+  background-color: #ffebee;
+  border-left: 4px solid #d32f2f;
+  border-radius: 4px;
+  color: #c62828;
+  font-size: 0.95rem;
+
+  strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+}
+
+// Acciones (botones)
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.cancelButton,
+.submitButton {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.cancelButton {
+  background-color: #f5f5f5;
+  color: #333;
+
+  &:hover:not(:disabled) {
+    background-color: #e0e0e0;
+  }
+}
+
+.submitButton {
+  background-color: #2d7f3e;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: #236330;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(45, 127, 62, 0.3);
+  }
+}
