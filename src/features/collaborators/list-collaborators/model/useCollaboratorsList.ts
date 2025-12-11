@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@app/providers/store';
 import {
@@ -20,6 +20,8 @@ export const useCollaboratorsList = () => {
   const isLoading = useSelector(selectCollaboratorsLoading);
   const error = useSelector(selectCollaboratorsError);
   const filters = useSelector(selectCollaboratorsFilters);
+  const hasLoadedFilters = useRef(false);
+  const hasHandledSearch = useRef(false);
 
   /**
    * Cargar colaboradores desde el backend
@@ -37,11 +39,12 @@ export const useCollaboratorsList = () => {
 
   // Recargar cuando cambien los filtros (excepto búsqueda que se filtra en el servidor)
   useEffect(() => {
-    if (filters.areaId || filters.adscripcionId || filters.puestoId || 
-        filters.tipoContrato || filters.isActive !== undefined || 
-        filters.estadoExpediente) {
-      loadCollaborators();
+    if (!hasLoadedFilters.current) {
+      hasLoadedFilters.current = true;
+      return;
     }
+
+    loadCollaborators();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     filters.areaId,
@@ -54,6 +57,11 @@ export const useCollaboratorsList = () => {
 
   // Recargar cuando cambie la búsqueda (con debounce opcional)
   useEffect(() => {
+    if (!hasHandledSearch.current) {
+      hasHandledSearch.current = true;
+      return;
+    }
+
     const timeoutId = setTimeout(() => {
       loadCollaborators();
     }, 300); // Debounce de 300ms

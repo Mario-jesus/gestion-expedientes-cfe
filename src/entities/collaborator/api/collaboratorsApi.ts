@@ -23,6 +23,7 @@ export const collaboratorsApi = {
     if (filters?.adscripcionId) params.append('adscripcionId', filters.adscripcionId);
     if (filters?.puestoId) params.append('puestoId', filters.puestoId);
     if (filters?.tipoContrato) params.append('tipoContrato', filters.tipoContrato);
+    if (filters?.estadoExpediente) params.append('estadoExpediente', filters.estadoExpediente);
     if (filters?.isActive !== undefined) params.append('isActive', String(filters.isActive));
 
     const queryString = params.toString();
