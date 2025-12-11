@@ -31,8 +31,8 @@ export function Sidebar() {
             return `${styles.navLink} ${shouldBeActive ? styles.active : ''}`;
           }}
         >
-          <span className={styles.icon}>📁</span>
-          <span className={styles.label}>Expedientes</span>
+          <span className={styles.icon}>🤝</span>
+          <span className={styles.label}>Colaboradores</span>
         </NavLink>
 
         <NavLink
