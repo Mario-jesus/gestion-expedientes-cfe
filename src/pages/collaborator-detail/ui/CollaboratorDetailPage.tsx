@@ -8,10 +8,14 @@ import {
   selectCollaboratorById,
   selectDocumentsByCollaborator,
   selectExpedienteStatus,
+  type DocumentKind,
 } from '@entities/collaborator';
 import { Tabs, Modal } from '@shared/ui';
 import { EditCollaboratorForm } from '@features/collaborators/edit-collaborator';
 import { DeleteCollaboratorDialog } from '@features/collaborators/delete-collaborator';
+import { UploadDocumentForm } from '@features/documents/upload-document';
+import { EditDocumentForm } from '@features/documents/edit-document';
+import { DeleteDocumentDialog } from '@features/documents/delete-document';
 import { ROUTES } from '@shared/lib/routes';
 import { getContractTypeLabel } from '@entities/collaborator';
 import type { CollaboratorDocument } from '@entities/collaborator';
@@ -26,6 +30,20 @@ export function CollaboratorDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  // Estados para gestión de documentos
+  const [uploadModal, setUploadModal] = useState<{ isOpen: boolean; kind: DocumentKind | null }>({
+    isOpen: false,
+    kind: null,
+  });
+  const [editModal, setEditModal] = useState<{ isOpen: boolean; document: CollaboratorDocument | null }>({
+    isOpen: false,
+    document: null,
+  });
+  const [deleteDialog, setDeleteDialog] = useState<{ isOpen: boolean; document: CollaboratorDocument | null }>({
+    isOpen: false,
+    document: null,
+  });
 
   const collaborator = useSelector((state: RootState) =>
     id ? selectCollaboratorById(id)(state) : null
@@ -59,6 +77,31 @@ export function CollaboratorDetailPage() {
     navigate(ROUTES.COLLABORATORS);
   };
 
+  // Handlers para documentos
+  const handleDocumentUploadSuccess = () => {
+    setUploadModal({ isOpen: false, kind: null });
+    // Recargar documentos
+    if (id) {
+      dispatch(fetchDocumentsByCollaborator(id));
+    }
+  };
+
+  const handleDocumentEditSuccess = () => {
+    setEditModal({ isOpen: false, document: null });
+    // Recargar documentos
+    if (id) {
+      dispatch(fetchDocumentsByCollaborator(id));
+    }
+  };
+
+  const handleDocumentDeleteSuccess = () => {
+    setDeleteDialog({ isOpen: false, document: null });
+    // Recargar documentos
+    if (id) {
+      dispatch(fetchDocumentsByCollaborator(id));
+    }
+  };
+
   if (!id) {
     return <div>ID de colaborador no válido</div>;
   }
@@ -83,44 +126,72 @@ export function CollaboratorDetailPage() {
     {} as Record<string, CollaboratorDocument[]>
   );
 
-  // Componente para mostrar lista de documentos
-  const DocumentList = ({ docs }: { docs: CollaboratorDocument[] }) => {
-    if (docs.length === 0) {
-      return (
-        <div className={styles.emptyDocuments}>
-          <p>No hay documentos de este tipo.</p>
-        </div>
-      );
-    }
-
+  // Componente para mostrar lista de documentos con acciones
+  const DocumentList = ({ docs, kind }: { docs: CollaboratorDocument[]; kind: DocumentKind }) => {
     return (
-      <div className={styles.documentList}>
-        {docs.map((doc) => (
-          <div key={doc.id} className={styles.documentCard}>
-            <div className={styles.documentInfo}>
-              <h4 className={styles.documentName}>{doc.fileName}</h4>
-              {doc.descripcion && (
-                <p className={styles.documentDescription}>{doc.descripcion}</p>
-              )}
-              {doc.periodo && (
-                <span className={styles.documentPeriodo}>Período: {doc.periodo}</span>
-              )}
-              <span className={styles.documentDate}>
-                Subido: {new Date(doc.uploadedAt).toLocaleDateString('es-MX')}
-              </span>
-            </div>
-            <div className={styles.documentActions}>
-              <a
-                href={doc.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.viewButton}
-              >
-                Ver
-              </a>
-            </div>
+      <div className={styles.documentSection}>
+        <div className={styles.documentSectionHeader}>
+          <h3>Documentos de {kind === 'bateria' ? 'Batería' : kind === 'historial' ? 'Historial' : kind === 'perfil' ? 'Perfil' : kind === 'constancia' ? 'Constancias' : 'Otros'}</h3>
+          <button
+            className={styles.uploadButton}
+            onClick={() => setUploadModal({ isOpen: true, kind })}
+          >
+            ➕ Subir Documento
+          </button>
+        </div>
+
+        {docs.length === 0 ? (
+          <div className={styles.emptyDocuments}>
+            <p>No hay documentos de este tipo.</p>
+            <button
+              className={styles.uploadButtonSmall}
+              onClick={() => setUploadModal({ isOpen: true, kind })}
+            >
+              Subir primer documento
+            </button>
           </div>
-        ))}
+        ) : (
+          <div className={styles.documentList}>
+            {docs.map((doc) => (
+              <div key={doc.id} className={styles.documentCard}>
+                <div className={styles.documentInfo}>
+                  <h4 className={styles.documentName}>{doc.fileName}</h4>
+                  {doc.descripcion && (
+                    <p className={styles.documentDescription}>{doc.descripcion}</p>
+                  )}
+                  {doc.periodo && (
+                    <span className={styles.documentPeriodo}>Período: {doc.periodo}</span>
+                  )}
+                  <span className={styles.documentDate}>
+                    Subido: {new Date(doc.uploadedAt).toLocaleDateString('es-MX')}
+                  </span>
+                </div>
+                <div className={styles.documentActions}>
+                  <a
+                    href={doc.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.viewButton}
+                  >
+                    👁️ Ver
+                  </a>
+                  <button
+                    className={styles.editButton}
+                    onClick={() => setEditModal({ isOpen: true, document: doc })}
+                  >
+                    ✏️ Editar
+                  </button>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => setDeleteDialog({ isOpen: true, document: doc })}
+                  >
+                    🗑️ Eliminar
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   };
@@ -181,27 +252,27 @@ export function CollaboratorDetailPage() {
     {
       id: 'bateria',
       label: 'Batería de Capacitación',
-      content: <DocumentList docs={documentsByKind.bateria || []} />,
+      content: <DocumentList docs={documentsByKind.bateria || []} kind="bateria" />,
     },
     {
       id: 'historial',
       label: 'Historial / Kárdex',
-      content: <DocumentList docs={documentsByKind.historial || []} />,
+      content: <DocumentList docs={documentsByKind.historial || []} kind="historial" />,
     },
     {
       id: 'perfil',
       label: 'Perfil de Puesto',
-      content: <DocumentList docs={documentsByKind.perfil || []} />,
+      content: <DocumentList docs={documentsByKind.perfil || []} kind="perfil" />,
     },
     {
       id: 'constancias',
       label: 'Constancias',
-      content: <DocumentList docs={documentsByKind.constancia || []} />,
+      content: <DocumentList docs={documentsByKind.constancia || []} kind="constancia" />,
     },
     {
       id: 'otros',
       label: 'Otros Documentos',
-      content: <DocumentList docs={documentsByKind.otro || []} />,
+      content: <DocumentList docs={documentsByKind.otro || []} kind="otro" />,
     },
   ];
 
@@ -328,6 +399,49 @@ export function CollaboratorDetailPage() {
         onClose={() => setIsDeleteDialogOpen(false)}
         onSuccess={handleDeleteSuccess}
       />
+
+      {/* Modal de subir documento */}
+      {uploadModal.kind && id && (
+        <Modal
+          isOpen={uploadModal.isOpen}
+          onClose={() => setUploadModal({ isOpen: false, kind: null })}
+          title="Subir Documento"
+          size="medium"
+        >
+          <UploadDocumentForm
+            collaboratorId={id}
+            kind={uploadModal.kind}
+            onSuccess={handleDocumentUploadSuccess}
+            onCancel={() => setUploadModal({ isOpen: false, kind: null })}
+          />
+        </Modal>
+      )}
+
+      {/* Modal de editar documento */}
+      {editModal.document && (
+        <Modal
+          isOpen={editModal.isOpen}
+          onClose={() => setEditModal({ isOpen: false, document: null })}
+          title="Editar Documento"
+          size="medium"
+        >
+          <EditDocumentForm
+            document={editModal.document}
+            onSuccess={handleDocumentEditSuccess}
+            onCancel={() => setEditModal({ isOpen: false, document: null })}
+          />
+        </Modal>
+      )}
+
+      {/* Diálogo de eliminar documento */}
+      {deleteDialog.document && (
+        <DeleteDocumentDialog
+          document={deleteDialog.document}
+          isOpen={deleteDialog.isOpen}
+          onClose={() => setDeleteDialog({ isOpen: false, document: null })}
+          onSuccess={handleDocumentDeleteSuccess}
+        />
+      )}
     </div>
   );
 }

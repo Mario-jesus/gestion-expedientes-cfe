@@ -7,6 +7,7 @@ import {
   CollaboratorsPage,
   CollaboratorDetailPage,
   CollaboratorNewPage,
+  FilesPage,
 } from '@pages/index';
 import { ROUTES } from '@shared/lib/routes';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -68,10 +69,7 @@ export function AppRouter() {
           />
 
           {/* Archivos */}
-          <Route
-            path={ROUTES.FILES}
-            element={<ComingSoonPage title="Archivos" />}
-          />
+          <Route path={ROUTES.FILES} element={<FilesPage />} />
 
           {/* Perfil */}
           <Route
