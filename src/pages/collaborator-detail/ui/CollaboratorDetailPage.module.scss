@@ -214,62 +214,6 @@
   }
 }
 
-.documentSection {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.documentSectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid #e5e7eb;
-
-  h3 {
-    margin: 0;
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #1f2937;
-  }
-}
-
-.uploadButton {
-  padding: 0.625rem 1.25rem;
-  background-color: #2d7f3e;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #236330;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(45, 127, 62, 0.3);
-  }
-}
-
-.uploadButtonSmall {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #2d7f3e;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #236330;
-  }
-}
-
 .documentList {
   display: flex;
   flex-direction: column;
@@ -330,7 +274,6 @@
 .documentActions {
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap;
 }
 
 .viewButton {
@@ -342,45 +285,9 @@
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  border: none;
-  cursor: pointer;
 
   &:hover {
     background-color: #236330;
-    transform: translateY(-1px);
-  }
-}
-
-.documentActions .editButton {
-  padding: 0.5rem 1rem;
-  background-color: #f59e0b;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #d97706;
-    transform: translateY(-1px);
-  }
-}
-
-.documentActions .deleteButton {
-  padding: 0.5rem 1rem;
-  background-color: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: #dc2626;
     transform: translateY(-1px);
   }
 }
