@@ -18,13 +18,42 @@ Sistema web para la gestión de expedientes y documentos de empleados, desarroll
 
 ## ✨ Características
 
+### Autenticación y Usuarios
 - 🔐 **Autenticación** con persistencia de sesión
 - 👥 **Gestión de usuarios** (CRUD completo)
-- 📄 **Gestión de expedientes** de empleados
-- 📊 **Reportes y estadísticas**
-- 🎨 **Interfaz moderna y responsiva**
+- 👤 **Mi Perfil** - Ver y actualizar información personal, cambiar contraseña, ver historial de actividad
 - 🔒 **Control de acceso basado en roles** (Admin/Operador)
-- 🚀 **API Mock** para desarrollo sin backend
+- ✅ **Validación de usuarios activos** - Solo usuarios activos pueden acceder
+
+### Gestión de Colaboradores
+- 📄 **Gestión de colaboradores** (CRUD completo)
+- 📁 **Gestión de expedientes** - Documentos de colaboradores con categorización
+- 📝 **Carga de documentos** - Subir documentos por tipo (batería, historial, perfil, constancia, otro)
+- ✏️ **Edición y eliminación** de documentos
+- 📊 **Estado de expediente** - Visualización de expedientes completos, incompletos o sin documentos
+- 🔍 **Búsqueda y filtros avanzados** - Por nombre, RPE, área, adscripción, puesto, tipo de contrato
+
+### Gestión de Minutas
+- 📝 **Gestión de minutas** (CRUD completo) - Documentos independientes de colaboradores
+- 🏷️ **Tipos de minutas** - Reunión, Junta, Acuerdo, Memorándum, Otro
+- 🔍 **Filtros y búsqueda** - Por título, descripción, tipo y fecha
+- 📄 **Vista de detalle** - Información completa de cada minuta con metadatos
+
+### Configuración
+- ⚙️ **Gestión de catálogos** - Áreas, Adscripciones, Puestos, Tipos de Documento
+- 🔄 **CRUD completo** para todos los catálogos
+- 🎯 **Solo administradores** - Acceso restringido a configuración
+
+### Interfaz y UX
+- 🎨 **Interfaz moderna y responsiva** - Diseño adaptativo para móviles, tablets y desktop
+- 📱 **Menú móvil** - Hamburger menu con sidebar colapsable
+- 🔔 **Sistema de notificaciones** - Toasts para éxito, error, advertencia e información
+- 🎯 **Dashboard** - Panel de control con estadísticas y accesos rápidos
+- 🌓 **Tema consistente** - Diseño con colores corporativos (verde CFE)
+
+### Desarrollo
+- 🚀 **API Mock** - JSON Server con endpoints personalizados para desarrollo sin backend
+- 📊 **Logs de auditoría** - Registro automático de acciones del sistema
 
 ---
 
@@ -227,20 +256,66 @@ gestion-expedientes-cfe/
 ├── public/              # Archivos estáticos
 ├── src/
 │   ├── app/            # Configuración de la aplicación
-│   │   ├── providers/  # Providers (Redux, Router)
+│   │   ├── providers/  # Providers (Redux, Router, Toast)
 │   │   └── styles/     # Estilos globales
 │   ├── entities/       # Entidades del dominio
-│   │   └── user/       # Usuario (tipos, API, slice)
+│   │   ├── user/       # Usuario (tipos, API, slice, thunks)
+│   │   ├── collaborator/ # Colaborador (tipos, API, slice, thunks)
+│   │   └── minute/     # Minuta (tipos, API, slice, thunks)
 │   ├── features/       # Características/módulos
 │   │   ├── auth/       # Autenticación
-│   │   └── users/      # Gestión de usuarios
+│   │   ├── users/      # Gestión de usuarios
+│   │   ├── collaborators/ # Gestión de colaboradores
+│   │   │   ├── create-collaborator/
+│   │   │   ├── edit-collaborator/
+│   │   │   ├── delete-collaborator/
+│   │   │   ├── upload-document/
+│   │   │   ├── edit-document/
+│   │   │   └── delete-document/
+│   │   ├── minutes/    # Gestión de minutas
+│   │   │   ├── create-minute/
+│   │   │   ├── edit-minute/
+│   │   │   └── delete-minute/
+│   │   ├── profile/    # Perfil de usuario
+│   │   │   ├── update-profile/
+│   │   │   ├── change-password/
+│   │   │   └── user-activity-log/
+│   │   └── settings/   # Configuración
+│   │       ├── areas-management/
+│   │       ├── adscripciones-management/
+│   │       ├── puestos-management/
+│   │       └── document-types-management/
 │   ├── pages/          # Páginas de la aplicación
+│   │   ├── login/      # Página de login
+│   │   ├── dashboard/  # Panel de control
+│   │   ├── users/      # Gestión de usuarios
+│   │   ├── collaborators/ # Lista de colaboradores
+│   │   ├── collaborator-detail/ # Detalle de colaborador
+│   │   ├── collaborator-new/ # Nuevo colaborador
+│   │   ├── minutes/    # Lista de minutas
+│   │   ├── minute-detail/ # Detalle de minuta
+│   │   ├── profile/    # Mi perfil
+│   │   ├── settings/   # Configuración
+│   │   └── not-found/  # Página 404
 │   ├── shared/         # Código compartido
-│   │   ├── api/        # Cliente API
-│   │   ├── config/     # Configuración
-│   │   ├── lib/        # Utilidades
+│   │   ├── api/        # Cliente API y endpoints
+│   │   ├── config/     # Configuración (logger, etc.)
+│   │   ├── lib/        # Utilidades (rutas, helpers)
+│   │   ├── providers/  # Providers (Toast)
 │   │   └── ui/         # Componentes UI compartidos
-│   └── widgets/        # Widgets complejos (Header, etc.)
+│   │       ├── Button/
+│   │       ├── Input/
+│   │       ├── Modal/
+│   │       ├── Toast/
+│   │       ├── Tabs/
+│   │       └── ConfirmDialog/
+│   └── widgets/        # Widgets complejos
+│       ├── header/     # Header de la aplicación
+│       └── sidebar/    # Sidebar de navegación
+├── docs/               # Documentación
+│   ├── ENDPOINTS_API.md
+│   ├── PENDIENTES_DESARROLLO.md
+│   └── ANALISIS_PENDIENTES_ACTUALIZADO.md
 ├── db.json            # Base de datos mock
 ├── server.cjs         # Servidor JSON Server personalizado
 ├── .env.development   # Variables de entorno (crear)
@@ -251,12 +326,27 @@ gestion-expedientes-cfe/
 
 El proyecto sigue los principios de **Feature-Sliced Design (FSD)**, una arquitectura moderna que organiza el código por:
 
-- **app** - Configuración de la aplicación
-- **pages** - Páginas/rutas
-- **widgets** - Componentes grandes y complejos
-- **features** - Funcionalidades/características
-- **entities** - Entidades del dominio
-- **shared** - Código compartido
+- **app** - Configuración de la aplicación (providers, router)
+- **pages** - Páginas/rutas de la aplicación
+- **widgets** - Componentes grandes y complejos (Header, Sidebar)
+- **features** - Funcionalidades/características específicas (CRUD, formularios)
+- **entities** - Entidades del dominio (User, Collaborator, Minute)
+- **shared** - Código compartido (UI components, utilities, API client)
+
+### Páginas Disponibles
+
+| Ruta | Descripción | Acceso |
+|------|-------------|--------|
+| `/login` | Inicio de sesión | Público |
+| `/dashboard` | Panel de control con estadísticas | Autenticado |
+| `/colaboradores` | Lista de colaboradores | Autenticado |
+| `/colaboradores/nuevo` | Crear nuevo colaborador | Autenticado |
+| `/colaboradores/:id` | Detalle de colaborador | Autenticado |
+| `/minutas` | Lista de minutas | Autenticado |
+| `/minutas/:id` | Detalle de minuta | Autenticado |
+| `/perfil` | Mi perfil de usuario | Autenticado |
+| `/usuarios` | Gestión de usuarios | Solo Admin |
+| `/configuracion` | Configuración del sistema | Solo Admin |
 
 ---
 
@@ -312,6 +402,10 @@ El servidor mock ya tiene CORS configurado. Si usas un backend real, asegúrate 
 - Los tokens son simulados con formato: `mock-jwt-token-{userId}-{timestamp}`
 - Los cambios en usuarios/datos se guardan en `db.json` automáticamente
 - La autenticación persiste usando `localStorage`
+- El sistema usa **baja lógica** - Los elementos eliminados se marcan como `isActive: false`
+- Los **logs de auditoría** se crean automáticamente para acciones importantes
+- El sistema de **notificaciones** muestra toasts para feedback inmediato al usuario
+- El **menú móvil** se activa automáticamente en pantallas menores a 768px
 
 ---
 
