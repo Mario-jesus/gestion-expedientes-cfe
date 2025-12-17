@@ -8,6 +8,7 @@ import {
   CollaboratorDetailPage,
   CollaboratorNewPage,
   MinutesPage,
+  SettingsPage,
 } from '@pages/index';
 import { ROUTES } from '@shared/lib/routes';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -90,7 +91,7 @@ export function AppRouter() {
             path={ROUTES.SETTINGS}
             element={
               <ProtectedRoute requiredRoles={['admin']}>
-                <ComingSoonPage title="Configuración" />
+                <SettingsPage />
               </ProtectedRoute>
             }
           />
