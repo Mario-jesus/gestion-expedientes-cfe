@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ROUTES } from '@shared/lib/routes';
 import styles from './NotFoundPage.module.scss';
 
 export function NotFoundPage() {
@@ -10,8 +11,8 @@ export function NotFoundPage() {
         <p className={styles.description}>
           Lo sentimos, la página que buscas no existe o ha sido movida.
         </p>
-        <Link to="/" className={styles.button}>
-          Volver al inicio
+        <Link to={ROUTES.DASHBOARD} className={styles.button}>
+          Volver al Dashboard
         </Link>
       </div>
     </div>
