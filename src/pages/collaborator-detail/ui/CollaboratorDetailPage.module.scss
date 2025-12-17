@@ -24,71 +24,88 @@
   display: flex;
   gap: 0.75rem;
   align-items: center;
-}
 
-.uploadButton {
-  padding: 0.75rem 1.5rem;
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  .uploadButton {
+    padding: 0.75rem 1.5rem;
+    background-color: #2d7f3e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 4px rgba(45, 127, 62, 0.2);
 
-  &:hover {
-    background-color: #1d4ed8;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+    &:hover {
+      background-color: #236330;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(45, 127, 62, 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
-}
 
-.editButton {
-  padding: 0.75rem 1.5rem;
-  background-color: #2d7f3e;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  .editButton {
+    padding: 0.75rem 1.5rem;
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
-  &:hover {
-    background-color: #236330;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(45, 127, 62, 0.3);
+    &:hover {
+      background-color: #e5e7eb;
+      border-color: #9ca3af;
+      color: #1f2937;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
-}
 
-.deleteButton {
-  padding: 0.75rem 1.5rem;
-  background-color: #dc2626;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  .deleteButton {
+    padding: 0.75rem 1.5rem;
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 2px solid #fecaca;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
-  &:hover {
-    background-color: #b91c1c;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+    &:hover {
+      background-color: #fecaca;
+      border-color: #f87171;
+      color: #7f1d1d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(220, 38, 38, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
 }
 
@@ -296,6 +313,7 @@
 .documentActions {
   display: flex;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .viewButton {
@@ -307,10 +325,46 @@
   font-size: 0.875rem;
   font-weight: 500;
   transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
 
   &:hover {
     background-color: #236330;
     transform: translateY(-1px);
+  }
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem 0.75rem;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+  }
+}
+
+.editButton {
+  &:hover {
+    border-color: #2d7f3e;
+    background-color: #f0fdf4;
+  }
+}
+
+.deleteButton {
+  &:hover {
+    border-color: #dc2626;
+    background-color: #fef2f2;
   }
 }
 

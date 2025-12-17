@@ -13,6 +13,8 @@ import { Tabs, Modal } from '@shared/ui';
 import { EditCollaboratorForm } from '@features/collaborators/edit-collaborator';
 import { DeleteCollaboratorDialog } from '@features/collaborators/delete-collaborator';
 import { UploadDocumentForm } from '@features/collaborators/upload-document';
+import { EditDocumentForm } from '@features/collaborators/edit-document';
+import { DeleteDocumentDialog } from '@features/collaborators/delete-document';
 import { ROUTES } from '@shared/lib/routes';
 import { getContractTypeLabel } from '@entities/collaborator';
 import type { CollaboratorDocument, DocumentKind } from '@entities/collaborator';
@@ -29,6 +31,9 @@ export function CollaboratorDetailPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [uploadDocumentKind, setUploadDocumentKind] = useState<DocumentKind | undefined>(undefined);
+  const [isEditDocumentModalOpen, setIsEditDocumentModalOpen] = useState(false);
+  const [isDeleteDocumentDialogOpen, setIsDeleteDocumentDialogOpen] = useState(false);
+  const [selectedDocument, setSelectedDocument] = useState<CollaboratorDocument | null>(null);
 
   const collaborator = useSelector((state: RootState) =>
     id ? selectCollaboratorById(id)(state) : null
@@ -74,6 +79,34 @@ export function CollaboratorDetailPage() {
   const handleOpenUploadModal = (kind?: DocumentKind) => {
     setUploadDocumentKind(kind);
     setIsUploadModalOpen(true);
+  };
+
+  const handleEditDocument = (document: CollaboratorDocument) => {
+    setSelectedDocument(document);
+    setIsEditDocumentModalOpen(true);
+  };
+
+  const handleDeleteDocument = (document: CollaboratorDocument) => {
+    setSelectedDocument(document);
+    setIsDeleteDocumentDialogOpen(true);
+  };
+
+  const handleEditDocumentSuccess = () => {
+    setIsEditDocumentModalOpen(false);
+    setSelectedDocument(null);
+    // Recargar documentos
+    if (id) {
+      dispatch(fetchDocumentsByCollaborator(id));
+    }
+  };
+
+  const handleDeleteDocumentSuccess = () => {
+    setIsDeleteDocumentDialogOpen(false);
+    setSelectedDocument(null);
+    // Recargar documentos
+    if (id) {
+      dispatch(fetchDocumentsByCollaborator(id));
+    }
   };
 
   if (!id) {
@@ -139,6 +172,20 @@ export function CollaboratorDetailPage() {
               >
                 Ver
               </a>
+              <button
+                className={styles.editButton}
+                onClick={() => handleEditDocument(doc)}
+                title="Editar documento"
+              >
+                ✏️
+              </button>
+              <button
+                className={styles.deleteButton}
+                onClick={() => handleDeleteDocument(doc)}
+                title="Eliminar documento"
+              >
+                🗑️
+              </button>
             </div>
           </div>
         ))}
@@ -377,6 +424,43 @@ export function CollaboratorDetailPage() {
             }}
           />
         </Modal>
+      )}
+
+      {/* Modal de edición de documento */}
+      {id && selectedDocument && (
+        <Modal
+          isOpen={isEditDocumentModalOpen}
+          onClose={() => {
+            setIsEditDocumentModalOpen(false);
+            setSelectedDocument(null);
+          }}
+          title="Editar Documento"
+          size="medium"
+        >
+          <EditDocumentForm
+            document={selectedDocument}
+            collaboratorId={id}
+            onSuccess={handleEditDocumentSuccess}
+            onCancel={() => {
+              setIsEditDocumentModalOpen(false);
+              setSelectedDocument(null);
+            }}
+          />
+        </Modal>
+      )}
+
+      {/* Diálogo de eliminación de documento */}
+      {id && (
+        <DeleteDocumentDialog
+          document={selectedDocument}
+          collaboratorId={id}
+          isOpen={isDeleteDocumentDialogOpen}
+          onClose={() => {
+            setIsDeleteDocumentDialogOpen(false);
+            setSelectedDocument(null);
+          }}
+          onSuccess={handleDeleteDocumentSuccess}
+        />
       )}
     </div>
   );
