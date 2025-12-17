@@ -4,6 +4,7 @@ import { usersApi, setUser } from '@entities/user';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@app/providers/store';
 import { Input, Button } from '@shared/ui';
+import { useToast } from '@shared/providers';
 import styles from './UpdateProfileForm.module.scss';
 
 interface UpdateProfileFormProps {
@@ -21,6 +22,7 @@ export function UpdateProfileForm({
   onCancel,
 }: UpdateProfileFormProps) {
   const dispatch = useDispatch<AppDispatch>();
+  const { showSuccess, showError } = useToast();
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,11 +60,13 @@ export function UpdateProfileForm({
       // Actualizar el usuario en el store
       dispatch(setUser(updatedUser));
 
+      showSuccess('Información actualizada exitosamente');
       onSuccess();
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Error al actualizar la información';
       setError(errorMessage);
+      showError(errorMessage);
     } finally {
       setIsLoading(false);
     }

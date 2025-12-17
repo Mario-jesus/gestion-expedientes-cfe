@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@app/providers/store';
 import { createMinute } from '@entities/minute';
 import { logger } from '@shared/config';
+import { useToast } from '@shared/providers';
 import type { MinuteType, CreateMinuteDto } from '@entities/minute';
 
 interface CreateMinuteErrors {
@@ -15,6 +16,7 @@ interface CreateMinuteErrors {
 
 export function useCreateMinute(onSuccess?: () => void) {
   const dispatch = useDispatch<AppDispatch>();
+  const { showSuccess, showError } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<CreateMinuteErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -105,6 +107,7 @@ export function useCreateMinute(onSuccess?: () => void) {
       await dispatch(createMinute(minuteData)).unwrap();
 
       logger.info('Minuta creada exitosamente');
+      showSuccess('Minuta creada exitosamente');
       onSuccess?.();
     } catch (error) {
       const errorMessage =
@@ -113,6 +116,7 @@ export function useCreateMinute(onSuccess?: () => void) {
           : 'Error al crear la minuta';
       logger.error('Error creando minuta:', error);
       setSubmitError(errorMessage);
+      showError(errorMessage);
     } finally {
       setIsLoading(false);
     }

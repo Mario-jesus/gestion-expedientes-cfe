@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { usersApi } from '@entities/user';
 import { Input, Button } from '@shared/ui';
+import { useToast } from '@shared/providers';
 import styles from './ChangePasswordForm.module.scss';
 
 interface ChangePasswordFormProps {
@@ -17,6 +18,7 @@ export function ChangePasswordForm({
   onSuccess,
   onCancel,
 }: ChangePasswordFormProps) {
+  const { showSuccess, showError } = useToast();
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -55,11 +57,13 @@ export function ChangePasswordForm({
       setNewPassword('');
       setConfirmPassword('');
 
+      showSuccess('Contraseña actualizada exitosamente');
       onSuccess();
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Error al cambiar la contraseña';
       setError(errorMessage);
+      showError(errorMessage);
     } finally {
       setIsLoading(false);
     }

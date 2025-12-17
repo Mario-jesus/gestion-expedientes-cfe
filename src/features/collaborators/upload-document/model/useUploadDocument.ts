@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '@app/providers/store';
 import { createDocument, fetchDocumentsByCollaborator } from '@entities/collaborator';
 import { logger } from '@shared/config';
+import { useToast } from '@shared/providers';
 import type { DocumentKind, CreateDocumentDto } from '@entities/collaborator';
 
 interface UploadDocumentErrors {
@@ -16,6 +17,7 @@ export function useUploadDocument(
   onSuccess?: () => void
 ) {
   const dispatch = useDispatch<AppDispatch>();
+  const { showSuccess, showError } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<UploadDocumentErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -100,6 +102,7 @@ export function useUploadDocument(
       await dispatch(fetchDocumentsByCollaborator(collaboratorId));
 
       logger.info('Documento subido exitosamente');
+      showSuccess('Documento subido exitosamente');
       onSuccess?.();
     } catch (error) {
       const errorMessage =
@@ -108,6 +111,7 @@ export function useUploadDocument(
           : 'Error al subir el documento';
       logger.error('Error subiendo documento:', error);
       setSubmitError(errorMessage);
+      showError(errorMessage);
     } finally {
       setIsLoading(false);
     }

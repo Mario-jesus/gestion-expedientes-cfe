@@ -4,6 +4,7 @@ import type { AppDispatch } from '@app/providers/store';
 import { updateDocumentThunk, fetchDocumentsByCollaborator } from '@entities/collaborator';
 import type { UpdateDocumentDto, CollaboratorDocument } from '@entities/collaborator';
 import { logger } from '@shared/config';
+import { useToast } from '@shared/providers';
 
 interface EditDocumentErrors {
   fileName?: string;
@@ -20,6 +21,7 @@ export function useEditDocument(
   onSuccess: () => void
 ) {
   const dispatch = useDispatch<AppDispatch>();
+  const { showSuccess, showError } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<EditDocumentErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -101,6 +103,7 @@ export function useEditDocument(
       await dispatch(fetchDocumentsByCollaborator(collaboratorId));
 
       logger.info('Documento actualizado exitosamente');
+      showSuccess('Documento actualizado exitosamente');
       onSuccess();
     } catch (error) {
       const errorMessage =
@@ -109,6 +112,7 @@ export function useEditDocument(
           : 'Error al actualizar el documento. Intenta nuevamente.';
       logger.error('Error actualizando documento:', error);
       setSubmitError(errorMessage);
+      showError(errorMessage);
     } finally {
       setIsLoading(false);
     }

@@ -4,6 +4,7 @@ import type { AppDispatch } from '@app/providers/store';
 import { updateMinuteThunk, fetchMinutes } from '@entities/minute';
 import type { UpdateMinuteDto, Minute } from '@entities/minute';
 import { logger } from '@shared/config';
+import { useToast } from '@shared/providers';
 
 interface EditMinuteErrors {
   titulo?: string;
@@ -21,6 +22,7 @@ export function useEditMinute(
   onSuccess: () => void
 ) {
   const dispatch = useDispatch<AppDispatch>();
+  const { showSuccess, showError } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<EditMinuteErrors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -127,6 +129,7 @@ export function useEditMinute(
       await dispatch(fetchMinutes(undefined));
 
       logger.info('Minuta actualizada exitosamente');
+      showSuccess('Minuta actualizada exitosamente');
       onSuccess();
     } catch (error) {
       const errorMessage =
@@ -135,6 +138,7 @@ export function useEditMinute(
           : 'Error al actualizar la minuta. Intenta nuevamente.';
       logger.error('Error actualizando minuta:', error);
       setSubmitError(errorMessage);
+      showError(errorMessage);
     } finally {
       setIsLoading(false);
     }
