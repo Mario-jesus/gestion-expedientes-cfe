@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch } from '@app/providers/store';
 import {
@@ -15,6 +16,7 @@ import { Modal } from '@shared/ui';
 import { CreateMinuteForm } from '@features/minutes/create-minute';
 import { EditMinuteForm } from '@features/minutes/edit-minute';
 import { DeleteMinuteDialog } from '@features/minutes/delete-minute';
+import { buildRoute } from '@shared/lib/routes';
 import type { MinuteType, Minute } from '@entities/minute';
 import styles from './MinutesPage.module.scss';
 
@@ -163,13 +165,19 @@ export function MinutesPage() {
                 </span>
               </div>
               <div className={styles.minuteActions}>
+                <Link
+                  to={buildRoute.minuteDetail(minute.id)}
+                  className={styles.viewButton}
+                >
+                  Ver Detalles
+                </Link>
                 <a
                   href={minute.fileUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={styles.viewButton}
+                  className={styles.viewFileButton}
                 >
-                  Ver Documento
+                  📄
                 </a>
                 <button
                   className={styles.editButton}

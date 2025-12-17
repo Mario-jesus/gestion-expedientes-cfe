@@ -12,6 +12,7 @@ export const ROUTES = {
   COLLABORATOR_DETAIL: '/colaboradores/:id',
   COLLABORATOR_NEW: '/colaboradores/nuevo',
   MINUTES: '/minutas',
+  MINUTE_DETAIL: '/minutas/:id',
   PROFILE: '/perfil',
 
   // Rutas de administración
@@ -24,4 +25,5 @@ export const ROUTES = {
  */
 export const buildRoute = {
   collaboratorDetail: (id: string) => `/colaboradores/${id}`,
+  minuteDetail: (id: string) => `/minutas/${id}`,
 } as const;

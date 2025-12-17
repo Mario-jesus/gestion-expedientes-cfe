@@ -8,6 +8,7 @@ import {
   CollaboratorDetailPage,
   CollaboratorNewPage,
   MinutesPage,
+  MinuteDetailPage,
   SettingsPage,
   ProfilePage,
 } from '@pages/index';
@@ -72,6 +73,7 @@ export function AppRouter() {
 
           {/* Minutas */}
           <Route path={ROUTES.MINUTES} element={<MinutesPage />} />
+          <Route path={ROUTES.MINUTE_DETAIL} element={<MinuteDetailPage />} />
 
           {/* Perfil */}
           <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
