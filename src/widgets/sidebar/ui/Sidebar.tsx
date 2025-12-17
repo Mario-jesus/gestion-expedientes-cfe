@@ -4,14 +4,30 @@ import type { RootState } from '@app/providers/store';
 import { ROUTES } from '@shared/lib/routes';
 import styles from './Sidebar.module.scss';
 
-export function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export function Sidebar({ isOpen = false, onClose }: SidebarProps) {
   const { currentUser } = useSelector((state: RootState) => state.user);
   const isAdmin = currentUser?.role === 'admin';
   const location = useLocation();
 
   return (
-    <aside className={styles.sidebar}>
-      <nav className={styles.nav}>
+    <>
+      <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
+        <div className={styles.sidebarHeader}>
+          <h2 className={styles.sidebarTitle}>Menú</h2>
+          <button
+            className={styles.closeButton}
+            onClick={onClose}
+            aria-label="Cerrar menú"
+          >
+            ✕
+          </button>
+        </div>
+        <nav className={styles.nav}>
         <NavLink
           to={ROUTES.DASHBOARD}
           className={({ isActive }) => 
@@ -84,5 +100,6 @@ export function Sidebar() {
         </NavLink>
       </nav>
     </aside>
+    </>
   );
 }

@@ -5,7 +5,12 @@ import { clearUser } from '@entities/user';
 import { ROUTES } from '@shared/lib/routes';
 import styles from './Header.module.scss';
 
-export function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void;
+  isMenuOpen?: boolean;
+}
+
+export function Header({ onMenuClick, isMenuOpen = false }: HeaderProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: RootState) => state.user);
@@ -24,9 +29,23 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <div className={styles.logo}>
-          <span className={styles.logoText}>CFE</span>
-          <span className={styles.logoSubtext}>Sistema de Expedientes</span>
+        <div className={styles.leftSection}>
+          <button
+            className={styles.menuButton}
+            onClick={onMenuClick}
+            aria-label="Abrir menú"
+            aria-expanded={isMenuOpen}
+          >
+            <span className={`${styles.hamburger} ${isMenuOpen ? styles.open : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+          <div className={styles.logo}>
+            <span className={styles.logoText}>CFE</span>
+            <span className={styles.logoSubtext}>Sistema de Expedientes</span>
+          </div>
         </div>
 
         <div className={styles.userSection}>

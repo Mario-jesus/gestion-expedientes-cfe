@@ -6,6 +6,38 @@
   position: sticky;
   top: 72px;
   overflow-y: auto;
+  transition: transform 0.3s ease-out;
+}
+
+.sidebarHeader {
+  display: none;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebarTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.closeButton {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #1f2937;
+  }
 }
 
 .nav {
@@ -84,8 +116,26 @@
 
 @media (max-width: 768px) {
   .sidebar {
-    display: none;
-    // TODO: Implementar menú móvil
+    position: fixed;
+    top: 72px;
+    left: 0;
+    height: calc(100vh - 72px);
+    width: 280px;
+    z-index: 999;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  .sidebarHeader {
+    display: flex;
+  }
+
+  .closeButton {
+    display: block;
   }
 }
 
