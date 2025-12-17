@@ -1,0 +1,84 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.submitError {
+  padding: 0.875rem 1rem;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid #fecaca;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.required {
+  color: #dc2626;
+}
+
+.select {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: white;
+  color: #1f2937;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #2d7f3e;
+    box-shadow: 0 0 0 3px rgba(45, 127, 62, 0.1);
+  }
+
+  &:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+  }
+}
+
+.error {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.info {
+  padding: 1rem;
+  background-color: #f3f4f6;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.infoText {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+
+  strong {
+    color: #374151;
+    font-weight: 600;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}

@@ -221,9 +221,13 @@
   margin-top: auto;
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .viewButton {
+  flex: 1;
   display: inline-block;
   padding: 0.5rem 1rem;
   background-color: #2d7f3e;
@@ -234,11 +238,46 @@
   font-weight: 500;
   transition: all 0.2s ease;
   text-align: center;
-  width: 100%;
+  border: none;
+  cursor: pointer;
 
   &:hover {
     background-color: #236330;
     transform: translateY(-1px);
+  }
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem 0.75rem;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+    transform: translateY(-1px);
+  }
+}
+
+.editButton {
+  &:hover {
+    border-color: #2d7f3e;
+    background-color: #f0fdf4;
+  }
+}
+
+.deleteButton {
+  &:hover {
+    border-color: #dc2626;
+    background-color: #fef2f2;
   }
 }
 

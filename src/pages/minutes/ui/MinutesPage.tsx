@@ -13,7 +13,9 @@ import {
 } from '@entities/minute';
 import { Modal } from '@shared/ui';
 import { CreateMinuteForm } from '@features/minutes/create-minute';
-import type { MinuteType } from '@entities/minute';
+import { EditMinuteForm } from '@features/minutes/edit-minute';
+import { DeleteMinuteDialog } from '@features/minutes/delete-minute';
+import type { MinuteType, Minute } from '@entities/minute';
 import styles from './MinutesPage.module.scss';
 
 /**
@@ -22,6 +24,9 @@ import styles from './MinutesPage.module.scss';
 export function MinutesPage() {
   const dispatch = useDispatch<AppDispatch>();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedMinute, setSelectedMinute] = useState<Minute | null>(null);
 
   const minutes = useSelector(selectFilteredMinutes);
   const isLoading = useSelector(selectMinutesLoading);
@@ -34,6 +39,28 @@ export function MinutesPage() {
 
   const handleCreateSuccess = () => {
     setIsCreateModalOpen(false);
+    dispatch(fetchMinutes(undefined));
+  };
+
+  const handleEditMinute = (minute: Minute) => {
+    setSelectedMinute(minute);
+    setIsEditModalOpen(true);
+  };
+
+  const handleDeleteMinute = (minute: Minute) => {
+    setSelectedMinute(minute);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleEditSuccess = () => {
+    setIsEditModalOpen(false);
+    setSelectedMinute(null);
+    dispatch(fetchMinutes(undefined));
+  };
+
+  const handleDeleteSuccess = () => {
+    setIsDeleteDialogOpen(false);
+    setSelectedMinute(null);
     dispatch(fetchMinutes(undefined));
   };
 
@@ -144,6 +171,20 @@ export function MinutesPage() {
                 >
                   Ver Documento
                 </a>
+                <button
+                  className={styles.editButton}
+                  onClick={() => handleEditMinute(minute)}
+                  title="Editar minuta"
+                >
+                  ✏️
+                </button>
+                <button
+                  className={styles.deleteButton}
+                  onClick={() => handleDeleteMinute(minute)}
+                  title="Eliminar minuta"
+                >
+                  🗑️
+                </button>
               </div>
             </div>
           ))}
@@ -162,6 +203,39 @@ export function MinutesPage() {
           onCancel={() => setIsCreateModalOpen(false)}
         />
       </Modal>
+
+      {/* Modal de edición */}
+      {selectedMinute && (
+        <Modal
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setSelectedMinute(null);
+          }}
+          title="Editar Minuta"
+          size="large"
+        >
+          <EditMinuteForm
+            minute={selectedMinute}
+            onSuccess={handleEditSuccess}
+            onCancel={() => {
+              setIsEditModalOpen(false);
+              setSelectedMinute(null);
+            }}
+          />
+        </Modal>
+      )}
+
+      {/* Diálogo de eliminación */}
+      <DeleteMinuteDialog
+        minute={selectedMinute}
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setSelectedMinute(null);
+        }}
+        onSuccess={handleDeleteSuccess}
+      />
     </div>
   );
 }
