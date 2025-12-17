@@ -11,7 +11,7 @@ export const ROUTES = {
   COLLABORATORS: '/colaboradores',
   COLLABORATOR_DETAIL: '/colaboradores/:id',
   COLLABORATOR_NEW: '/colaboradores/nuevo',
-  FILES: '/archivos',
+  MINUTES: '/minutas',
   PROFILE: '/perfil',
 
   // Rutas de administración
