@@ -12,9 +12,10 @@ import {
 import { Tabs, Modal } from '@shared/ui';
 import { EditCollaboratorForm } from '@features/collaborators/edit-collaborator';
 import { DeleteCollaboratorDialog } from '@features/collaborators/delete-collaborator';
+import { UploadDocumentForm } from '@features/collaborators/upload-document';
 import { ROUTES } from '@shared/lib/routes';
 import { getContractTypeLabel } from '@entities/collaborator';
-import type { CollaboratorDocument } from '@entities/collaborator';
+import type { CollaboratorDocument, DocumentKind } from '@entities/collaborator';
 import styles from './CollaboratorDetailPage.module.scss';
 
 /**
@@ -26,6 +27,8 @@ export function CollaboratorDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [uploadDocumentKind, setUploadDocumentKind] = useState<DocumentKind | undefined>(undefined);
 
   const collaborator = useSelector((state: RootState) =>
     id ? selectCollaboratorById(id)(state) : null
@@ -59,6 +62,20 @@ export function CollaboratorDetailPage() {
     navigate(ROUTES.COLLABORATORS);
   };
 
+  const handleUploadSuccess = () => {
+    setIsUploadModalOpen(false);
+    setUploadDocumentKind(undefined);
+    // Recargar documentos
+    if (id) {
+      dispatch(fetchDocumentsByCollaborator(id));
+    }
+  };
+
+  const handleOpenUploadModal = (kind?: DocumentKind) => {
+    setUploadDocumentKind(kind);
+    setIsUploadModalOpen(true);
+  };
+
   if (!id) {
     return <div>ID de colaborador no válido</div>;
   }
@@ -84,7 +101,11 @@ export function CollaboratorDetailPage() {
   );
 
   // Componente para mostrar lista de documentos
-  const DocumentList = ({ docs }: { docs: CollaboratorDocument[] }) => {
+  const DocumentList = ({ 
+    docs 
+  }: { 
+    docs: CollaboratorDocument[];
+  }) => {
     if (docs.length === 0) {
       return (
         <div className={styles.emptyDocuments}>
@@ -222,6 +243,12 @@ export function CollaboratorDetailPage() {
             </div>
             <div className={styles.actionButtons}>
               <button
+                className={styles.uploadButton}
+                onClick={() => handleOpenUploadModal()}
+              >
+                📄 Cargar Documento
+              </button>
+              <button
                 className={styles.editButton}
                 onClick={() => setIsEditModalOpen(true)}
               >
@@ -328,6 +355,29 @@ export function CollaboratorDetailPage() {
         onClose={() => setIsDeleteDialogOpen(false)}
         onSuccess={handleDeleteSuccess}
       />
+
+      {/* Modal de carga de documento */}
+      {id && (
+        <Modal
+          isOpen={isUploadModalOpen}
+          onClose={() => {
+            setIsUploadModalOpen(false);
+            setUploadDocumentKind(undefined);
+          }}
+          title="Cargar Documento"
+          size="medium"
+        >
+          <UploadDocumentForm
+            collaboratorId={id}
+            defaultKind={uploadDocumentKind}
+            onSuccess={handleUploadSuccess}
+            onCancel={() => {
+              setIsUploadModalOpen(false);
+              setUploadDocumentKind(undefined);
+            }}
+          />
+        </Modal>
+      )}
     </div>
   );
 }

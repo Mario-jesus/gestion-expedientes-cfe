@@ -63,8 +63,9 @@ export const fetchCollaboratorById = createAsyncThunk<
 
       const collaborator = await collaboratorsApi.getById(id);
 
-      // Actualizar en la lista si existe
+      // Actualizar en la lista si existe, o agregarlo si no existe
       dispatch(updateCollaborator(collaborator));
+      dispatch(setLoading(false));
 
       logger.info('Colaborador obtenido:', collaborator);
       return collaborator;

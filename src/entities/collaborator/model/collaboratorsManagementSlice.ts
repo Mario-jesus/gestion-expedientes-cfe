@@ -64,6 +64,9 @@ const collaboratorsManagementSlice = createSlice({
       );
       if (index !== -1) {
         state.collaborators[index] = action.payload;
+      } else {
+        // Si no existe, agregarlo (útil cuando se carga un colaborador individual)
+        state.collaborators.push(action.payload);
       }
       // Si es el colaborador seleccionado, actualizarlo también
       if (state.selectedCollaborator?.id === action.payload.id) {

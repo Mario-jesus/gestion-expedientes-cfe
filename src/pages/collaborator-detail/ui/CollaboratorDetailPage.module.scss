@@ -26,6 +26,28 @@
   align-items: center;
 }
 
+.uploadButton {
+  padding: 0.75rem 1.5rem;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+  }
+}
+
 .editButton {
   padding: 0.75rem 1.5rem;
   background-color: #2d7f3e;
@@ -340,5 +362,17 @@
   .viewButton {
     width: 100%;
     text-align: center;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .uploadButton,
+  .editButton,
+  .deleteButton {
+    width: 100%;
+    justify-content: center;
   }
 }
