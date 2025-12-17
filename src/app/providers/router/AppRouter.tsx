@@ -9,6 +9,7 @@ import {
   CollaboratorNewPage,
   MinutesPage,
   SettingsPage,
+  ProfilePage,
 } from '@pages/index';
 import { ROUTES } from '@shared/lib/routes';
 import { ProtectedRoute } from './ProtectedRoute';
@@ -73,10 +74,7 @@ export function AppRouter() {
           <Route path={ROUTES.MINUTES} element={<MinutesPage />} />
 
           {/* Perfil */}
-          <Route
-            path={ROUTES.PROFILE}
-            element={<ComingSoonPage title="Mi Perfil" />}
-          />
+          <Route path={ROUTES.PROFILE} element={<ProfilePage />} />
 
           {/* Rutas solo para administradores */}
           <Route
