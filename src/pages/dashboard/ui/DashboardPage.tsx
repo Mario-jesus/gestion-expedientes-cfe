@@ -6,8 +6,10 @@ import {
   selectCollaborators,
   selectDocuments,
 } from '@entities/collaborator/model/selectors';
+import { selectMinutes } from '@entities/minute';
 import { fetchCollaborators } from '@entities/collaborator/model/collaboratorsThunks';
 import { fetchDocuments } from '@entities/collaborator/model/documentsThunks';
+import { fetchMinutes } from '@entities/minute';
 import { ROUTES } from '@shared/lib/routes';
 import styles from './DashboardPage.module.scss';
 
@@ -16,6 +18,7 @@ export function DashboardPage() {
   const { currentUser } = useSelector((state: RootState) => state.user);
   const collaborators = useSelector(selectCollaborators);
   const documents = useSelector(selectDocuments);
+  const minutes = useSelector(selectMinutes);
 
   // Cargar datos al montar el componente
   useEffect(() => {
@@ -26,13 +29,17 @@ export function DashboardPage() {
     if (documents.length === 0) {
       dispatch(fetchDocuments());
     }
-  }, [dispatch, collaborators.length, documents.length]);
+    if (minutes.length === 0) {
+      dispatch(fetchMinutes(undefined));
+    }
+  }, [dispatch, collaborators.length, documents.length, minutes.length]);
 
   // Calcular estadísticas
   const totalCollaborators = collaborators.length;
   const totalActiveCollaborators = collaborators.filter((c) => c.isActive).length;
   const totalDocuments = documents.filter((d) => d.isActive).length;
-  const totalExpedientes = totalCollaborators; // Cada colaborador tiene un expediente
+  const totalExpedientes = totalDocuments; // Total de documentos de colaboradores
+  const totalMinutes = minutes.filter((m) => m.isActive).length;
 
   return (
     <div className={styles.container}>
@@ -48,7 +55,7 @@ export function DashboardPage() {
           <div className={styles.cardIcon}>📁</div>
           <h3 className={styles.cardTitle}>Expedientes</h3>
           <p className={styles.cardValue}>{totalExpedientes}</p>
-          <p className={styles.cardLabel}>Total de expedientes</p>
+          <p className={styles.cardLabel}>Documentos de colaboradores</p>
         </div>
 
         <div className={styles.card}>
@@ -61,10 +68,10 @@ export function DashboardPage() {
         </div>
 
         <div className={styles.card}>
-          <div className={styles.cardIcon}>📄</div>
-          <h3 className={styles.cardTitle}>Documentos</h3>
-          <p className={styles.cardValue}>{totalDocuments}</p>
-          <p className={styles.cardLabel}>Archivos almacenados</p>
+          <div className={styles.cardIcon}>📝</div>
+          <h3 className={styles.cardTitle}>Minutas</h3>
+          <p className={styles.cardValue}>{totalMinutes}</p>
+          <p className={styles.cardLabel}>Minutas almacenadas</p>
         </div>
 
         <div className={styles.card}>

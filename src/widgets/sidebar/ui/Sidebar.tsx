@@ -36,13 +36,13 @@ export function Sidebar() {
         </NavLink>
 
         <NavLink
-          to={ROUTES.FILES}
+          to={ROUTES.MINUTES}
           className={({ isActive }) => 
             `${styles.navLink} ${isActive ? styles.active : ''}`
           }
         >
-          <span className={styles.icon}>📄</span>
-          <span className={styles.label}>Archivos</span>
+          <span className={styles.icon}>📝</span>
+          <span className={styles.label}>Minutas</span>
         </NavLink>
 
         {isAdmin && (

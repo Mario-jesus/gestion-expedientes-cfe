@@ -633,6 +633,143 @@ server.get('/reports/summary', (req, res) => {
 });
 
 // ============================================
+// ENDPOINTS DE MINUTAS
+// ============================================
+
+/**
+ * GET /minutes
+ * Lista minutas con filtros avanzados
+ */
+server.get('/minutes', (req, res) => {
+  const db = router.db;
+  let minutes = db.get('minutes').value();
+
+  // Aplicar filtros
+  const { q, tipo, fechaDesde, fechaHasta, isActive } = req.query;
+
+  // Filtro de búsqueda (título o descripción)
+  if (q) {
+    const searchLower = q.toLowerCase();
+    minutes = minutes.filter((m) => {
+      return (
+        m.titulo.toLowerCase().includes(searchLower) ||
+        (m.descripcion && m.descripcion.toLowerCase().includes(searchLower))
+      );
+    });
+  }
+
+  // Filtro por tipo
+  if (tipo) {
+    minutes = minutes.filter((m) => m.tipo === tipo);
+  }
+
+  // Filtro por fecha desde
+  if (fechaDesde) {
+    minutes = minutes.filter((m) => m.fecha >= fechaDesde);
+  }
+
+  // Filtro por fecha hasta
+  if (fechaHasta) {
+    minutes = minutes.filter((m) => m.fecha <= fechaHasta);
+  }
+
+  // Filtro por estado activo
+  if (isActive !== undefined) {
+    const isActiveBool = isActive === 'true';
+    minutes = minutes.filter((m) => m.isActive === isActiveBool);
+  }
+
+  res.status(200).json(minutes);
+});
+
+/**
+ * GET /minutes/:id
+ * Obtiene una minuta por ID (CRUD estándar de JSON Server)
+ */
+
+/**
+ * POST /minutes
+ * Crear/subir una nueva minuta con validaciones y auditoría
+ */
+server.post('/minutes', (req, res) => {
+  const db = router.db;
+  const { titulo, tipo, fecha, fileName } = req.body;
+
+  // Validar campos requeridos
+  if (!titulo || !tipo || !fecha || !fileName) {
+    return res.status(400).json({
+      error: 'titulo, tipo, fecha y fileName son campos requeridos',
+    });
+  }
+
+  // Validar que el tipo sea válido
+  const validTypes = ['reunion', 'junta', 'acuerdo', 'memorandum', 'otro'];
+  if (!validTypes.includes(tipo)) {
+    return res.status(400).json({
+      error: `tipo debe ser uno de: ${validTypes.join(', ')}`,
+    });
+  }
+
+  // Validar formato de fecha
+  if (isNaN(Date.parse(fecha))) {
+    return res.status(400).json({
+      error: 'fecha debe ser una fecha válida en formato ISO',
+    });
+  }
+
+  const authHeader = req.headers.authorization;
+  let userId = null;
+  if (authHeader) {
+    const tokenMatch = authHeader.match(/mock-jwt-token-(\d+)-/);
+    if (tokenMatch) {
+      userId = tokenMatch[1];
+    }
+  }
+
+  // Agregar campos de auditoría
+  const now = new Date().toISOString();
+  const newMinute = {
+    ...req.body,
+    uploadedBy: userId || 'system',
+    uploadedAt: now,
+    isActive: req.body.isActive !== undefined ? req.body.isActive : true,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  // Guardar minuta
+  const minute = db.get('minutes').insert(newMinute).write();
+
+  // Crear log de auditoría
+  if (userId) {
+    db.get('logs').insert({
+      userId,
+      action: 'upload',
+      entity: 'minute',
+      entityId: minute.id,
+      metadata: {
+        fileName: minute.fileName,
+        tipo: minute.tipo,
+        titulo: minute.titulo,
+      },
+      createdAt: now,
+    }).write();
+  }
+
+  res.status(201).json(minute);
+});
+
+/**
+ * PUT /minutes/:id
+ * Actualiza una minuta (CRUD estándar de JSON Server)
+ */
+
+/**
+ * DELETE /minutes/:id
+ * Elimina una minuta (baja lógica, CRUD estándar de JSON Server)
+ */
+
+// ============================================
 // MIDDLEWARE PARA LOGGING
 // ============================================
 
@@ -693,6 +830,12 @@ server.listen(PORT, () => {
   console.log('   GET    /adscripciones');
   console.log('   GET    /puestos');
   console.log('   GET    /documentTypes (con filtro opcional: ?kind=otro)');
+  console.log('\n   Minutas:');
+  console.log('   GET    /minutes (con filtros: q, tipo, fechaDesde, fechaHasta, isActive)');
+  console.log('   GET    /minutes/:id');
+  console.log('   POST   /minutes');
+  console.log('   PUT    /minutes/:id');
+  console.log('   DELETE /minutes/:id');
   console.log('\n   Reportes:');
   console.log('   GET    /reports/summary (con filtro opcional: ?areaId=1)');
   console.log('\n✨ Listo para recibir peticiones!\n');

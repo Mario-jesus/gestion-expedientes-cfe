@@ -4,6 +4,7 @@ import {
   collaboratorsManagementReducer,
   documentsManagementReducer,
 } from '@entities/collaborator';
+import { minutesManagementReducer } from '@entities/minute';
 import { loginReducer } from '@features/auth/login';
 
 export const store = configureStore({
@@ -12,6 +13,7 @@ export const store = configureStore({
     usersManagement: usersManagementReducer,
     collaboratorsManagement: collaboratorsManagementReducer,
     documentsManagement: documentsManagementReducer,
+    minutesManagement: minutesManagementReducer,
     login: loginReducer,
   },
 });

@@ -31,14 +31,14 @@ export const API_ENDPOINTS = {
     SEARCH: '/employees/search',
   },
 
-  // Archivos/Documentos
-  FILES: {
-    LIST: '/files',
-    UPLOAD: '/files/upload',
-    GET: (id: string) => `/files/${id}`,
-    DELETE: (id: string) => `/files/${id}`,
-    DOWNLOAD: (id: string) => `/files/${id}/download`,
-    BY_EMPLOYEE: (employeeId: string) => `/files/employee/${employeeId}`,
+  // Minutas
+  MINUTES: {
+    LIST: '/minutes',
+    CREATE: '/minutes',
+    GET: (id: string) => `/minutes/${id}`,
+    UPDATE: (id: string) => `/minutes/${id}`,
+    DELETE: (id: string) => `/minutes/${id}`,
+    DOWNLOAD: (id: string) => `/minutes/${id}/download`,
   },
 
   // Colaboradores
