@@ -45,12 +45,18 @@ export function ChangePasswordForm({
       return;
     }
 
+    if (!currentPassword.trim()) {
+      setError('La contraseña actual es requerida');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      // Nota: En el mock API, no se valida la contraseña actual
-      // En producción, esto debería validarse primero
-      await usersApi.changePassword(userId, newPassword);
+      await usersApi.changePassword(userId, {
+        currentPassword: currentPassword.trim(),
+        newPassword: newPassword.trim(),
+      });
 
       // Limpiar formulario
       setCurrentPassword('');
@@ -73,12 +79,15 @@ export function ChangePasswordForm({
     <form onSubmit={handleSubmit} className={styles.form}>
       {error && <div className={styles.error}>{error}</div>}
 
-      <div className={styles.info}>
-        <p className={styles.infoText}>
-          <strong>Nota:</strong> En el sistema actual, no se valida la contraseña actual.
-          En producción, esto sería requerido por seguridad.
-        </p>
-      </div>
+      <Input
+        label="Contraseña Actual *"
+        type="password"
+        value={currentPassword}
+        onChange={(e) => setCurrentPassword(e.target.value)}
+        disabled={isLoading}
+        required
+        placeholder="Ingresa tu contraseña actual"
+      />
 
       <Input
         label="Nueva Contraseña *"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Puesto, CreatePuestoDto } from '@entities/collaborator';
+import type { Puesto } from '@entities/collaborator';
 import { catalogsApi } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
 import { CreatePuestoForm } from './CreatePuestoForm';
@@ -24,7 +24,8 @@ export function PuestosManagement() {
   const loadPuestos = async () => {
     try {
       setIsLoading(true);
-      const data = await catalogsApi.puestos.getAll();
+      const response = await catalogsApi.puestos.getAll();
+      const data = response.data;
       setPuestos(data);
     } catch (error) {
       console.error('Error cargando puestos:', error);
@@ -70,11 +71,11 @@ export function PuestosManagement() {
 
   const handleToggleStatus = async (puesto: Puesto) => {
     try {
-      await catalogsApi.puestos.update(puesto.id, {
-        nombre: puesto.nombre,
-        descripcion: puesto.descripcion,
-        isActive: !puesto.isActive,
-      } as Partial<CreatePuestoDto>);
+      if (puesto.isActive) {
+        await catalogsApi.puestos.deactivate(puesto.id);
+      } else {
+        await catalogsApi.puestos.activate(puesto.id);
+      }
       loadPuestos();
     } catch (error) {
       console.error('Error actualizando estado:', error);

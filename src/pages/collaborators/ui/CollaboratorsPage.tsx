@@ -36,19 +36,19 @@ export function CollaboratorsPage() {
     const loadCatalogs = async () => {
       try {
         setLoadingCatalogs(true);
-        const [areasData, puestosData] = await Promise.all([
+        const [areasResponse, puestosResponse] = await Promise.all([
           catalogsApi.areas.getAll(),
           catalogsApi.puestos.getAll(),
         ]);
-        setAreas(areasData);
-        setPuestos(puestosData);
+        setAreas(areasResponse.data);
+        setPuestos(puestosResponse.data);
 
         // Si hay un área seleccionada, cargar sus adscripciones
         if (filters.areaId) {
-          const adscripcionesData = await catalogsApi.adscripciones.getByArea(
+          const adscripcionesResponse = await catalogsApi.adscripciones.getByArea(
             filters.areaId
           );
-          setAdscripciones(adscripcionesData);
+          setAdscripciones(adscripcionesResponse.data);
         }
       } catch (err) {
         console.error('Error cargando catálogos:', err);
@@ -65,10 +65,10 @@ export function CollaboratorsPage() {
     const loadAdscripciones = async () => {
       if (filters.areaId) {
         try {
-          const data = await catalogsApi.adscripciones.getByArea(
+          const response = await catalogsApi.adscripciones.getByArea(
             filters.areaId
           );
-          setAdscripciones(data);
+          setAdscripciones(response.data);
         } catch (err) {
           console.error('Error cargando adscripciones:', err);
         }

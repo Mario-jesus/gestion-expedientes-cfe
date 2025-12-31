@@ -4,7 +4,7 @@ import type { AppDispatch } from '@app/providers/store';
 import { createMinute } from '@entities/minute';
 import { logger } from '@shared/config';
 import { useToast } from '@shared/providers';
-import type { MinuteType, CreateMinuteDto } from '@entities/minute';
+import type { MinuteType } from '@entities/minute';
 
 interface CreateMinuteErrors {
   titulo?: string;
@@ -82,29 +82,20 @@ export function useCreateMinute(onSuccess?: () => void) {
     setSubmitError(null);
 
     try {
-      // Generar nombre de archivo único
-      const timestamp = Date.now();
-      const sanitizedFileName = data.file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-      const fileName = `minuta_${data.tipo}_${timestamp}_${sanitizedFileName}`;
+      logger.info('Creando minuta...', {
+        fileName: data.file.name,
+        titulo: data.titulo,
+        tipo: data.tipo,
+      });
 
-      // En un entorno real, aquí se subiría el archivo y se obtendría la URL
-      // Por ahora, simulamos la URL
-      const fileUrl = `/uploads/minutes/${fileName}`;
-
-      const minuteData: CreateMinuteDto = {
+      // Llamar al thunk con el File directamente
+      await dispatch(createMinute({
+        file: data.file,
         titulo: data.titulo.trim(),
         tipo: data.tipo,
         fecha: data.fecha,
-        descripcion: data.descripcion?.trim() || undefined,
-        fileName,
-        fileUrl,
-        fileSize: data.file.size,
-        fileType: data.file.type,
-      };
-
-      logger.info('Creando minuta...', minuteData);
-
-      await dispatch(createMinute(minuteData)).unwrap();
+        descripcion: data.descripcion?.trim(),
+      })).unwrap();
 
       logger.info('Minuta creada exitosamente');
       showSuccess('Minuta creada exitosamente');

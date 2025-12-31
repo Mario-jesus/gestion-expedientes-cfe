@@ -1,5 +1,6 @@
 import { apiClient } from '@shared/api/apiClient';
 import { API_ENDPOINTS } from '@shared/api/endpoints';
+import type { PaginatedResponse, PaginationParams } from '@shared/api/types';
 import type {
   Collaborator,
   CreateCollaboratorDto,
@@ -12,13 +13,14 @@ import type {
  */
 export const collaboratorsApi = {
   /**
-   * Obtener todos los colaboradores
+   * Obtener todos los colaboradores con paginación
    * Soporta filtros mediante query params
    */
-  getAll: async (filters?: CollaboratorFilters): Promise<Collaborator[]> => {
+  getAll: async (filters?: CollaboratorFilters & PaginationParams): Promise<PaginatedResponse<Collaborator>> => {
     const params = new URLSearchParams();
 
-    if (filters?.search) params.append('q', filters.search);
+    // Cambiar 'q' por 'search' según la API real
+    if (filters?.search) params.append('search', filters.search);
     if (filters?.areaId) params.append('areaId', filters.areaId);
     if (filters?.adscripcionId) params.append('adscripcionId', filters.adscripcionId);
     if (filters?.puestoId) params.append('puestoId', filters.puestoId);
@@ -26,12 +28,18 @@ export const collaboratorsApi = {
     if (filters?.estadoExpediente) params.append('estadoExpediente', filters.estadoExpediente);
     if (filters?.isActive !== undefined) params.append('isActive', String(filters.isActive));
 
+    // Parámetros de paginación
+    if (filters?.limit) params.append('limit', String(filters.limit));
+    if (filters?.offset) params.append('offset', String(filters.offset));
+    if (filters?.sortBy) params.append('sortBy', filters.sortBy);
+    if (filters?.sortOrder) params.append('sortOrder', filters.sortOrder);
+
     const queryString = params.toString();
     const url = queryString 
       ? `${API_ENDPOINTS.COLLABORATORS.LIST}?${queryString}`
       : API_ENDPOINTS.COLLABORATORS.LIST;
 
-    return await apiClient.get<Collaborator[]>(url);
+    return await apiClient.get<PaginatedResponse<Collaborator>>(url);
   },
 
   /**
@@ -63,9 +71,16 @@ export const collaboratorsApi = {
   },
 
   /**
-   * Alternar estado activo/inactivo de un colaborador
+   * Activar un colaborador desactivado
    */
-  toggleStatus: async (id: string): Promise<Collaborator> => {
-    return await apiClient.post<Collaborator>(API_ENDPOINTS.COLLABORATORS.TOGGLE_STATUS(id));
+  activate: async (id: string): Promise<Collaborator> => {
+    return await apiClient.post<Collaborator>(API_ENDPOINTS.COLLABORATORS.ACTIVATE(id));
+  },
+
+  /**
+   * Desactivar un colaborador (baja lógica)
+   */
+  deactivate: async (id: string): Promise<Collaborator> => {
+    return await apiClient.post<Collaborator>(API_ENDPOINTS.COLLABORATORS.DEACTIVATE(id));
   },
 };

@@ -10,6 +10,9 @@ import {
 import { apiClient, API_ENDPOINTS } from '@shared/api';
 
 interface LoginResponse {
+  token: string;
+  refreshToken: string;
+  expiresIn: number;
   user: {
     id: string;
     username: string;
@@ -18,7 +21,6 @@ interface LoginResponse {
     role: 'admin' | 'operator';
     isActive: boolean;
   };
-  token: string;
 }
 
 export const loginUser = (username: string, password: string) => async (dispatch: AppDispatch) => {
@@ -42,7 +44,10 @@ export const loginUser = (username: string, password: string) => async (dispatch
     const response = await apiClient.post<LoginResponse>(API_ENDPOINTS.AUTH.LOGIN, { username, password });
 
     dispatch(setUser(response.user));
+    // Guardar tokens con rotación
     localStorage.setItem('token', response.token);
+    localStorage.setItem('refreshToken', response.refreshToken);
+    localStorage.setItem('tokenExpiresIn', String(response.expiresIn));
     dispatch(setUsername(''));
     dispatch(setPassword(''));
 

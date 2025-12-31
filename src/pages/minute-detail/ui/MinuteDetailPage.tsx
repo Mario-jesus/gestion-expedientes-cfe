@@ -14,6 +14,7 @@ import { EditMinuteForm } from '@features/minutes/edit-minute';
 import { DeleteMinuteDialog } from '@features/minutes/delete-minute';
 import { ROUTES } from '@shared/lib/routes';
 import { getMinuteTypeLabel } from '@entities/minute';
+import { useDownloadMinute } from '@shared/hooks/useDownloadMinute';
 import type { Minute } from '@entities/minute';
 import type { User } from '@entities/user';
 import styles from './MinuteDetailPage.module.scss';
@@ -30,6 +31,7 @@ export function MinuteDetailPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isLoadingUser, setIsLoadingUser] = useState(false);
+  const { viewMinute, isLoading: isDownloading } = useDownloadMinute();
 
   const minuteFromStore = useSelector((state: RootState) =>
     id ? selectMinuteById(id)(state) : null
@@ -220,14 +222,13 @@ export function MinuteDetailPage() {
               </div>
             )}
             <div className={styles.infoItemFull}>
-              <a
-                href={minute.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => viewMinute(minute.id)}
+                disabled={isDownloading}
                 className={styles.viewFileButton}
               >
-                📄 Ver Documento
-              </a>
+                {isDownloading ? 'Cargando...' : '📄 Ver Documento'}
+              </button>
             </div>
           </div>
         </div>

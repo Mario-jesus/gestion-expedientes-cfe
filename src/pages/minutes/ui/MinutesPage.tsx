@@ -17,6 +17,7 @@ import { CreateMinuteForm } from '@features/minutes/create-minute';
 import { EditMinuteForm } from '@features/minutes/edit-minute';
 import { DeleteMinuteDialog } from '@features/minutes/delete-minute';
 import { buildRoute } from '@shared/lib/routes';
+import { useDownloadMinute } from '@shared/hooks/useDownloadMinute';
 import type { MinuteType, Minute } from '@entities/minute';
 import styles from './MinutesPage.module.scss';
 
@@ -29,6 +30,7 @@ export function MinutesPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedMinute, setSelectedMinute] = useState<Minute | null>(null);
+  const { viewMinute, isLoading: isDownloading } = useDownloadMinute();
 
   const minutes = useSelector(selectFilteredMinutes);
   const isLoading = useSelector(selectMinutesLoading);
@@ -171,14 +173,14 @@ export function MinutesPage() {
                 >
                   Ver Detalles
                 </Link>
-                <a
-                  href={minute.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={() => viewMinute(minute.id)}
+                  disabled={isDownloading}
                   className={styles.viewFileButton}
+                  title="Ver minuta"
                 >
                   📄
-                </a>
+                </button>
                 <button
                   className={styles.editButton}
                   onClick={() => handleEditMinute(minute)}

@@ -26,8 +26,8 @@ export const useUsersList = () => {
     try {
       dispatch(clearError());
       dispatch(setLoading(true));
-      const data = await usersApi.getAll();
-      dispatch(setUsers(data));
+      const response = await usersApi.getAll();
+      dispatch(setUsers(response.data));
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Error al cargar usuarios';
       dispatch(setError(message));

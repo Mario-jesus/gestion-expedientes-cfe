@@ -71,7 +71,8 @@ export {
   createCollaborator,
   updateCollaboratorThunk,
   deleteCollaborator,
-  toggleCollaboratorStatus,
+  activateCollaborator,
+  deactivateCollaborator,
 } from './collaboratorsThunks';
 
 export {

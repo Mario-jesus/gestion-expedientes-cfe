@@ -4,7 +4,7 @@ import type { AppDispatch } from '@app/providers/store';
 import { createDocument, fetchDocumentsByCollaborator } from '@entities/collaborator';
 import { logger } from '@shared/config';
 import { useToast } from '@shared/providers';
-import type { DocumentKind, CreateDocumentDto } from '@entities/collaborator';
+import type { DocumentKind } from '@entities/collaborator';
 
 interface UploadDocumentErrors {
   kind?: string;
@@ -74,29 +74,20 @@ export function useUploadDocument(
     setSubmitError(null);
 
     try {
-      // Generar nombre de archivo único
-      const timestamp = Date.now();
-      const sanitizedFileName = data.file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-      const fileName = `${data.kind}_${timestamp}_${sanitizedFileName}`;
+      logger.info('Subiendo documento...', {
+        fileName: data.file.name,
+        kind: data.kind,
+        collaboratorId,
+      });
 
-      // En un entorno real, aquí se subiría el archivo y se obtendría la URL
-      // Por ahora, simulamos la URL
-      const fileUrl = `/uploads/documents/${fileName}`;
-
-      const documentData: CreateDocumentDto = {
+      // Llamar al thunk con el File directamente
+      await dispatch(createDocument({
+        file: data.file,
         collaboratorId,
         kind: data.kind,
-        fileName,
-        fileUrl,
-        fileSize: data.file.size,
-        fileType: data.file.type,
-        descripcion: data.descripcion || undefined,
-        periodo: data.periodo || undefined,
-      };
-
-      logger.info('Subiendo documento...', documentData);
-
-      await dispatch(createDocument(documentData)).unwrap();
+        descripcion: data.descripcion,
+        periodo: data.periodo,
+      })).unwrap();
 
       // Recargar documentos del colaborador
       await dispatch(fetchDocumentsByCollaborator(collaboratorId));

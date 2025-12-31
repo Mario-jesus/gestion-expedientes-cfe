@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { apiClient } from '@shared/api/apiClient';
-import { API_ENDPOINTS } from '@shared/api/endpoints';
-import type { LogEntry } from '@entities/collaborator';
+import { auditApi, type AuditLog } from '@shared/api/auditApi';
 import styles from './UserActivityLog.module.scss';
 
 interface UserActivityLogProps {
@@ -12,7 +10,7 @@ interface UserActivityLogProps {
  * Componente para mostrar el historial de actividad del usuario
  */
 export function UserActivityLog({ userId }: UserActivityLogProps) {
-  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [logs, setLogs] = useState<AuditLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,16 +23,14 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
       setIsLoading(true);
       setError(null);
 
-      // Obtener todos los logs y filtrar por userId
-      const allLogs = await apiClient.get<LogEntry[]>(API_ENDPOINTS.LOGS.LIST);
-      const userLogs = allLogs.filter((log) => log.userId === userId);
-
-      // Ordenar por fecha más reciente primero
-      const sortedLogs = userLogs.sort((a, b) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      // Usar el endpoint específico para obtener logs del usuario
+      const response = await auditApi.getByUser(userId, {
+        limit: 100, // Obtener más logs para el historial del usuario
+        offset: 0,
       });
 
-      setLogs(sortedLogs);
+      // Los logs ya vienen ordenados por fecha más reciente primero (default de la API)
+      setLogs(response.data);
     } catch (err) {
       console.error('Error cargando logs:', err);
       setError('Error al cargar el historial de actividad');
@@ -51,14 +47,30 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
       download: 'Descargar',
       upload: 'Subir',
       view: 'Ver',
+      activate: 'Activar',
+      deactivate: 'Desactivar',
+      login: 'Iniciar sesión',
+      logout: 'Cerrar sesión',
+      refresh_token: 'Renovar token',
+      change_password: 'Cambiar contraseña',
     };
     return labels[action] || action;
   };
 
   const getEntityLabel = (entity: string) => {
     const labels: Record<string, string> = {
+      User: 'Usuario',
+      Collaborator: 'Colaborador',
+      Document: 'Documento',
+      Minute: 'Minuta',
+      Area: 'Área',
+      Adscripcion: 'Adscripción',
+      Puesto: 'Puesto',
+      DocumentType: 'Tipo de Documento',
+      // Mantener compatibilidad con nombres en minúsculas
       collaborator: 'Colaborador',
       document: 'Documento',
+      minute: 'Minuta',
       area: 'Área',
       adscripcion: 'Adscripción',
       puesto: 'Puesto',
@@ -94,10 +106,22 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
 
       <div className={styles.logsList}>
         {logs.map((log) => {
-          const fileName =
-            log.metadata?.fileName && typeof log.metadata.fileName === 'string'
-              ? log.metadata.fileName
-              : null;
+          // Buscar fileName en details (nuevo formato) o metadata (formato antiguo)
+          let fileName: string | null = null;
+
+          if (log.details) {
+            // Intentar obtener fileName directamente de details
+            if (typeof log.details.fileName === 'string') {
+              fileName = log.details.fileName;
+            }
+            // Si no está en details, buscar en metadata
+            else if (log.details.metadata && typeof log.details.metadata === 'object') {
+              const metadata = log.details.metadata as Record<string, unknown>;
+              if (typeof metadata.fileName === 'string') {
+                fileName = metadata.fileName;
+              }
+            }
+          }
 
           return (
             <div key={log.id} className={styles.logItem}>
@@ -108,6 +132,12 @@ export function UserActivityLog({ userId }: UserActivityLogProps) {
                 {log.action === 'download' && '⬇️'}
                 {log.action === 'upload' && '📤'}
                 {log.action === 'view' && '👁️'}
+                {log.action === 'activate' && '✅'}
+                {log.action === 'deactivate' && '❌'}
+                {log.action === 'login' && '🔐'}
+                {log.action === 'logout' && '🚪'}
+                {log.action === 'refresh_token' && '🔄'}
+                {log.action === 'change_password' && '🔑'}
               </div>
               <div className={styles.logContent}>
                 <div className={styles.logAction}>

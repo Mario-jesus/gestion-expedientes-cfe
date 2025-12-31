@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Adscripcion, CreateAdscripcionDto, Area } from '@entities/collaborator';
+import type { Adscripcion, Area } from '@entities/collaborator';
 import { catalogsApi } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
 import { CreateAdscripcionForm } from './CreateAdscripcionForm';
@@ -26,12 +26,12 @@ export function AdscripcionesManagement() {
   const loadData = async () => {
     try {
       setIsLoading(true);
-      const [adscripcionesData, areasData] = await Promise.all([
+      const [adscripcionesResponse, areasResponse] = await Promise.all([
         catalogsApi.adscripciones.getAll(),
         catalogsApi.areas.getAll(),
       ]);
-      setAdscripciones(adscripcionesData);
-      setAreas(areasData);
+      setAdscripciones(adscripcionesResponse.data);
+      setAreas(areasResponse.data);
     } catch (error) {
       console.error('Error cargando datos:', error);
     } finally {
@@ -81,12 +81,11 @@ export function AdscripcionesManagement() {
 
   const handleToggleStatus = async (adscripcion: Adscripcion) => {
     try {
-      await catalogsApi.adscripciones.update(adscripcion.id, {
-        nombre: adscripcion.nombre,
-        areaId: adscripcion.areaId,
-        descripcion: adscripcion.descripcion,
-        isActive: !adscripcion.isActive,
-      } as Partial<CreateAdscripcionDto>);
+      if (adscripcion.isActive) {
+        await catalogsApi.adscripciones.deactivate(adscripcion.id);
+      } else {
+        await catalogsApi.adscripciones.activate(adscripcion.id);
+      }
       loadData();
     } catch (error) {
       console.error('Error actualizando estado:', error);

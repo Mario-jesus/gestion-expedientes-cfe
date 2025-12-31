@@ -17,6 +17,7 @@ import { EditDocumentForm } from '@features/collaborators/edit-document';
 import { DeleteDocumentDialog } from '@features/collaborators/delete-document';
 import { ROUTES } from '@shared/lib/routes';
 import { getContractTypeLabel } from '@entities/collaborator';
+import { useDownloadDocument } from '@shared/hooks/useDownloadDocument';
 import type { CollaboratorDocument, DocumentKind } from '@entities/collaborator';
 import styles from './CollaboratorDetailPage.module.scss';
 
@@ -139,6 +140,8 @@ export function CollaboratorDetailPage() {
   }: { 
     docs: CollaboratorDocument[];
   }) => {
+    const { viewDocument, isLoading: isDownloading } = useDownloadDocument();
+
     if (docs.length === 0) {
       return (
         <div className={styles.emptyDocuments}>
@@ -146,6 +149,10 @@ export function CollaboratorDetailPage() {
         </div>
       );
     }
+
+    const handleViewDocument = async (documentId: string) => {
+      await viewDocument(documentId);
+    };
 
     return (
       <div className={styles.documentList}>
@@ -164,14 +171,14 @@ export function CollaboratorDetailPage() {
               </span>
             </div>
             <div className={styles.documentActions}>
-              <a
-                href={doc.fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => handleViewDocument(doc.id)}
+                disabled={isDownloading}
                 className={styles.viewButton}
+                title="Ver documento"
               >
-                Ver
-              </a>
+                {isDownloading ? 'Cargando...' : 'Ver'}
+              </button>
               <button
                 className={styles.editButton}
                 onClick={() => handleEditDocument(doc)}

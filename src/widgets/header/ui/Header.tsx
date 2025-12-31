@@ -16,8 +16,10 @@ export function Header({ onMenuClick, isMenuOpen = false }: HeaderProps) {
   const { currentUser } = useSelector((state: RootState) => state.user);
 
   const handleLogout = () => {
-    // Limpiar token
+    // Limpiar todos los tokens
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('tokenExpiresIn');
 
     // Limpiar estado de usuario
     dispatch(clearUser());

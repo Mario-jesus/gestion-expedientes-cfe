@@ -4,7 +4,6 @@ import { logger } from '@shared/config';
 import { minutesApi } from '../api/minutesApi';
 import type {
   Minute,
-  CreateMinuteDto,
   UpdateMinuteDto,
   MinuteFilters,
 } from './types';
@@ -31,12 +30,12 @@ export const fetchMinutes = createAsyncThunk<
       dispatch(setLoading(true));
       logger.info('Obteniendo minutas...', filters);
 
-      const minutes = await minutesApi.getAll(filters);
+      const response = await minutesApi.getAll(filters);
 
-      dispatch(setMinutes(minutes));
-      logger.info(`Se obtuvieron ${minutes.length} minutas`);
+      dispatch(setMinutes(response.data));
+      logger.info(`Se obtuvieron ${response.data.length} minutas de ${response.pagination.total} totales`);
 
-      return minutes;
+      return response.data;
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Error al obtener minutas';
@@ -84,16 +83,22 @@ export const fetchMinuteById = createAsyncThunk<
  */
 export const createMinute = createAsyncThunk<
   Minute,
-  CreateMinuteDto,
+  {
+    file: File;
+    titulo: string;
+    tipo: string;
+    fecha: string; // ISO string
+    descripcion?: string;
+  },
   { state: RootState; dispatch: AppDispatch }
 >(
   'minutes/create',
-  async (data, { dispatch, rejectWithValue }) => {
+  async ({ file, ...data }, { dispatch, rejectWithValue }) => {
     try {
       dispatch(setLoading(true));
-      logger.info('Creando minuta...', data);
+      logger.info('Creando minuta...', { fileName: file.name, ...data });
 
-      const newMinute = await minutesApi.create(data);
+      const newMinute = await minutesApi.create(file, data);
 
       dispatch(addMinute(newMinute));
       logger.info('Minuta creada:', newMinute);

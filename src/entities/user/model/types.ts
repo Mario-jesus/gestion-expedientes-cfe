@@ -45,5 +45,6 @@ export interface UpdateUserDto {
  * DTO para cambiar contraseña
  */
 export interface ChangePasswordDto {
-  password: string;
+  currentPassword: string;
+  newPassword: string;
 }

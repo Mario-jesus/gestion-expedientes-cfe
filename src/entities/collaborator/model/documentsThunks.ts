@@ -4,7 +4,6 @@ import { logger } from '@shared/config';
 import { documentsApi } from '../api/documentsApi';
 import type {
   CollaboratorDocument,
-  CreateDocumentDto,
   UpdateDocumentDto,
 } from './types';
 import {
@@ -31,12 +30,12 @@ export const fetchDocuments = createAsyncThunk<
       dispatch(setLoading(true));
       logger.info('Obteniendo documentos...');
 
-      const documents = await documentsApi.getAll();
+      const response = await documentsApi.getAll();
 
-      dispatch(setDocuments(documents));
-      logger.info(`Se obtuvieron ${documents.length} documentos`);
+      dispatch(setDocuments(response.data));
+      logger.info(`Se obtuvieron ${response.data.length} documentos de ${response.pagination.total} totales`);
 
-      return documents;
+      return response.data;
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Error al obtener documentos';
@@ -61,16 +60,16 @@ export const fetchDocumentsByCollaborator = createAsyncThunk<
       dispatch(setLoading(true));
       logger.info(`Obteniendo documentos del colaborador ${collaboratorId}...`);
 
-      const documents = await documentsApi.getByCollaborator(collaboratorId);
+      const response = await documentsApi.getByCollaborator(collaboratorId);
 
       dispatch(
-        setCollaboratorDocuments({ collaboratorId, documents })
+        setCollaboratorDocuments({ collaboratorId, documents: response.data })
       );
       logger.info(
-        `Se obtuvieron ${documents.length} documentos del colaborador ${collaboratorId}`
+        `Se obtuvieron ${response.data.length} documentos del colaborador ${collaboratorId} (total: ${response.total})`
       );
 
-      return documents;
+      return response.data;
     } catch (error) {
       const errorMessage =
         error instanceof Error
@@ -119,16 +118,23 @@ export const fetchDocumentById = createAsyncThunk<
  */
 export const createDocument = createAsyncThunk<
   CollaboratorDocument,
-  CreateDocumentDto,
+  {
+    file: File;
+    collaboratorId: string;
+    kind: string;
+    periodo?: string;
+    descripcion?: string;
+    documentTypeId?: string;
+  },
   { state: RootState; dispatch: AppDispatch }
 >(
   'documents/create',
-  async (data, { dispatch, rejectWithValue }) => {
+  async ({ file, ...data }, { dispatch, rejectWithValue }) => {
     try {
       dispatch(setLoading(true));
-      logger.info('Creando documento...', data);
+      logger.info('Creando documento...', { fileName: file.name, ...data });
 
-      const newDocument = await documentsApi.create(data);
+      const newDocument = await documentsApi.create(file, data);
 
       dispatch(addDocument(newDocument));
       logger.info('Documento creado:', newDocument);

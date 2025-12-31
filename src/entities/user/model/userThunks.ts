@@ -4,10 +4,6 @@ import { apiClient, API_ENDPOINTS } from '@shared/api';
 import { setUser, clearUser } from './userSlice';
 import type { User } from './types';
 
-interface ValidateTokenResponse {
-  user: User;
-}
-
 /**
  * Valida el token almacenado en localStorage
  * y restaura la sesión del usuario
@@ -24,25 +20,31 @@ export const validateToken = () => async (dispatch: AppDispatch): Promise<boolea
   try {
     logger.info('Validando token...');
 
-    // Llamar al endpoint /auth/me que valida el token
-    const response = await apiClient.get<ValidateTokenResponse>(API_ENDPOINTS.AUTH.ME);
+    // Llamar al endpoint /api/auth/me que valida el token y obtiene el perfil
+    // Retorna { user: User }, no User directamente
+    const response = await apiClient.get<{ user: User }>(API_ENDPOINTS.AUTH.ME);
+    const user = response.user;
 
     // Si el usuario está inactivo, limpiar sesión
-    if (!response.user.isActive) {
+    if (!user.isActive) {
       logger.warn('Usuario inactivo');
       localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('tokenExpiresIn');
       dispatch(clearUser());
       return false;
     }
 
     // Token válido, restaurar usuario
-    dispatch(setUser(response.user));
+    dispatch(setUser(user));
     logger.info('Sesión restaurada correctamente');
     return true;
   } catch (error) {
     // Token inválido o expirado
     logger.error('Error validando token:', error);
     localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('tokenExpiresIn');
     dispatch(clearUser());
     return false;
   }

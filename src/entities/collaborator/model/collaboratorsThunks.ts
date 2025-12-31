@@ -31,12 +31,12 @@ export const fetchCollaborators = createAsyncThunk<
       dispatch(setLoading(true));
       logger.info('Obteniendo colaboradores...', filters);
 
-      const collaborators = await collaboratorsApi.getAll(filters);
+      const response = await collaboratorsApi.getAll(filters);
 
-      dispatch(setCollaborators(collaborators));
-      logger.info(`Se obtuvieron ${collaborators.length} colaboradores`);
+      dispatch(setCollaborators(response.data));
+      logger.info(`Se obtuvieron ${response.data.length} colaboradores de ${response.pagination.total} totales`);
 
-      return collaborators;
+      return response.data;
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : 'Error al obtener colaboradores';
@@ -170,31 +170,63 @@ export const deleteCollaborator = createAsyncThunk<
 );
 
 /**
- * Thunk para alternar estado activo/inactivo
+ * Thunk para activar un colaborador
  */
-export const toggleCollaboratorStatus = createAsyncThunk<
+export const activateCollaborator = createAsyncThunk<
   Collaborator,
   string,
   { state: RootState; dispatch: AppDispatch }
 >(
-  'collaborators/toggleStatus',
+  'collaborators/activate',
   async (id, { dispatch, rejectWithValue }) => {
     try {
       dispatch(setLoading(true));
-      logger.info(`Alternando estado de colaborador ${id}...`);
+      logger.info(`Activando colaborador ${id}...`);
 
-      const updatedCollaborator = await collaboratorsApi.toggleStatus(id);
+      const updatedCollaborator = await collaboratorsApi.activate(id);
 
       dispatch(updateCollaborator(updatedCollaborator));
-      logger.info('Estado alternado:', updatedCollaborator);
+      logger.info('Colaborador activado:', updatedCollaborator);
 
       return updatedCollaborator;
     } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
-          : 'Error al alternar estado del colaborador';
-      logger.error('Error alternando estado:', error);
+          : 'Error al activar colaborador';
+      logger.error('Error activando colaborador:', error);
+      dispatch(setError(errorMessage));
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+/**
+ * Thunk para desactivar un colaborador
+ */
+export const deactivateCollaborator = createAsyncThunk<
+  Collaborator,
+  string,
+  { state: RootState; dispatch: AppDispatch }
+>(
+  'collaborators/deactivate',
+  async (id, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(setLoading(true));
+      logger.info(`Desactivando colaborador ${id}...`);
+
+      const updatedCollaborator = await collaboratorsApi.deactivate(id);
+
+      dispatch(updateCollaborator(updatedCollaborator));
+      logger.info('Colaborador desactivado:', updatedCollaborator);
+
+      return updatedCollaborator;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Error al desactivar colaborador';
+      logger.error('Error desactivando colaborador:', error);
       dispatch(setError(errorMessage));
       return rejectWithValue(errorMessage);
     }

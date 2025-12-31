@@ -52,7 +52,8 @@ export function UpdateProfileForm({
     setIsLoading(true);
 
     try {
-      const updatedUser = await usersApi.update(user.id, {
+      // Usar updateMe para actualizar el perfil propio
+      const updatedUser = await usersApi.updateMe({
         name: name.trim(),
         email: email.trim(),
       });

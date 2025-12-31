@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { DocumentType, CreateDocumentTypeDto } from '@entities/collaborator';
+import type { DocumentType } from '@entities/collaborator';
 import { catalogsApi, getDocumentKindLabel } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
 import { CreateDocumentTypeForm } from './CreateDocumentTypeForm';
@@ -24,8 +24,8 @@ export function DocumentTypesManagement() {
   const loadDocumentTypes = async () => {
     try {
       setIsLoading(true);
-      const data = await catalogsApi.documentTypes.getAll();
-      setDocumentTypes(data);
+      const response = await catalogsApi.documentTypes.getAll();
+      setDocumentTypes(response.data);
     } catch (error) {
       console.error('Error cargando tipos de documento:', error);
     } finally {
@@ -70,12 +70,11 @@ export function DocumentTypesManagement() {
 
   const handleToggleStatus = async (documentType: DocumentType) => {
     try {
-      await catalogsApi.documentTypes.update(documentType.id, {
-        nombre: documentType.nombre,
-        kind: documentType.kind,
-        descripcion: documentType.descripcion,
-        isActive: !documentType.isActive,
-      } as Partial<CreateDocumentTypeDto>);
+      if (documentType.isActive) {
+        await catalogsApi.documentTypes.deactivate(documentType.id);
+      } else {
+        await catalogsApi.documentTypes.activate(documentType.id);
+      }
       loadDocumentTypes();
     } catch (error) {
       console.error('Error actualizando estado:', error);

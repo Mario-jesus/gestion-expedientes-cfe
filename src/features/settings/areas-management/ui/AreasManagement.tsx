@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Area, CreateAreaDto } from '@entities/collaborator';
+import type { Area } from '@entities/collaborator';
 import { catalogsApi } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
 import { CreateAreaForm } from './CreateAreaForm';
@@ -25,8 +25,8 @@ export function AreasManagement() {
   const loadAreas = async () => {
     try {
       setIsLoading(true);
-      const data = await catalogsApi.areas.getAll();
-      setAreas(data);
+      const response = await catalogsApi.areas.getAll();
+      setAreas(response.data);
     } catch (error) {
       console.error('Error cargando áreas:', error);
     } finally {
@@ -71,11 +71,11 @@ export function AreasManagement() {
 
   const handleToggleStatus = async (area: Area) => {
     try {
-      await catalogsApi.areas.update(area.id, {
-        nombre: area.nombre,
-        descripcion: area.descripcion,
-        isActive: !area.isActive,
-      } as Partial<CreateAreaDto>);
+      if (area.isActive) {
+        await catalogsApi.areas.deactivate(area.id);
+      } else {
+        await catalogsApi.areas.activate(area.id);
+      }
       loadAreas();
     } catch (error) {
       console.error('Error actualizando estado del área:', error);

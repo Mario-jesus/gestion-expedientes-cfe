@@ -60,19 +60,19 @@ export function EditCollaboratorForm({
     const loadCatalogs = async () => {
       try {
         setLoadingCatalogs(true);
-        const [areasData, puestosData] = await Promise.all([
+        const [areasResponse, puestosResponse] = await Promise.all([
           catalogsApi.areas.getAll(),
           catalogsApi.puestos.getAll(),
         ]);
-        setAreas(areasData);
-        setPuestos(puestosData);
+        setAreas(areasResponse.data);
+        setPuestos(puestosResponse.data);
 
         // Cargar adscripciones del área actual
         if (collaborator.areaId) {
-          const adscripcionesData = await catalogsApi.adscripciones.getByArea(
+          const adscripcionesResponse = await catalogsApi.adscripciones.getByArea(
             collaborator.areaId
           );
-          setAdscripciones(adscripcionesData);
+          setAdscripciones(adscripcionesResponse.data);
         }
       } catch (err) {
         console.error('Error cargando catálogos:', err);
@@ -89,14 +89,14 @@ export function EditCollaboratorForm({
     const loadAdscripciones = async () => {
       if (formData.areaId) {
         try {
-          const data = await catalogsApi.adscripciones.getByArea(
+          const response = await catalogsApi.adscripciones.getByArea(
             formData.areaId
           );
-          setAdscripciones(data);
+          setAdscripciones(response.data);
           // Si la adscripción actual no pertenece al área seleccionada, limpiarla
           if (
             formData.adscripcionId &&
-            !data.some((a) => a.id === formData.adscripcionId)
+            !response.data.some((a) => a.id === formData.adscripcionId)
           ) {
             setFormData((prev) => ({ ...prev, adscripcionId: '' }));
           }

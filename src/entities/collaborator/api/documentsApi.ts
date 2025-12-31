@@ -1,8 +1,8 @@
 import { apiClient } from '@shared/api/apiClient';
 import { API_ENDPOINTS } from '@shared/api/endpoints';
+import type { PaginatedResponse, PaginationParams } from '@shared/api/types';
 import type {
   CollaboratorDocument,
-  CreateDocumentDto,
   UpdateDocumentDto,
 } from '../model/types';
 
@@ -11,19 +11,51 @@ import type {
  */
 export const documentsApi = {
   /**
-   * Obtener todos los documentos
+   * Obtener todos los documentos con paginación
    */
-  getAll: async (): Promise<CollaboratorDocument[]> => {
-    return await apiClient.get<CollaboratorDocument[]>(API_ENDPOINTS.DOCUMENTS.LIST);
+  getAll: async (params?: PaginationParams & {
+    collaboratorId?: string;
+    kind?: string;
+    isActive?: boolean;
+    documentTypeId?: string;
+  }): Promise<PaginatedResponse<CollaboratorDocument>> => {
+    const queryParams = new URLSearchParams();
+
+    if (params?.collaboratorId) queryParams.append('collaboratorId', params.collaboratorId);
+    if (params?.kind) queryParams.append('kind', params.kind);
+    if (params?.isActive !== undefined) queryParams.append('isActive', String(params.isActive));
+    if (params?.documentTypeId) queryParams.append('documentTypeId', params.documentTypeId);
+    if (params?.limit) queryParams.append('limit', String(params.limit));
+    if (params?.offset) queryParams.append('offset', String(params.offset));
+    if (params?.sortBy) queryParams.append('sortBy', params.sortBy);
+    if (params?.sortOrder) queryParams.append('sortOrder', params.sortOrder);
+
+    const queryString = queryParams.toString();
+    const url = queryString 
+      ? `${API_ENDPOINTS.DOCUMENTS.LIST}?${queryString}`
+      : API_ENDPOINTS.DOCUMENTS.LIST;
+
+    return await apiClient.get<PaginatedResponse<CollaboratorDocument>>(url);
   },
 
   /**
    * Obtener documentos de un colaborador específico
+   * Nota: La API real retorna un objeto con data y total, no paginación completa
    */
-  getByCollaborator: async (collaboratorId: string): Promise<CollaboratorDocument[]> => {
-    return await apiClient.get<CollaboratorDocument[]>(
-      API_ENDPOINTS.DOCUMENTS.BY_COLLABORATOR(collaboratorId)
-    );
+  getByCollaborator: async (collaboratorId: string, params?: {
+    kind?: string;
+    isActive?: boolean;
+  }): Promise<{ data: CollaboratorDocument[]; total: number }> => {
+    const queryParams = new URLSearchParams();
+    if (params?.kind) queryParams.append('kind', params.kind);
+    if (params?.isActive !== undefined) queryParams.append('isActive', String(params.isActive));
+
+    const queryString = queryParams.toString();
+    const url = queryString 
+      ? `${API_ENDPOINTS.COLLABORATORS.DOCUMENTS(collaboratorId)}?${queryString}`
+      : API_ENDPOINTS.COLLABORATORS.DOCUMENTS(collaboratorId);
+
+    return await apiClient.get<{ data: CollaboratorDocument[]; total: number }>(url);
   },
 
   /**
@@ -34,10 +66,32 @@ export const documentsApi = {
   },
 
   /**
-   * Crear/subir un nuevo documento
+   * Crear/subir un nuevo documento con archivo
+   * Usa multipart/form-data para subir el archivo
    */
-  create: async (data: CreateDocumentDto): Promise<CollaboratorDocument> => {
-    return await apiClient.post<CollaboratorDocument>(API_ENDPOINTS.DOCUMENTS.CREATE, data);
+  create: async (
+    file: File,
+    data: {
+      collaboratorId: string;
+      kind: string;
+      periodo?: string;
+      descripcion?: string;
+      documentTypeId?: string;
+    }
+  ): Promise<CollaboratorDocument> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('collaboratorId', data.collaboratorId);
+    formData.append('kind', data.kind);
+
+    if (data.periodo) formData.append('periodo', data.periodo);
+    if (data.descripcion) formData.append('descripcion', data.descripcion);
+    if (data.documentTypeId) formData.append('documentTypeId', data.documentTypeId);
+
+    return await apiClient.postFormData<CollaboratorDocument>(
+      API_ENDPOINTS.DOCUMENTS.CREATE,
+      formData
+    );
   },
 
   /**
@@ -55,15 +109,11 @@ export const documentsApi = {
   },
 
   /**
-   * Descargar un documento (retorna URL o blob según implementación)
-   * Nota: En el mock API, esto no está implementado.
-   * En producción, se obtendría el documento y se retornaría como Blob.
+   * Descargar un documento - retorna URL para visualización
    */
-  download: async (_id: string): Promise<Blob> => {
-    // En una implementación real:
-    // 1. Obtener el documento: const doc = await apiClient.get<CollaboratorDocument>(API_ENDPOINTS.DOCUMENTS.GET(id))
-    // 2. Hacer fetch al fileUrl
-    // 3. Retornar el blob
-    throw new Error('Download not implemented in mock API');
+  download: async (id: string): Promise<{ url: string; fileName: string }> => {
+    return await apiClient.get<{ url: string; fileName: string }>(
+      API_ENDPOINTS.DOCUMENTS.DOWNLOAD(id)
+    );
   },
 };
