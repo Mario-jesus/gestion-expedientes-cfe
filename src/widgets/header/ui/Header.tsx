@@ -2,6 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import type { RootState, AppDispatch } from '@app/providers/store';
 import { clearUser } from '@entities/user';
+import { usersApi } from '@entities/user';
+import { logger } from '@shared/config';
 import { ROUTES } from '@shared/lib/routes';
 import styles from './Header.module.scss';
 
@@ -15,17 +17,26 @@ export function Header({ onMenuClick, isMenuOpen = false }: HeaderProps) {
   const navigate = useNavigate();
   const { currentUser } = useSelector((state: RootState) => state.user);
 
-  const handleLogout = () => {
-    // Limpiar todos los tokens
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('tokenExpiresIn');
+  const handleLogout = async () => {
+    try {
+      // Llamar al endpoint de logout para invalidar el token en el servidor
+      await usersApi.logout();
+      logger.info('Logout exitoso');
+    } catch (error) {
+      // Si falla el logout, continuar con la limpieza local de todas formas
+      logger.error('Error al hacer logout en el servidor:', error);
+    } finally {
+      // Limpiar todos los tokens del localStorage
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('tokenExpiresIn');
 
-    // Limpiar estado de usuario
-    dispatch(clearUser());
+      // Limpiar estado de usuario
+      dispatch(clearUser());
 
-    // Redirigir al login
-    navigate(ROUTES.LOGIN);
+      // Redirigir al login
+      navigate(ROUTES.LOGIN);
+    }
   };
 
   return (

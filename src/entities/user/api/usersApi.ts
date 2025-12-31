@@ -117,4 +117,12 @@ export const usersApi = {
   deactivate: async (id: string): Promise<User> => {
     return await apiClient.post<User>(API_ENDPOINTS.USERS.DEACTIVATE(id));
   },
+
+  /**
+   * Cerrar sesión del usuario actual
+   * Invalida el token en el servidor
+   */
+  logout: async (): Promise<void> => {
+    await apiClient.post<void>(API_ENDPOINTS.AUTH.LOGOUT);
+  },
 };
