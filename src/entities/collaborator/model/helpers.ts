@@ -68,10 +68,10 @@ export function groupDocumentsByKind(
  */
 export function getContractTypeLabel(type: string): string {
   const labels: Record<string, string> = {
-    base: 'Base',
     confianza: 'Confianza',
-    eventual: 'Eventual',
-    honorarios: 'Honorarios',
+    temporal_de_confianza: 'Temporal de confianza',
+    sindicalizados: 'Sindicalizados',
+    temporal_sindicalizado: 'Temporal sindicalizado',
     otro: 'Otro',
   };
   return labels[type] || type;

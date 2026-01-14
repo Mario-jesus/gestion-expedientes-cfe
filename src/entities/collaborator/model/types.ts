@@ -5,7 +5,7 @@
 /**
  * Tipo de contrato del colaborador
  */
-export type ContractType = 'base' | 'confianza' | 'eventual' | 'honorarios' | 'otro';
+export type ContractType = 'confianza' | 'temporal_de_confianza' | 'sindicalizados' | 'temporal_sindicalizado' | 'otro';
 
 /**
  * Tipo de documento del expediente

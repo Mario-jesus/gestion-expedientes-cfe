@@ -82,7 +82,7 @@ export const validateEditCollaboratorForm = (
 
   // Tipo de contrato (opcional pero si se proporciona debe ser válido)
   if (data.tipoContrato !== undefined) {
-    const validTypes = ['base', 'confianza', 'eventual', 'honorarios', 'otro'];
+    const validTypes = ['confianza', 'temporal_de_confianza', 'sindicalizados', 'temporal_sindicalizado', 'otro'];
     if (!validTypes.includes(data.tipoContrato)) {
       errors.tipoContrato = 'Tipo de contrato no válido';
     }

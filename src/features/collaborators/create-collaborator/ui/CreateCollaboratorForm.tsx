@@ -296,10 +296,10 @@ export function CreateCollaboratorForm({
               className={errors.tipoContrato ? styles.inputError : ''}
             >
               <option value="">Seleccionar tipo</option>
-              <option value="base">Base</option>
               <option value="confianza">Confianza</option>
-              <option value="eventual">Eventual</option>
-              <option value="honorarios">Honorarios</option>
+              <option value="temporal_de_confianza">Temporal de confianza</option>
+              <option value="sindicalizados">Sindicalizados</option>
+              <option value="temporal_sindicalizado">Temporal sindicalizado</option>
               <option value="otro">Otro</option>
             </select>
             {errors.tipoContrato && (
