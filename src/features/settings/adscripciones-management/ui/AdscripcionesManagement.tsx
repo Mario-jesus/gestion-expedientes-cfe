@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { Adscripcion, Area } from '@entities/collaborator';
+import type { Adscripcion } from '@entities/collaborator';
 import { catalogsApi } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
 import { CreateAdscripcionForm } from './CreateAdscripcionForm';
@@ -11,7 +11,6 @@ import styles from '../../areas-management/ui/AreasManagement.module.scss';
  */
 export function AdscripcionesManagement() {
   const [adscripciones, setAdscripciones] = useState<Adscripcion[]>([]);
-  const [areas, setAreas] = useState<Area[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -26,22 +25,13 @@ export function AdscripcionesManagement() {
   const loadData = async () => {
     try {
       setIsLoading(true);
-      const [adscripcionesResponse, areasResponse] = await Promise.all([
-        catalogsApi.adscripciones.getAll(),
-        catalogsApi.areas.getAll(),
-      ]);
+      const adscripcionesResponse = await catalogsApi.adscripciones.getAll();
       setAdscripciones(adscripcionesResponse.data);
-      setAreas(areasResponse.data);
     } catch (error) {
       console.error('Error cargando datos:', error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const getAreaName = (areaId: string) => {
-    const area = areas.find((a) => a.id === areaId);
-    return area?.nombre || 'Desconocida';
   };
 
   const handleCreateSuccess = () => {
@@ -125,7 +115,7 @@ export function AdscripcionesManagement() {
             <thead>
               <tr>
                 <th>Nombre</th>
-                <th>Área</th>
+                <th>Adscripción</th>
                 <th>Descripción</th>
                 <th>Estado</th>
                 <th>Acciones</th>
@@ -135,7 +125,7 @@ export function AdscripcionesManagement() {
               {adscripciones.map((adscripcion) => (
                 <tr key={adscripcion.id}>
                   <td>{adscripcion.nombre}</td>
-                  <td>{getAreaName(adscripcion.areaId)}</td>
+                  <td>{adscripcion.adscripcion || '-'}</td>
                   <td>{adscripcion.descripcion || '-'}</td>
                   <td>
                     <span
@@ -186,7 +176,6 @@ export function AdscripcionesManagement() {
         size="medium"
       >
         <CreateAdscripcionForm
-          areas={areas}
           onSuccess={handleCreateSuccess}
           onCancel={() => setIsCreateModalOpen(false)}
         />
@@ -205,7 +194,6 @@ export function AdscripcionesManagement() {
         >
           <EditAdscripcionForm
             adscripcion={selectedAdscripcion}
-            areas={areas}
             onSuccess={handleEditSuccess}
             onCancel={() => {
               setIsEditModalOpen(false);

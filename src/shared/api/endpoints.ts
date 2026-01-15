@@ -80,7 +80,6 @@ export const API_ENDPOINTS = {
     DELETE: (id: string) => `/api/catalogs/areas/${id}`,
     ACTIVATE: (id: string) => `/api/catalogs/areas/${id}/activate`,
     DEACTIVATE: (id: string) => `/api/catalogs/areas/${id}/deactivate`,
-    ADSCRIPCIONES: (id: string) => `/api/catalogs/areas/${id}/adscripciones`,
   },
   ADSCRIPCIONES: {
     LIST: '/api/catalogs/adscripciones',

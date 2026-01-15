@@ -36,20 +36,14 @@ export function CollaboratorsPage() {
     const loadCatalogs = async () => {
       try {
         setLoadingCatalogs(true);
-        const [areasResponse, puestosResponse] = await Promise.all([
+        const [areasResponse, puestosResponse, adscripcionesResponse] = await Promise.all([
           catalogsApi.areas.getAll(),
           catalogsApi.puestos.getAll(),
+          catalogsApi.adscripciones.getAll(),
         ]);
         setAreas(areasResponse.data);
         setPuestos(puestosResponse.data);
-
-        // Si hay un área seleccionada, cargar sus adscripciones
-        if (filters.areaId) {
-          const adscripcionesResponse = await catalogsApi.adscripciones.getByArea(
-            filters.areaId
-          );
-          setAdscripciones(adscripcionesResponse.data);
-        }
+        setAdscripciones(adscripcionesResponse.data);
       } catch (err) {
         console.error('Error cargando catálogos:', err);
       } finally {
@@ -58,27 +52,7 @@ export function CollaboratorsPage() {
     };
 
     loadCatalogs();
-  }, [filters.areaId]);
-
-  // Cargar adscripciones cuando cambie el área
-  useEffect(() => {
-    const loadAdscripciones = async () => {
-      if (filters.areaId) {
-        try {
-          const response = await catalogsApi.adscripciones.getByArea(
-            filters.areaId
-          );
-          setAdscripciones(response.data);
-        } catch (err) {
-          console.error('Error cargando adscripciones:', err);
-        }
-      } else {
-        setAdscripciones([]);
-      }
-    };
-
-    loadAdscripciones();
-  }, [filters.areaId]);
+  }, []);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchFilter(e.target.value));

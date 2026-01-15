@@ -1,12 +1,11 @@
 import { useState, type FormEvent } from 'react';
-import type { Adscripcion, Area } from '@entities/collaborator';
+import type { Adscripcion } from '@entities/collaborator';
 import { catalogsApi } from '@entities/collaborator';
 import { Input, Button } from '@shared/ui';
 import styles from '../../areas-management/ui/CatalogForm.module.scss';
 
 interface EditAdscripcionFormProps {
   adscripcion: Adscripcion;
-  areas: Area[];
   onSuccess: () => void;
   onCancel: () => void;
 }
@@ -16,12 +15,11 @@ interface EditAdscripcionFormProps {
  */
 export function EditAdscripcionForm({
   adscripcion,
-  areas,
   onSuccess,
   onCancel,
 }: EditAdscripcionFormProps) {
   const [nombre, setNombre] = useState(adscripcion.nombre);
-  const [areaId, setAreaId] = useState(adscripcion.areaId);
+  const [adscripcionValue, setAdscripcion] = useState(adscripcion.adscripcion || '');
   const [descripcion, setDescripcion] = useState(adscripcion.descripcion || '');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,8 +33,8 @@ export function EditAdscripcionForm({
       return;
     }
 
-    if (!areaId) {
-      setError('Debes seleccionar un área');
+    if (!adscripcionValue.trim()) {
+      setError('La adscripción es requerida');
       return;
     }
 
@@ -45,7 +43,7 @@ export function EditAdscripcionForm({
     try {
       await catalogsApi.adscripciones.update(adscripcion.id, {
         nombre: nombre.trim(),
-        areaId,
+        adscripcion: adscripcionValue.trim(),
         descripcion: descripcion.trim() || undefined,
       });
       onSuccess();
@@ -62,25 +60,6 @@ export function EditAdscripcionForm({
     <form onSubmit={handleSubmit} className={styles.form}>
       {error && <div className={styles.error}>{error}</div>}
 
-      <div className={styles.field}>
-        <label className={styles.label}>
-          Área <span className={styles.required}>*</span>
-        </label>
-        <select
-          value={areaId}
-          onChange={(e) => setAreaId(e.target.value)}
-          disabled={isLoading}
-          className={styles.select}
-        >
-          <option value="">Seleccionar área</option>
-          {areas.map((area) => (
-            <option key={area.id} value={area.id}>
-              {area.nombre}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <Input
         label="Nombre *"
         type="text"
@@ -88,7 +67,17 @@ export function EditAdscripcionForm({
         onChange={(e) => setNombre(e.target.value)}
         disabled={isLoading}
         required
-        placeholder="Ej: Subdirección de Operaciones"
+        placeholder="Ej: Zona Ríos"
+      />
+
+      <Input
+        label="Adscripción *"
+        type="text"
+        value={adscripcionValue}
+        onChange={(e) => setAdscripcion(e.target.value)}
+        disabled={isLoading}
+        required
+        placeholder="Ej: Area benemérito, Agencia benemérita"
       />
 
       <Input

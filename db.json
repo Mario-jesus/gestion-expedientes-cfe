@@ -318,45 +318,144 @@
   "adscripciones": [
     {
       "id": "1",
-      "nombre": "Central Hidroeléctrica Manuel Moreno Torres",
-      "areaId": "1",
-      "descripcion": "Central hidroeléctrica principal",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Area benemérito",
+      "descripcion": "Área Benemérito de la Zona Ríos",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",
       "updatedAt": "2024-01-01T00:00:00.000Z"
     },
     {
       "id": "2",
-      "nombre": "Subdirección de Recursos Humanos",
-      "areaId": "5",
-      "descripcion": "Subdirección de RRHH",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Agencia benemérita",
+      "descripcion": "Agencia Benemérita de la Zona Ríos",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",
       "updatedAt": "2024-01-01T00:00:00.000Z"
     },
     {
       "id": "3",
-      "nombre": "Gerencia Regional Centro",
-      "areaId": "2",
-      "descripcion": "Gerencia regional de transmisión",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Área palenque",
+      "descripcion": "Área Palenque de la Zona Ríos",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",
       "updatedAt": "2024-01-01T00:00:00.000Z"
     },
     {
       "id": "4",
-      "nombre": "Dirección de Operación Comercial",
-      "areaId": "4",
-      "descripcion": "Dirección de operación comercial",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Agencia palenque",
+      "descripcion": "Agencia Palenque de la Zona Ríos",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",
       "updatedAt": "2024-01-01T00:00:00.000Z"
     },
     {
       "id": "5",
-      "nombre": "Zona de Distribución Norte",
-      "areaId": "3",
-      "descripcion": "Zona de distribución norte",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Agencia DC.pemex",
+      "descripcion": "Agencia DC PEMEX de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Area Macuspana",
+      "descripcion": "Área Macuspana de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "7",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Agencia Macuspana",
+      "descripcion": "Agencia Macuspana de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "nombre": "Zona Ríos",
+      "adscripcion": "CCC Macuspana",
+      "descripcion": "CCC Macuspana de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "9",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Medición Macuspana",
+      "descripcion": "Medición Macuspana de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "10",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Líneas",
+      "descripcion": "Líneas de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "11",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Medición",
+      "descripcion": "Medición de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "12",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Área Tenosique A",
+      "descripcion": "Área Tenosique A de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "13",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Agencia Tenosique",
+      "descripcion": "Agencia Tenosique de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "14",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Agencia Balancán",
+      "descripcion": "Agencia Balancán de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "15",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Área palizada",
+      "descripcion": "Área Palizada de la Zona Ríos",
+      "isActive": true,
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "16",
+      "nombre": "Zona Ríos",
+      "adscripcion": "Agencia palizada",
+      "descripcion": "Agencia Palizada de la Zona Ríos",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",
       "updatedAt": "2024-01-01T00:00:00.000Z"

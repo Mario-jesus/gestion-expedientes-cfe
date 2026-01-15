@@ -138,7 +138,7 @@ export interface Area {
 export interface Adscripcion {
   id: string;
   nombre: string;
-  areaId: string; // Relación con Area
+  adscripcion: string; // Nombre específico de la adscripción (ej: "Area benemérito", "Agencia benemérita")
   descripcion?: string;
   isActive: boolean;
   createdAt: string;
@@ -180,7 +180,7 @@ export interface CreateAreaDto {
 
 export interface CreateAdscripcionDto {
   nombre: string;
-  areaId: string;
+  adscripcion: string;
   descripcion?: string;
 }
 

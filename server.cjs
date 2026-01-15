@@ -1171,35 +1171,6 @@ server.get('/api/catalogs/areas', (req, res) => {
 });
 
 /**
- * GET /api/catalogs/areas/:id/adscripciones
- */
-server.get('/api/catalogs/areas/:id/adscripciones', (req, res) => {
-  const { id } = req.params;
-  const db = router.db;
-
-  const area = db.get('areas').find({ id }).value();
-  if (!area) {
-    return res.status(404).json({
-      error: 'Área no encontrada',
-      code: 'AREA_NOT_FOUND',
-    });
-  }
-
-  let adscripciones = db.get('adscripciones').filter({ areaId: id }).value();
-
-  if (req.query.isActive !== undefined) {
-    const isActive = req.query.isActive === 'true';
-    adscripciones = adscripciones.filter((a) => a.isActive === isActive);
-  }
-
-  const limit = parseInt(req.query.limit) || 20;
-  const offset = parseInt(req.query.offset) || 0;
-
-  const response = createPaginatedResponse(adscripciones, limit, offset);
-  res.status(200).json(response);
-});
-
-/**
  * POST /api/catalogs/areas/:id/activate
  */
 server.post('/api/catalogs/areas/:id/activate', (req, res) => {
@@ -1277,6 +1248,7 @@ server.get('/api/catalogs/adscripciones', (req, res) => {
     const searchLower = req.query.search.toLowerCase();
     adscripciones = adscripciones.filter((a) => 
       a.nombre.toLowerCase().includes(searchLower) ||
+      (a.adscripcion && a.adscripcion.toLowerCase().includes(searchLower)) ||
       (a.descripcion && a.descripcion.toLowerCase().includes(searchLower))
     );
   }
@@ -1810,7 +1782,6 @@ server.listen(PORT, () => {
   console.log('   GET    /api/minutes/:id/download');
   console.log('\n   Catálogos:');
   console.log('   GET    /api/catalogs/areas (con paginación)');
-  console.log('   GET    /api/catalogs/areas/:id/adscripciones');
   console.log('   POST   /api/catalogs/areas/:id/activate');
   console.log('   POST   /api/catalogs/areas/:id/deactivate');
   console.log('   GET    /api/catalogs/adscripciones (con paginación)');

@@ -59,13 +59,13 @@ export const catalogsApi = {
   // ========== ADSCRIPCIONES ==========
   adscripciones: {
     getAll: async (params?: PaginationParams & {
-      areaId?: string;
       isActive?: boolean;
+      search?: string;
     }): Promise<PaginatedResponse<Adscripcion>> => {
       const queryParams = new URLSearchParams();
 
-      if (params?.areaId) queryParams.append('areaId', params.areaId);
       if (params?.isActive !== undefined) queryParams.append('isActive', String(params.isActive));
+      if (params?.search) queryParams.append('search', params.search);
       if (params?.limit) queryParams.append('limit', String(params.limit));
       if (params?.offset) queryParams.append('offset', String(params.offset));
 
@@ -78,17 +78,6 @@ export const catalogsApi = {
     },
     getById: async (id: string): Promise<Adscripcion> => {
       return await apiClient.get<Adscripcion>(API_ENDPOINTS.ADSCRIPCIONES.GET(id));
-    },
-    getByArea: async (areaId: string, params?: { isActive?: boolean }): Promise<{ data: Adscripcion[]; total: number }> => {
-      const queryParams = new URLSearchParams();
-      if (params?.isActive !== undefined) queryParams.append('isActive', String(params.isActive));
-
-      const queryString = queryParams.toString();
-      const url = queryString 
-        ? `${API_ENDPOINTS.AREAS.ADSCRIPCIONES(areaId)}?${queryString}`
-        : API_ENDPOINTS.AREAS.ADSCRIPCIONES(areaId);
-
-      return await apiClient.get<{ data: Adscripcion[]; total: number }>(url);
     },
     create: async (data: CreateAdscripcionDto): Promise<Adscripcion> => {
       return await apiClient.post<Adscripcion>(API_ENDPOINTS.ADSCRIPCIONES.CREATE, data);

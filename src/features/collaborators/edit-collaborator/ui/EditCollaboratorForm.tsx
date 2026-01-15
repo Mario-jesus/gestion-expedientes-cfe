@@ -60,20 +60,14 @@ export function EditCollaboratorForm({
     const loadCatalogs = async () => {
       try {
         setLoadingCatalogs(true);
-        const [areasResponse, puestosResponse] = await Promise.all([
+        const [areasResponse, puestosResponse, adscripcionesResponse] = await Promise.all([
           catalogsApi.areas.getAll(),
           catalogsApi.puestos.getAll(),
+          catalogsApi.adscripciones.getAll(),
         ]);
         setAreas(areasResponse.data);
         setPuestos(puestosResponse.data);
-
-        // Cargar adscripciones del área actual
-        if (collaborator.areaId) {
-          const adscripcionesResponse = await catalogsApi.adscripciones.getByArea(
-            collaborator.areaId
-          );
-          setAdscripciones(adscripcionesResponse.data);
-        }
+        setAdscripciones(adscripcionesResponse.data);
       } catch (err) {
         console.error('Error cargando catálogos:', err);
       } finally {
@@ -82,35 +76,7 @@ export function EditCollaboratorForm({
     };
 
     loadCatalogs();
-  }, [collaborator.areaId]);
-
-  // Cargar adscripciones cuando cambie el área
-  useEffect(() => {
-    const loadAdscripciones = async () => {
-      if (formData.areaId) {
-        try {
-          const response = await catalogsApi.adscripciones.getByArea(
-            formData.areaId
-          );
-          setAdscripciones(response.data);
-          // Si la adscripción actual no pertenece al área seleccionada, limpiarla
-          if (
-            formData.adscripcionId &&
-            !response.data.some((a) => a.id === formData.adscripcionId)
-          ) {
-            setFormData((prev) => ({ ...prev, adscripcionId: '' }));
-          }
-        } catch (err) {
-          console.error('Error cargando adscripciones:', err);
-        }
-      } else {
-        setAdscripciones([]);
-        setFormData((prev) => ({ ...prev, adscripcionId: '' }));
-      }
-    };
-
-    loadAdscripciones();
-  }, [formData.areaId]);
+  }, []);
 
   // Actualizar el formulario si cambia el colaborador
   useEffect(() => {
@@ -274,17 +240,13 @@ export function EditCollaboratorForm({
               name="adscripcionId"
               value={formData.adscripcionId}
               onChange={handleChange}
-              disabled={isLoading || loadingCatalogs || !formData.areaId}
+              disabled={isLoading || loadingCatalogs}
               className={errors.adscripcionId ? styles.inputError : ''}
             >
-              <option value="">
-                {formData.areaId
-                  ? 'Seleccionar adscripción'
-                  : 'Primero selecciona un área'}
-              </option>
+              <option value="">Seleccionar adscripción</option>
               {adscripciones.map((adscripcion) => (
                 <option key={adscripcion.id} value={adscripcion.id}>
-                  {adscripcion.nombre}
+                  {adscripcion.adscripcion}
                 </option>
               ))}
             </select>
