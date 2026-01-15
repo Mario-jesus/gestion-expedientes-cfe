@@ -19,6 +19,7 @@ export function calculateExpedienteStatus(
   const hasPerfil = activeDocuments.some((doc) => doc.kind === 'perfil');
   const hasConstancias = activeDocuments.some((doc) => doc.kind === 'constancia');
   const hasCchl = activeDocuments.some((doc) => doc.kind === 'cchl');
+  const hasC0_03 = activeDocuments.some((doc) => doc.kind === 'c0_03');
 
   // Documentos requeridos para expediente completo
   const documentosRequeridos = ['bateria', 'historial', 'perfil'];
@@ -43,6 +44,7 @@ export function calculateExpedienteStatus(
     hasPerfil,
     hasConstancias,
     hasCchl,
+    hasC0_03,
     totalDocumentos: activeDocuments.length,
     documentosCompletos,
   };

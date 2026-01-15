@@ -218,6 +218,7 @@ export interface ExpedienteStatusInfo {
   hasPerfil: boolean;
   hasConstancias: boolean;
   hasCchl: boolean;
+  hasC0_03: boolean;
   totalDocumentos: number;
   documentosCompletos: number;
 }

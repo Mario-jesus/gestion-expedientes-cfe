@@ -344,6 +344,16 @@ export function CollaboratorDetailPage() {
               <div className={styles.statusItem}>
                 <span
                   className={
+                    expedienteStatus.hasPerfil ? styles.check : styles.cross
+                  }
+                >
+                  {expedienteStatus.hasPerfil ? '✓' : '✗'}
+                </span>
+                Perfil de Puesto
+              </div>
+              <div className={styles.statusItem}>
+                <span
+                  className={
                     expedienteStatus.hasBateria ? styles.check : styles.cross
                   }
                 >
@@ -359,17 +369,27 @@ export function CollaboratorDetailPage() {
                 >
                   {expedienteStatus.hasHistorial ? '✓' : '✗'}
                 </span>
-                Historial
+                Historial de Capacitación
               </div>
               <div className={styles.statusItem}>
                 <span
                   className={
-                    expedienteStatus.hasPerfil ? styles.check : styles.cross
+                    expedienteStatus.hasCchl ? styles.check : styles.cross
                   }
                 >
-                  {expedienteStatus.hasPerfil ? '✓' : '✗'}
+                  {expedienteStatus.hasCchl ? '✓' : '✗'}
                 </span>
-                Perfil
+                CCHL
+              </div>
+              <div className={styles.statusItem}>
+                <span
+                  className={
+                    expedienteStatus.hasC0_03 ? styles.check : styles.cross
+                  }
+                >
+                  {expedienteStatus.hasC0_03 ? '✓' : '✗'}
+                </span>
+                Formato C0-03
               </div>
               <div className={styles.statusItem}>
                 <span
