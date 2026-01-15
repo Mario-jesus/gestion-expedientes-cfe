@@ -12,12 +12,12 @@ interface UploadDocumentFormProps {
 }
 
 const DOCUMENT_KINDS: { value: DocumentKind; label: string }[] = [
-  { value: 'bateria', label: 'Batería de Capacitación' },
-  { value: 'c0_03', label: 'C0-03' },
-  { value: 'historial', label: 'Historial / Kárdex' },
   { value: 'perfil', label: 'Perfil de Puesto' },
-  { value: 'constancia', label: 'Constancia' },
-  { value: 'otro', label: 'Otros Documentos' },
+  { value: 'bateria', label: 'Batería' },
+  { value: 'historial', label: 'Historial de Capacitación' },
+  { value: 'cchl', label: 'CCHL' },
+  { value: 'c0_03', label: 'Formato C0-03' },
+  { value: 'constancia', label: 'Constancias' },
 ];
 
 /**

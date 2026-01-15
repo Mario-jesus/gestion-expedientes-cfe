@@ -18,7 +18,7 @@ export function calculateExpedienteStatus(
   const hasHistorial = activeDocuments.some((doc) => doc.kind === 'historial');
   const hasPerfil = activeDocuments.some((doc) => doc.kind === 'perfil');
   const hasConstancias = activeDocuments.some((doc) => doc.kind === 'constancia');
-  const hasOtros = activeDocuments.some((doc) => doc.kind === 'otro');
+  const hasCchl = activeDocuments.some((doc) => doc.kind === 'cchl');
 
   // Documentos requeridos para expediente completo
   const documentosRequeridos = ['bateria', 'historial', 'perfil'];
@@ -42,7 +42,7 @@ export function calculateExpedienteStatus(
     hasHistorial,
     hasPerfil,
     hasConstancias,
-    hasOtros,
+    hasCchl,
     totalDocumentos: activeDocuments.length,
     documentosCompletos,
   };
@@ -82,12 +82,12 @@ export function getContractTypeLabel(type: string): string {
  */
 export function getDocumentKindLabel(kind: string): string {
   const labels: Record<string, string> = {
-    bateria: 'Batería de Capacitación',
-    c0_03: 'C0-03',
-    historial: 'Historial de Capacitación / Kárdex',
     perfil: 'Perfil de Puesto',
-    constancia: 'Constancia de Capacitación',
-    otro: 'Otros Documentos',
+    bateria: 'Batería',
+    historial: 'Historial de Capacitación',
+    cchl: 'CCHL',
+    c0_03: 'Formato C0-03',
+    constancia: 'Constancias',
   };
   return labels[kind] || kind;
 }

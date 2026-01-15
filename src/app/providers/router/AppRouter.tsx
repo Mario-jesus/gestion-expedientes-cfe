@@ -20,14 +20,14 @@ import { MainLayout } from './MainLayout';
 /**
  * Página temporal para rutas no implementadas
  */
-function ComingSoonPage({ title }: { title: string }) {
+/* function ComingSoonPage({ title }: { title: string }) {
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
       <h1>🚧 {title}</h1>
       <p>Esta página está en construcción</p>
     </div>
   );
-}
+} */
 
 /**
  * Configuración principal de rutas de la aplicación

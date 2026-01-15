@@ -149,11 +149,12 @@ export const selectDocumentCountByKind = (collaboratorId: string) => (
   const documents = selectDocumentsByCollaborator(collaboratorId)(state);
   const grouped = groupDocumentsByKind(documents);
   return {
+    perfil: grouped.perfil?.length || 0,
     bateria: grouped.bateria?.length || 0,
     historial: grouped.historial?.length || 0,
-    perfil: grouped.perfil?.length || 0,
+    cchl: grouped.cchl?.length || 0,
+    c0_03: grouped.c0_03?.length || 0,
     constancia: grouped.constancia?.length || 0,
-    otro: grouped.otro?.length || 0,
     total: documents.length,
   };
 };

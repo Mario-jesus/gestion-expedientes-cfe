@@ -100,7 +100,7 @@ function calculateExpedienteStatus(documents) {
   const hasHistorial = activeDocuments.some((doc) => doc.kind === 'historial');
   const hasPerfil = activeDocuments.some((doc) => doc.kind === 'perfil');
   const hasConstancias = activeDocuments.some((doc) => doc.kind === 'constancia');
-  const hasOtros = activeDocuments.some((doc) => doc.kind === 'otro');
+  const hasCchl = activeDocuments.some((doc) => doc.kind === 'cchl');
 
   const documentosRequeridos = ['bateria', 'historial', 'perfil'];
   const documentosCompletos = documentosRequeridos.filter((kind) => {
@@ -874,7 +874,7 @@ server.post('/api/documents', (req, res) => {
     });
   }
 
-  const validKinds = ['bateria', 'c0_03', 'historial', 'perfil', 'constancia', 'otro'];
+  const validKinds = ['perfil', 'bateria', 'historial', 'cchl', 'c0_03', 'constancia'];
   if (!validKinds.includes(kind)) {
     return res.status(400).json({
       error: `kind debe ser uno de: ${validKinds.join(', ')}`,

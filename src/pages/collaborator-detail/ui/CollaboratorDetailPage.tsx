@@ -254,34 +254,34 @@ export function CollaboratorDetailPage() {
       ),
     },
     {
-      id: 'bateria',
-      label: 'Batería de Capacitación',
-      content: <DocumentList docs={documentsByKind.bateria || []} />,
-    },
-    {
-      id: 'c0_03',
-      label: 'C0-03',
-      content: <DocumentList docs={documentsByKind.c0_03 || []} />,
-    },
-    {
-      id: 'historial',
-      label: 'Historial / Kárdex',
-      content: <DocumentList docs={documentsByKind.historial || []} />,
-    },
-    {
       id: 'perfil',
       label: 'Perfil de Puesto',
       content: <DocumentList docs={documentsByKind.perfil || []} />,
     },
     {
+      id: 'bateria',
+      label: 'Batería',
+      content: <DocumentList docs={documentsByKind.bateria || []} />,
+    },
+    {
+      id: 'historial',
+      label: 'Historial de Capacitación',
+      content: <DocumentList docs={documentsByKind.historial || []} />,
+    },
+    {
+      id: 'cchl',
+      label: 'CCHL',
+      content: <DocumentList docs={documentsByKind.cchl || []} />,
+    },
+    {
+      id: 'c0_03',
+      label: 'Formato C0-03',
+      content: <DocumentList docs={documentsByKind.c0_03 || []} />,
+    },
+    {
       id: 'constancias',
       label: 'Constancias',
       content: <DocumentList docs={documentsByKind.constancia || []} />,
-    },
-    {
-      id: 'otros',
-      label: 'Otros Documentos',
-      content: <DocumentList docs={documentsByKind.otro || []} />,
     },
   ];
 

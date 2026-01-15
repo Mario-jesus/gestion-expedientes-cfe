@@ -10,7 +10,7 @@ export type ContractType = 'confianza' | 'temporal_de_confianza' | 'sindicalizad
 /**
  * Tipo de documento del expediente
  */
-export type DocumentKind = 'bateria' | 'c0_03' | 'historial' | 'perfil' | 'constancia' | 'otro';
+export type DocumentKind = 'bateria' | 'c0_03' | 'historial' | 'perfil' | 'constancia' | 'cchl';
 
 /**
  * Estado del expediente basado en documentos
@@ -158,7 +158,7 @@ export interface Puesto {
 }
 
 /**
- * Catálogo de Tipos de Documento (para clasificar "otros documentos")
+ * Catálogo de Tipos de Documento (para clasificar "documentos CCHL")
  */
 export interface DocumentType {
   id: string;
@@ -217,7 +217,7 @@ export interface ExpedienteStatusInfo {
   hasHistorial: boolean;
   hasPerfil: boolean;
   hasConstancias: boolean;
-  hasOtros: boolean;
+  hasCchl: boolean;
   totalDocumentos: number;
   documentosCompletos: number;
 }

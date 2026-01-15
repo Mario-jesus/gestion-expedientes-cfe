@@ -259,7 +259,7 @@
     {
       "id": "8",
       "collaboratorId": "4",
-      "kind": "otro",
+      "kind": "cchl",
       "periodo": null,
       "descripcion": "Copia de identificación oficial",
       "fileName": "identificacion_RPE004567.pdf",
@@ -507,7 +507,7 @@
     {
       "id": "1",
       "nombre": "Identificación Oficial",
-      "kind": "otro",
+      "kind": "cchl",
       "descripcion": "INE, Pasaporte u otra identificación oficial",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",
@@ -516,7 +516,7 @@
     {
       "id": "2",
       "nombre": "Comprobante de Domicilio",
-      "kind": "otro",
+      "kind": "cchl",
       "descripcion": "Comprobante de domicilio reciente",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",
@@ -525,7 +525,7 @@
     {
       "id": "3",
       "nombre": "Título Profesional",
-      "kind": "otro",
+      "kind": "cchl",
       "descripcion": "Título profesional o cédula",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",
@@ -534,7 +534,7 @@
     {
       "id": "4",
       "nombre": "Carta de Antecedentes No Penales",
-      "kind": "otro",
+      "kind": "cchl",
       "descripcion": "Carta de antecedentes no penales",
       "isActive": true,
       "createdAt": "2024-01-01T00:00:00.000Z",

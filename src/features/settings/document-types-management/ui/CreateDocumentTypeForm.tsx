@@ -4,7 +4,7 @@ import { catalogsApi, getDocumentKindLabel } from '@entities/collaborator';
 import { Input, Button } from '@shared/ui';
 import styles from '../../areas-management/ui/CatalogForm.module.scss';
 
-const DOCUMENT_KINDS: DocumentKind[] = ['bateria', 'historial', 'c0_03', 'perfil', 'constancia', 'otro'];
+const DOCUMENT_KINDS: DocumentKind[] = ['perfil', 'bateria', 'historial', 'cchl', 'c0_03', 'constancia'];
 
 interface CreateDocumentTypeFormProps {
   onSuccess: () => void;
@@ -16,7 +16,7 @@ export function CreateDocumentTypeForm({
   onCancel,
 }: CreateDocumentTypeFormProps) {
   const [nombre, setNombre] = useState('');
-  const [kind, setKind] = useState<DocumentKind>('otro');
+  const [kind, setKind] = useState<DocumentKind>('cchl');
   const [descripcion, setDescripcion] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
