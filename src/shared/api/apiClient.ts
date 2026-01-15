@@ -317,7 +317,15 @@ async function requestFormData<T>(
 
 export const apiClient: ApiClient = {
   get<T>(url: string, options?: RequestInit) {
-    return request<T>(url, { ...options, method: 'GET' });
+    // Por defecto, solo solicitar datos activos (isActive !== 'false')
+    let urlWithActiveFilter = url;
+    
+    if (!url.includes('isActive=')) {
+      const separator = url.includes('?') ? '&' : '?';
+      urlWithActiveFilter = `${url}${separator}isActive=true`;
+    }
+    
+    return request<T>(urlWithActiveFilter, { ...options, method: 'GET' });
   },
   post<T>(url: string, body?: unknown, options?: RequestInit) {
     return request<T>(url, { ...options, method: 'POST', body } as RequestInit & { body?: unknown });
