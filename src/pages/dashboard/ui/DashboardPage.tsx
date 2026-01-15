@@ -37,8 +37,14 @@ export function DashboardPage() {
   // Calcular estadísticas
   const totalCollaborators = collaborators.length;
   const totalActiveCollaborators = collaborators.filter((c) => c.isActive).length;
-  const totalDocuments = documents.filter((d) => d.isActive).length;
-  const totalExpedientes = totalDocuments; // Total de documentos de colaboradores
+  const activeDocuments = documents.filter((d) => d.isActive);
+  
+  // Contar colaboradores que tienen al menos un documento
+  const collaboratorsWithDocuments = new Set(
+    activeDocuments.map(doc => doc.collaboratorId)
+  ).size;
+  
+  const totalExpedientes = collaboratorsWithDocuments;
   const totalMinutes = minutes.filter((m) => m.isActive).length;
 
   return (
@@ -55,7 +61,7 @@ export function DashboardPage() {
           <div className={styles.cardIcon}>📁</div>
           <h3 className={styles.cardTitle}>Expedientes</h3>
           <p className={styles.cardValue}>{totalExpedientes}</p>
-          <p className={styles.cardLabel}>Documentos de colaboradores</p>
+          <p className={styles.cardLabel}>Colaboradores con expedientes</p>
         </div>
 
         <div className={styles.card}>
