@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { DocumentType } from '@entities/collaborator';
 import { catalogsApi, getDocumentKindLabel } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
+import { useToast } from '@shared/providers';
 import { CreateDocumentTypeForm } from './CreateDocumentTypeForm';
 import { EditDocumentTypeForm } from './EditDocumentTypeForm';
 import styles from '../../areas-management/ui/AreasManagement.module.scss';
@@ -16,6 +17,7 @@ export function DocumentTypesManagement() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedDocumentType, setSelectedDocumentType] = useState<DocumentType | null>(null);
+  const { showError } = useToast();
 
   useEffect(() => {
     loadDocumentTypes();
@@ -64,7 +66,8 @@ export function DocumentTypesManagement() {
       loadDocumentTypes();
     } catch (error) {
       console.error('Error eliminando tipo de documento:', error);
-      alert('Error al eliminar el tipo de documento. Intenta nuevamente.');
+      const errorMessage = error instanceof Error ? error.message : 'Error al eliminar el tipo de documento. Intenta nuevamente.';
+      showError(errorMessage);
     }
   };
 
@@ -78,7 +81,8 @@ export function DocumentTypesManagement() {
       loadDocumentTypes();
     } catch (error) {
       console.error('Error actualizando estado:', error);
-      alert('Error al actualizar el estado. Intenta nuevamente.');
+      const errorMessage = error instanceof Error ? error.message : 'Error al actualizar el estado. Intenta nuevamente.';
+      showError(errorMessage);
     }
   };
 

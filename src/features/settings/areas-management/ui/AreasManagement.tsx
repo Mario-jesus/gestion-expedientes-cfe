@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Area } from '@entities/collaborator';
 import { catalogsApi } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
+import { useToast } from '@shared/providers';
 import { CreateAreaForm } from './CreateAreaForm';
 import { EditAreaForm } from './EditAreaForm';
 import styles from './AreasManagement.module.scss';
@@ -16,6 +17,7 @@ export function AreasManagement() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedArea, setSelectedArea] = useState<Area | null>(null);
+  const { showError } = useToast();
 
   // Cargar áreas
   useEffect(() => {
@@ -65,7 +67,8 @@ export function AreasManagement() {
       loadAreas();
     } catch (error) {
       console.error('Error eliminando área:', error);
-      alert('Error al eliminar el área. Intenta nuevamente.');
+      const errorMessage = error instanceof Error ? error.message : 'Error al eliminar el área. Intenta nuevamente.';
+      showError(errorMessage);
     }
   };
 
@@ -79,7 +82,8 @@ export function AreasManagement() {
       loadAreas();
     } catch (error) {
       console.error('Error actualizando estado del área:', error);
-      alert('Error al actualizar el estado. Intenta nuevamente.');
+      const errorMessage = error instanceof Error ? error.message : 'Error al actualizar el estado. Intenta nuevamente.';
+      showError(errorMessage);
     }
   };
 

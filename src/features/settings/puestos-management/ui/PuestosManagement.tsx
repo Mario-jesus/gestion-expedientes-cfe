@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Puesto } from '@entities/collaborator';
 import { catalogsApi } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
+import { useToast } from '@shared/providers';
 import { CreatePuestoForm } from './CreatePuestoForm';
 import { EditPuestoForm } from './EditPuestoForm';
 import styles from '../../areas-management/ui/AreasManagement.module.scss';
@@ -16,6 +17,7 @@ export function PuestosManagement() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedPuesto, setSelectedPuesto] = useState<Puesto | null>(null);
+  const { showError } = useToast();
 
   useEffect(() => {
     loadPuestos();
@@ -65,7 +67,8 @@ export function PuestosManagement() {
       loadPuestos();
     } catch (error) {
       console.error('Error eliminando puesto:', error);
-      alert('Error al eliminar el puesto. Intenta nuevamente.');
+      const errorMessage = error instanceof Error ? error.message : 'Error al eliminar el puesto. Intenta nuevamente.';
+      showError(errorMessage);
     }
   };
 
@@ -79,7 +82,8 @@ export function PuestosManagement() {
       loadPuestos();
     } catch (error) {
       console.error('Error actualizando estado:', error);
-      alert('Error al actualizar el estado. Intenta nuevamente.');
+      const errorMessage = error instanceof Error ? error.message : 'Error al actualizar el estado. Intenta nuevamente.';
+      showError(errorMessage);
     }
   };
 

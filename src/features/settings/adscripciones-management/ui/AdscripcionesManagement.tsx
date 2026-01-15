@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Adscripcion } from '@entities/collaborator';
 import { catalogsApi } from '@entities/collaborator';
 import { Modal, ConfirmDialog } from '@shared/ui';
+import { useToast } from '@shared/providers';
 import { CreateAdscripcionForm } from './CreateAdscripcionForm';
 import { EditAdscripcionForm } from './EditAdscripcionForm';
 import styles from '../../areas-management/ui/AreasManagement.module.scss';
@@ -16,6 +17,7 @@ export function AdscripcionesManagement() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedAdscripcion, setSelectedAdscripcion] = useState<Adscripcion | null>(null);
+  const { showError } = useToast();
 
   // Cargar datos
   useEffect(() => {
@@ -65,7 +67,8 @@ export function AdscripcionesManagement() {
       loadData();
     } catch (error) {
       console.error('Error eliminando adscripción:', error);
-      alert('Error al eliminar la adscripción. Intenta nuevamente.');
+      const errorMessage = error instanceof Error ? error.message : 'Error al eliminar la adscripción. Intenta nuevamente.';
+      showError(errorMessage);
     }
   };
 
@@ -79,7 +82,8 @@ export function AdscripcionesManagement() {
       loadData();
     } catch (error) {
       console.error('Error actualizando estado:', error);
-      alert('Error al actualizar el estado. Intenta nuevamente.');
+      const errorMessage = error instanceof Error ? error.message : 'Error al actualizar el estado. Intenta nuevamente.';
+      showError(errorMessage);
     }
   };
 
