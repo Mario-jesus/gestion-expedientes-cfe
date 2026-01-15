@@ -4,7 +4,7 @@ import { catalogsApi, getDocumentKindLabel } from '@entities/collaborator';
 import { Input, Button } from '@shared/ui';
 import styles from '../../areas-management/ui/CatalogForm.module.scss';
 
-const DOCUMENT_KINDS: DocumentKind[] = ['bateria', 'historial', 'perfil', 'constancia', 'otro'];
+const DOCUMENT_KINDS: DocumentKind[] = ['bateria', 'c0_03', 'historial', 'perfil', 'constancia', 'otro'];
 
 interface EditDocumentTypeFormProps {
   documentType: DocumentType;

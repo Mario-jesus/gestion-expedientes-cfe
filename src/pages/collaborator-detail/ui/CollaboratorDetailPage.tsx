@@ -259,6 +259,11 @@ export function CollaboratorDetailPage() {
       content: <DocumentList docs={documentsByKind.bateria || []} />,
     },
     {
+      id: 'c0_03',
+      label: 'C0-03',
+      content: <DocumentList docs={documentsByKind.c0_03 || []} />,
+    },
+    {
       id: 'historial',
       label: 'Historial / Kárdex',
       content: <DocumentList docs={documentsByKind.historial || []} />,

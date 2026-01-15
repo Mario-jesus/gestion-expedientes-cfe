@@ -10,7 +10,7 @@ export type ContractType = 'confianza' | 'temporal_de_confianza' | 'sindicalizad
 /**
  * Tipo de documento del expediente
  */
-export type DocumentKind = 'bateria' | 'historial' | 'perfil' | 'constancia' | 'otro';
+export type DocumentKind = 'bateria' | 'c0_03' | 'historial' | 'perfil' | 'constancia' | 'otro';
 
 /**
  * Estado del expediente basado en documentos

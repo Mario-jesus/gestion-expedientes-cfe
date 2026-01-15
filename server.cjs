@@ -874,7 +874,7 @@ server.post('/api/documents', (req, res) => {
     });
   }
 
-  const validKinds = ['bateria', 'historial', 'perfil', 'constancia', 'otro'];
+  const validKinds = ['bateria', 'c0_03', 'historial', 'perfil', 'constancia', 'otro'];
   if (!validKinds.includes(kind)) {
     return res.status(400).json({
       error: `kind debe ser uno de: ${validKinds.join(', ')}`,

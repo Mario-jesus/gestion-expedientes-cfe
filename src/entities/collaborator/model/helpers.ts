@@ -83,6 +83,7 @@ export function getContractTypeLabel(type: string): string {
 export function getDocumentKindLabel(kind: string): string {
   const labels: Record<string, string> = {
     bateria: 'Batería de Capacitación',
+    c0_03: 'C0-03',
     historial: 'Historial de Capacitación / Kárdex',
     perfil: 'Perfil de Puesto',
     constancia: 'Constancia de Capacitación',
