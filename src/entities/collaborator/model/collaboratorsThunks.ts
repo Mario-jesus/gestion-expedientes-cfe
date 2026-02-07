@@ -31,7 +31,10 @@ export const fetchCollaborators = createAsyncThunk<
       dispatch(setLoading(true));
       logger.info('Obteniendo colaboradores...', filters);
 
-      const response = await collaboratorsApi.getAll(filters);
+      const response = await collaboratorsApi.getAll({
+        ...filters,
+        limit: 9999999,
+      });
 
       dispatch(setCollaborators(response.data));
       logger.info(`Se obtuvieron ${response.data.length} colaboradores de ${response.pagination.total} totales`);
