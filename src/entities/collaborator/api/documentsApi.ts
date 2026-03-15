@@ -95,10 +95,10 @@ export const documentsApi = {
   },
 
   /**
-   * Actualizar metadatos de un documento
+   * Actualizar metadatos de un documento (nombre amigable, descripción, período)
    */
   update: async (id: string, data: UpdateDocumentDto): Promise<CollaboratorDocument> => {
-    return await apiClient.put<CollaboratorDocument>(API_ENDPOINTS.DOCUMENTS.UPDATE(id), data);
+    return await apiClient.patch<CollaboratorDocument>(API_ENDPOINTS.DOCUMENTS.UPDATE(id), data);
   },
 
   /**

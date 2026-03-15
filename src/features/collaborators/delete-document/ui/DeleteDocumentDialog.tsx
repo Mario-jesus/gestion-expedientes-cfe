@@ -1,4 +1,4 @@
-import type { CollaboratorDocument } from '@entities/collaborator';
+import { getDocumentDisplayName, type CollaboratorDocument } from '@entities/collaborator';
 import { ConfirmDialog } from '@shared/ui';
 import { useDeleteDocument } from '../model/useDeleteDocument';
 
@@ -32,7 +32,7 @@ export function DeleteDocumentDialog({
 
   if (!document) return null;
 
-  const message = `¿Estás seguro de que deseas eliminar el documento "${document.fileName}"? Esta acción marcará el documento como inactivo y no aparecerá en las búsquedas.`;
+  const message = `¿Estás seguro de que deseas eliminar el documento "${getDocumentDisplayName(document)}"? Esta acción marcará el documento como inactivo y no aparecerá en las búsquedas.`;
 
   return (
     <ConfirmDialog

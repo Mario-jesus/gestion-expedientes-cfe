@@ -86,7 +86,8 @@ export interface CollaboratorDocument {
   kind: DocumentKind;
   periodo?: string; // Para historiales y constancias (ej: "2024-Q1", "2024")
   descripcion?: string; // Descripción opcional del documento
-  fileName: string;
+  fileName: string; // Nombre interno en servidor (no editable)
+  originalFileName?: string | null; // Nombre amigable para mostrar (editable)
   fileUrl: string; // URL o ruta del archivo (en mock será una URL simulada)
   fileSize?: number; // Tamaño en bytes
   fileType?: string; // MIME type (application/pdf, image/jpeg, etc.)
@@ -112,12 +113,19 @@ export interface CreateDocumentDto {
 }
 
 /**
+ * Obtiene el nombre a mostrar de un documento (originalFileName ?? fileName)
+ */
+export function getDocumentDisplayName(doc: CollaboratorDocument): string {
+  return doc.originalFileName ?? doc.fileName;
+}
+
+/**
  * DTO para actualizar metadatos de un documento
  */
 export interface UpdateDocumentDto {
   periodo?: string;
   descripcion?: string;
-  fileName?: string;
+  originalFileName?: string | null; // Nombre amigable para mostrar (editable)
 }
 
 /**

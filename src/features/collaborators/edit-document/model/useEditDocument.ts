@@ -7,7 +7,7 @@ import { logger } from '@shared/config';
 import { useToast } from '@shared/providers';
 
 interface EditDocumentErrors {
-  fileName?: string;
+  originalFileName?: string;
   descripcion?: string;
   periodo?: string;
 }
@@ -37,13 +37,12 @@ export function useEditDocument(
   const validate = (data: UpdateDocumentDto): boolean => {
     const newErrors: EditDocumentErrors = {};
 
-    if (data.fileName !== undefined) {
-      if (!data.fileName.trim()) {
-        newErrors.fileName = 'El nombre del archivo es requerido';
-      } else if (data.fileName.trim().length < 3) {
-        newErrors.fileName = 'El nombre debe tener al menos 3 caracteres';
-      } else if (data.fileName.trim().length > 255) {
-        newErrors.fileName = 'El nombre no puede exceder 255 caracteres';
+    if (data.originalFileName !== undefined) {
+      const trimmed = data.originalFileName?.trim() ?? '';
+      if (trimmed.length > 0 && trimmed.length < 3) {
+        newErrors.originalFileName = 'El nombre debe tener al menos 3 caracteres';
+      } else if (trimmed.length > 255) {
+        newErrors.originalFileName = 'El nombre no puede exceder 255 caracteres';
       }
     }
 
@@ -72,8 +71,10 @@ export function useEditDocument(
     try {
       const updateData: UpdateDocumentDto = {};
 
-      if (data.fileName !== undefined && data.fileName.trim() !== document.fileName) {
-        updateData.fileName = data.fileName.trim();
+      const currentDisplayName = document.originalFileName ?? document.fileName;
+      const newDisplayName = data.originalFileName?.trim() ?? '';
+      if (data.originalFileName !== undefined && newDisplayName !== currentDisplayName) {
+        updateData.originalFileName = newDisplayName || null;
       }
 
       if (data.descripcion !== undefined) {

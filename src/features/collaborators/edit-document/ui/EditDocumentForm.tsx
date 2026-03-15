@@ -20,7 +20,8 @@ export function EditDocumentForm({
   onSuccess,
   onCancel,
 }: EditDocumentFormProps) {
-  const [fileName, setFileName] = useState(document.fileName);
+  const displayName = document.originalFileName ?? document.fileName;
+  const [originalFileName, setOriginalFileName] = useState(displayName);
   const [descripcion, setDescripcion] = useState(document.descripcion || '');
   const [periodo, setPeriodo] = useState(document.periodo || '');
 
@@ -31,7 +32,7 @@ export function EditDocumentForm({
     e.preventDefault();
 
     editDocument({
-      fileName,
+      originalFileName: originalFileName.trim() || null,
       descripcion: descripcion.trim() || undefined,
       periodo: periodo.trim() || undefined,
     });
@@ -44,16 +45,16 @@ export function EditDocumentForm({
       )}
 
       <Input
-        label="Nombre del Archivo *"
+        label="Nombre para mostrar"
         type="text"
-        value={fileName}
+        value={originalFileName}
         onChange={(e) => {
-          setFileName(e.target.value);
-          clearFieldError('fileName');
+          setOriginalFileName(e.target.value);
+          clearFieldError('originalFileName');
         }}
         disabled={isLoading}
-        placeholder="Nombre del archivo"
-        error={errors.fileName}
+        placeholder="Ej: Solicitud de residencia - Mario.pdf"
+        error={errors.originalFileName}
       />
 
       <Input

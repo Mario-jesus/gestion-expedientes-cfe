@@ -16,7 +16,7 @@ import { UploadDocumentForm } from '@features/collaborators/upload-document';
 import { EditDocumentForm } from '@features/collaborators/edit-document';
 import { DeleteDocumentDialog } from '@features/collaborators/delete-document';
 import { ROUTES } from '@shared/lib/routes';
-import { getContractTypeLabel } from '@entities/collaborator';
+import { getContractTypeLabel, getDocumentDisplayName } from '@entities/collaborator';
 import { useDownloadDocument } from '@shared/hooks/useDownloadDocument';
 import type { CollaboratorDocument, DocumentKind } from '@entities/collaborator';
 import styles from './CollaboratorDetailPage.module.scss';
@@ -159,7 +159,7 @@ export function CollaboratorDetailPage() {
         {docs.map((doc) => (
           <div key={doc.id} className={styles.documentCard}>
             <div className={styles.documentInfo}>
-              <h4 className={styles.documentName}>{doc.fileName}</h4>
+              <h4 className={styles.documentName}>{getDocumentDisplayName(doc)}</h4>
               {doc.descripcion && (
                 <p className={styles.documentDescription}>{doc.descripcion}</p>
               )}

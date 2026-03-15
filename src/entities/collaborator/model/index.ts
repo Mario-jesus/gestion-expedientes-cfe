@@ -25,6 +25,9 @@ export type {
 
 // Helpers
 export {
+  getDocumentDisplayName,
+} from './types';
+export {
   calculateExpedienteStatus,
   groupDocumentsByKind,
   getContractTypeLabel,
